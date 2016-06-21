@@ -2,11 +2,9 @@
 #from flask_sqlalchemy import SQLAlchemy
 #from sqlalchemy.sql.expression import text
 #from sqlalchemy.exc import SQLAlchemyError
-from flask_script import Manager
-from flask_migrate import Migrate, MigrateCommand
+from database import *
 from sqlalchemy.orm import relationship
 from slugify import slugify
-from database import *
 # app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql://toursanak:toursanak@localhost:5432/blog'
 
@@ -15,11 +13,19 @@ from database import *
 # db = SQLAlchemy(app)
  
 #Create Database migrations
-migrate = Migrate(app, db)
-manager = Manager(app)
-manager.add_command('db', MigrateCommand)
 #Create the Post Class
+from wtforms.widgets import * #TextArea
+from wtforms import * #TextField, IntegerField, TextAreaField, SubmitField, RadioField,SelectField,validators, ValidationError
+import wtforms.widgets.core
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+
+
+# class CKTextAreaWidget(widgets.TextArea):
+#     def __call__(self, field, **kwargs):
+#         kwargs.setdefault('class_', 'ckeditor')
+#         return super(CKTextAreaWidget, self).__call__(field, **kwargs)
+# class CKTextAreaField(fields.TextAreaField):
+#     widget = CKTextAreaWidget()
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name=  db.Column(db.String(100),nullable=True)
@@ -35,15 +41,18 @@ class Category(db.Model):
             slug=self.slug
             )
     def __init__(self, name):
-        self.name = name
-    def add(self,category):
+        self.slug=slugify(name)
+        self.name =name
+    def add(category):
         db.session.add(category)
-        return session_commit()
-    def update(self):
-        return session_commit()
-    def delete(self,category):
+        return db.session.commit()
+    # def update(category,name):
+    #     category.update({"slug" : slugify(name) , "name" : dict(name)})
+    #     #db.session.commit()
+    #     return session_commit()
+    def delete(category):
         db.session.delete(category)
-        return session_commit()
+        return db.session.commit()
 class Page(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title= db.Column(db.String(255),nullable=True)
@@ -63,15 +72,16 @@ class Page(db.Model):
             )
     def __init__(self, title,description):
         self.title = title
+        self.slug =slugify(title)
         self.description=description
-    def add(self,page):
+    def add(page):
         db.session.add(page)
-        return session_commit()
-    def update(self):
-        return session_commit()
-    def delete(self,page):
+        return db.session.commit()
+    # def update(self):
+    #     return session_commit()
+    def delete(page):
         db.session.delete(page)
-        return session_commit()
+        return db.session.commit()
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255),nullable=True)
@@ -91,23 +101,24 @@ class Post(db.Model):
             published_at="{}".format(self.published_at),
             view=self.view
             )
-    def __init__(self, title, description, feature_image, category_id):
+    def __init__(self, title, description, category_id, feature_image):
         self.title = title
         self.description = description
         self.feature_image = feature_image
         self.category_id = category_id
-    def add(self,post):
+        self.slug =slugify(title)
+    def add(post):
         db.session.add(post)
-        return session_commit()
+        return db.session.commit()
     def update(self):
         return session_commit()
-    def delete(self,post):
+    def delete(post):
         db.session.delete(post)
         return session_commit()
 
 
 
-
+#http://flask-admin.readthedocs.io/en/latest/advanced/
 
 #http://charlesleifer.com/blog/how-to-make-a-flask-blog-in-one-hour-or-less/
 
@@ -138,7 +149,7 @@ class Post(db.Model):
 #     app.secret_key = 'Hello@AmokCamSmallworld$Cambodia&*&'
 #     app.config['DEBUG'] = True
 #     app.config['SESSION_TYPE'] = 'filesystem'
-#     sess.init_app(app)
+#    # sess.init_app(app)
 #     app.debug = True
 #     manager.run()
 #     app.run()
