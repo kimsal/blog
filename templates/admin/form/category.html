@@ -132,7 +132,7 @@
     {% for c in cat %}
      <script type="text/javascript">
        $('input#name').attr('value',"{{c.name}}");  
-       $('#frm').attr('action','/admin/category/edit/{{c.slug}}');
+       $('#frm').attr('action','/admin/category/edit/{{c.slug}}/');
      </script>
     {% endfor %}
 </body>
