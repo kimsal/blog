@@ -25,14 +25,16 @@
                                 <div class="col-md-12 col-xs-12 col-md-12 col-lg-12" >
                                 <br/><br/><br/>
                                       <br><br>
-                                    <form class="form-horizontal" action="/admin/post/add" method="post" enctype="multipart/form-data">
-                                    {% for message in form.title.errors %}
-                                       <div>{{ message }}</div>
-                                    {% endfor %}
-                                    
-                                    {% for message in form.description.errors %}
-                                       <div>{{ message }}</div>
-                                    {% endfor %}
+                                    <form class="form-horizontal" action="/admin/post/add/" method="POST" id="frm" enctype="multipart/form-data">
+                                    {% with messages = get_flashed_messages() %}
+                                      {% if messages %}
+                                        {% for message in messages %}
+                                          <li class="alert alert-warning"> 
+                                            {{ message }}
+                                          </li>
+                                        {% endfor %}
+                                      {% endif %}
+                                    {% endwith %}
                                       <!-- input title-->
                                      {{ form.hidden_tag() }}
                                       <div class="form-group">

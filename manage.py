@@ -65,7 +65,7 @@ def admin_index(pagination=1):
 	return render_template('admin/index.html' , posts = posts , pagin = int(pagin) , current_pagin = int(pagination))
 @app.route('/admin/post/add', methods = ['GET', 'POST'])
 @app.route('/admin/post/add/', methods = ['GET', 'POST'])
-def admin_post():
+def admin_post_add():
 	form = PostForm()
 	#form_overrides = dict(text=CKTextAreaField)
 	categories = [(c.id, c.name) for c in Category.query.order_by(Category.name).all()]
@@ -74,13 +74,12 @@ def admin_post():
 	if request.method == 'POST':
 		if form.validate() == False:
 	   		flash('All fields are required.')
-	   		return render_template('admin/form/post.html', form = form)
+	   		return redirect(url_for('admin_post_add'))
 	   	else:
 	   		#code to save and flask success
 	   		result = request.form
 			file = request.files['feature_image']
 			filename = secure_filename(file.filename)
-			#return ''
 	        if file:
 	        	file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 	        	obj=Post(request.form['title'],request.form['description'],request.form['category_id'],filename)
@@ -88,10 +87,10 @@ def admin_post():
 		        status=Post.add(obj)
 		        if not status:
 		            flash("Post added was successfully")
-		            return render_template('admin/post.html', form = form)
+		            return redirect(url_for('admin_index'))
 		        else:
 	   				flash("Fail to post !")
-	   				return render_template('admin/post.html', form = form)
+	   				return redirect(url_for('admin_post_add'))
 	   		
 	        else:
 	   			flash("Fail to upload feature image !")
@@ -166,7 +165,7 @@ def admin_page_add(slug=''):
 	   			status = db.session.commit()
 	   			if not status:
 	   				flash("Page updated successfully")
-	   				return redirect(url_for('admin_page_add'))
+	   				return redirect(url_for('admin_page'))
 		        else:
 		        	flash("Error !")
 		        	return redirect(url_for('admin_page_add'))
@@ -176,7 +175,7 @@ def admin_page_add(slug=''):
 		   		status=Page.add(obj)
 				if not status:
 					flash("Page Added successfully")
-					return redirect(url_for('admin_page_add'))
+					return redirect(url_for('admin_page'))
 				else:
 					flash("Error in adding page !")
 					return redirect(url_for('admin_page_add'))

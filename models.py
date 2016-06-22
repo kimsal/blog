@@ -28,7 +28,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 #     widget = CKTextAreaWidget()
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name=  db.Column(db.String(100),nullable=True)
+    name=  db.Column(db.String(100),nullable=True,unique=True)
     slug= db.Column(db.String(100),nullable=True)
     posts=db.relationship('Post', backref="category", lazy='dynamic')
     def get_absolute_url(self):
@@ -55,7 +55,7 @@ class Category(db.Model):
         return db.session.commit()
 class Page(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title= db.Column(db.String(255),nullable=True)
+    title= db.Column(db.String(255),nullable=True,unique=True)
     slug= db.Column(db.String(255),nullable=True)
     description = db.Column(db.Text,nullable=True)
     published_at= db.Column(db.TIMESTAMP,server_default=db.func.current_timestamp())
@@ -84,10 +84,10 @@ class Page(db.Model):
         return db.session.commit()
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(255),nullable=True)
+    title = db.Column(db.String(255),nullable=True,unique=True)
     description = db.Column(db.Text,nullable=True)
     feature_image=db.Column(db.String(200),nullable=True)
-    slug=db.Column(db.String(255),nullable=True)
+    slug=db.Column(db.String(255),nullable=True,unique=True)
     category_id=db.Column(db.Integer,db.ForeignKey('category.id'),nullable=True)
     published_at=db.Column(db.TIMESTAMP,server_default=db.func.current_timestamp())
     views = db.Column(db.Integer, nullable=True)

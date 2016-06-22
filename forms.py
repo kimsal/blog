@@ -3,8 +3,6 @@ from wtforms import TextField,FileField, IntegerField, TextAreaField, SubmitFiel
 from flaskckeditor import CKEditor
 class PostForm(Form,CKEditor):
    title = TextField("Title",[validators.Required("Please enter your title.")])
-   # description = RadioField('description', choices = [('M','Male'),('F','Female')])
-   # Address = TextAreaField("Address")
    description = TextAreaField("Description",[validators.Required("Please enter your description.")])   
    feature_image = FileField("Feature Image")
    category_id = SelectField('Category', choices=[], coerce=int)
