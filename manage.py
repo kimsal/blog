@@ -65,7 +65,9 @@ def admin_index(pagination=1):
 	return render_template('admin/index.html' , posts = posts , pagin = int(pagin) , current_pagin = int(pagination))
 @app.route('/admin/post/add', methods = ['GET', 'POST'])
 @app.route('/admin/post/add/', methods = ['GET', 'POST'])
-def admin_post_add():
+@app.route('/admin/post/edit/<slug>', methods = ['GET', 'POST'])
+@app.route('/admin/post/edit/<slug>/', methods = ['GET', 'POST'])
+def admin_post_add(slug=""):
 	form = PostForm()
 	#form_overrides = dict(text=CKTextAreaField)
 	categories = [(c.id, c.name) for c in Category.query.order_by(Category.name).all()]
@@ -96,7 +98,11 @@ def admin_post_add():
 	   			flash("Fail to upload feature image !")
 	   			return render_template('admin/post.html', form = form)
 	elif request.method == 'GET':
-		return render_template('admin/form/post.html', form = form)
+		if slug:
+			post=Post.query.filter_by(slug=slug)
+			return render_template('admin/form/post.html', post = post, form = form)
+		else:
+			return render_template('admin/form/post.html', form = form)
 @app.route('/admin/category', methods = ['GET', 'POST'])
 @app.route('/admin/category/', methods = ['GET', 'POST'])
 @app.route('/admin/category/add', methods = ['GET', 'POST'])

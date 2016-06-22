@@ -17,14 +17,12 @@
                               </a>
                                Post Form
                             </h3>
-
                           </div>
                           <div class="panel-body" >
                             <div class="table-responsive" style="border:none;">
                                 <!--form upload-->
                                 <div class="col-md-12 col-xs-12 col-md-12 col-lg-12" >
-                                <br/><br/><br/>
-                                      <br><br>
+                                <br/>
                                     <form class="form-horizontal" action="/admin/post/add/" method="POST" id="frm" enctype="multipart/form-data">
                                     {% with messages = get_flashed_messages() %}
                                       {% if messages %}
@@ -47,14 +45,13 @@
                                           </div>
                                       </div>
                                       <!-- Message body -->
-                                      <br/>
                                       <div class="form-group">
-                                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><br/><br/>
+                                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                           <!-- <input id="name" name="name" type="text" placeholder="Type your title here..." class="form-control"> -->
                                           {{ form.description.label }}
                                           </div>
                                           <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11">
-                                            {{ form.description(class_="form-control ckeditor",id="desc") }}
+                                            {{ form.description(class_="form-control ckeditor",id="description") }}
                                           </div>
                                         
                                            <script type="text/javascript">
@@ -93,7 +90,7 @@
                                           </span>
                                           <br><br>
                                           <span>
-                                            <img id="output" class="img-responsive" />
+                                            <img id="output" class="feature_output img-responsive" style="max-width:200px;"/>
                                           </span>
                                           <script>
                                             var loadFile = function(event) {
@@ -157,10 +154,19 @@
     $(this).find("span").text(icon);
 
 });
-
-    
-    </script>
-
+</script>
+{% for p in post %}
+ <script type="text/javascript">
+   $('input#title').attr('value',"{{p.title}}"); 
+   $('#frm').attr('action','/admin/post/edit/{{p.slug}}');
+   var help="{{p.description.replace('\n', '').replace('\r','')}}";
+   //help=help.replace(/(&lt;br\/&gt;)+/gi,'')
+   //alert(help);
+   $('#description').html(help);  
+   $('select#category_id option[value="{{p.category_id}}"]').attr("selected","selected");
+   $(".feature_output").attr("src","/static/images/feature_images/{{p.feature_image}}");
+ </script>
+{% endfor %}
 </body>
 
 </html>
