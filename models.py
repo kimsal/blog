@@ -144,15 +144,16 @@ class Post(db.Model):
     #         db.session.commit()
     #     except SQLAlchemyError as e:
     #         reason=str(e)
- 
-# if __name__ == '__main__':
-#     app.secret_key = 'Hello@AmokCamSmallworld$Cambodia&*&'
-#     app.config['DEBUG'] = True
-#     app.config['SESSION_TYPE'] = 'filesystem'
-#    # sess.init_app(app)
-#     app.debug = True
-#     manager.run()
-#     app.run()
+
+#need when migrate database 
+if __name__ == '__main__':
+    app.secret_key = 'Hello@AmokCamSmallworld$Cambodia&*&'
+    app.config['DEBUG'] = True
+    app.config['SESSION_TYPE'] = 'filesystem'
+   # sess.init_app(app)
+    app.debug = True
+    manager.run()
+    app.run()
 
 
 

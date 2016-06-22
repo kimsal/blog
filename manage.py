@@ -108,15 +108,26 @@ def admin_post_add(slug=""):
 @app.route('/admin/category/add', methods = ['GET', 'POST'])
 @app.route('/admin/category/add/', methods = ['GET', 'POST'])
 @app.route('/admin/category/edit/<slug>', methods = ['GET', 'POST'])
-def admin_category(slug=''):
+def admin_category(slug=""):
 	form = CategoryForm()
 	categories= Category.query.order_by(Category.name)
+	#return "{}".format(slug)
 	if request.method == 'POST':
 		if form.validate() == False:
 	   		flash('Please insert category name'	)
 	   		return redirect(url_for('admin_category'))
 	   	else:
-	   		if slug:
+	   		if slug=="":
+	   			#add new category
+	   			obj=Category(request.form['name'])
+		        status=Category.add(obj)
+		        if not status:
+		            flash("Added successfully")
+		            return redirect(url_for('admin_category'))
+		        else:
+		        	flash("Error !")
+		        	return redirect(url_for('admin_category'))
+	   		if slug!="":
 	   			#update row
 	   			obj=Category.query.filter_by(slug=slug).first()
 	   			#status=Category.update(obj)
@@ -128,16 +139,7 @@ def admin_category(slug=''):
 		        else:
 		        	flash("Error !")
 		        	return redirect(url_for('admin_category'))
-	   		if not slug:
-	   			#add new category
-	   			obj=Category(request.form['name'])
-		        status=Category.add(obj)
-		        if not status:
-		            flash("Added successfully")
-		            return redirect(url_for('admin_category'))
-		        else:
-		        	flash("Error !")
-		        	return redirect(url_for('admin_category'))
+	   			
 	elif request.method == 'GET':
 		if not slug:
 			return render_template('/admin/form/category.html',categories=categories, form = form)

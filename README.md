@@ -4,9 +4,19 @@ http://flask-admin.readthedocs.io/en/latest/introduction/#working-with-the-built
 ---------------------------------------------
 #git clone git@github.com:flask-admin/flask-admin.git
 //pip install flask-restful
-
-
+############################################
 pip install flaskckeditor
+sudo pip install slugify
+python models.py db init
+sudo pip install flask_sijax
+sudo pip install  flask_restful
+
+#migrate database:
+python models.py db init
+python models.py db migrate
+python models.py db upgrade
+
+############################################
 
 
 
