@@ -45,12 +45,12 @@
                                   {% for post in posts %}
 	                                    <tr> 
 	                                      <td>
-	                                        <a href="#">
+	                                        <a href="/admin/post/edit/{{post.slug}}">
 	                                        <!-- <i class="fa fa-hand-o-right" aria-hidden="true"></i> -->
 	                                        {{ post.title }}
 	                                        </a>
 	                                      </td>
-	                                      <td>
+	                                      <td id="date_{{post.id}}">
 	                                          {{post.published_at}}
 	                                      </td>
 	                                      <td>
@@ -61,10 +61,13 @@
 	                                      	{{post.views}}
 	                                      </td>
 	                                      <td>
-	                                        <a href="/admin/post/update/{{post.slug}}" class="">Edit</a> -
+	                                        <a href="/admin/post/edit/{{post.slug}}" class="">Edit</a> -
 	                                        <a href="/admin/post/delete/{{post.slug}}" class="" style="color:red">Delete</a>
 	                                      </td>
 	                                    </tr>
+	                                    <script>
+		                                  $('#date_{{post.id}}').html(moment("{{post.published_at}}").format('LLL'));
+		                                  </script>
 									{% endfor %}
                                   </tbody>
                                 </table> 
