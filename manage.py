@@ -58,7 +58,7 @@ def ckupload():
 def admin_index(pagination=1):
 	limit=2
 	posts=Post.query.join(Category,Post.category_id == Category.id).order_by(Post.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
-	pagin=math.ceil((Post.query.count())/limit)
+	pagin=math.ceil((Post.query.join(Category,Post.category_id == Category.id).count())/limit)
 	if((Post.query.count())%limit != 0 ):
 		pagin=int(pagin+1)
 	#return "{}".format(posts)
@@ -78,25 +78,49 @@ def admin_post_add(slug=""):
 	   		flash('All fields are required.')
 	   		return redirect(url_for('admin_post_add'))
 	   	else:
-	   		#code to save and flask success
 	   		result = request.form
 			file = request.files['feature_image']
 			filename = secure_filename(file.filename)
-	        if file:
-	        	file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-	        	obj=Post(request.form['title'],request.form['description'],request.form['category_id'],filename)
-	        	#return "{}".format(file)	
-		        status=Post.add(obj)
-		        if not status:
-		            flash("Post added was successfully")
-		            return redirect(url_for('admin_index'))
-		        else:
-	   				flash("Fail to post !")
-	   				return redirect(url_for('admin_post_add'))
-	   		
-	        else:
-	   			flash("Fail to upload feature image !")
+	   		if not slug:
+	   			if file:
+	   				file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+		        	obj=Post(request.form['title'],request.form['description'],request.form['category_id'],filename)
+		        	status=Post.add(obj)
+			        if not status:
+			            flash("Post added was successfully")
+			            return redirect(url_for('admin_index'))
+			        else:
+			        	flash("Fail to add post !")
+			        	return redirect(url_for('admin_post_add'))
+			   	#else:
+				flash("Fail to upload feature image !")
 	   			return render_template('admin/form/post.html', form = form)
+	   		elif slug:
+	   			#update row
+	   			obj = Post.query.filter_by(slug = slug)
+	   			tempFileName=""
+	   			for post in obj:
+	   				tempFileName=post.feature_image
+	   			if filename == "":
+	   				filename=tempFileName
+	   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['category_id'],'feature_image':filename })
+	   				status = db.session.commit()
+	   				if not status:
+	   					flash("Post updated was successfully")
+	   					return redirect(url_for('admin_index'))
+			        else:
+			        	flash("Fail to update post !")
+			        	return redirect(url_for('admin_post_add'))
+			    #else:
+   				file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['category_id'],'feature_image':filename })
+   				status = db.session.commit()
+   				if not status:
+   					flash("Post added was successfully")
+   					return redirect(url_for('admin_index'))
+		        else:
+		        	flash("Fail to update post !")
+		        	return redirect(url_for('admin_post_add'))
 	elif request.method == 'GET':
 		if slug:
 			post=Post.query.filter_by(slug=slug)
