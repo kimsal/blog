@@ -26,6 +26,7 @@ http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xviii-deploymen
 
 ckeditor:
 https://github.com/Still-not-satisfied-projects/flask-ckeditor/tree/master/examples/app
++LOGIN: http://codereview.stackexchange.com/questions/110679/simple-login-system-using-python-flask-and-mysql
 
 
 NOTE (must delete after it works):

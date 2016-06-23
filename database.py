@@ -7,7 +7,7 @@ from flask import Blueprint
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql://postgres:postgres@localhost:5432/blog'
+app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql://toursanak:toursanak@localhost:5432/blog'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=True
 app.secret_key = 'Hello@AmokCamSmallworld$Cambodia&*&'

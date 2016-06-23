@@ -19,13 +19,24 @@ from wtforms import * #TextField, IntegerField, TextAreaField, SubmitField, Radi
 import wtforms.widgets.core
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
-
-# class CKTextAreaWidget(widgets.TextArea):
-#     def __call__(self, field, **kwargs):
-#         kwargs.setdefault('class_', 'ckeditor')
-#         return super(CKTextAreaWidget, self).__call__(field, **kwargs)
-# class CKTextAreaField(fields.TextAreaField):
-#     widget = CKTextAreaWidget()
+class UserMember(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+    email = db.Column(db.String(100),nullable=True,unique=True)
+    password = db.Column(db.String(100))
+    created_at=db.Column(db.TIMESTAMP,server_default=db.func.current_timestamp())
+    def __init__(self, name, email, password):
+        self.name = name
+        self.email = email
+        self.password = password
+    def add(user):
+        db.session.add(user)
+        return db.session.commit()
+    def update(self):
+        return session_commit()
+    def delete(user):
+        db.session.delete(user)
+        return session_commit()
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name=  db.Column(db.String(100),nullable=True,unique=True)
@@ -115,7 +126,6 @@ class Post(db.Model):
     def delete(post):
         db.session.delete(post)
         return session_commit()
-
 
 
 #http://flask-admin.readthedocs.io/en/latest/advanced/

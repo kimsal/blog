@@ -17,34 +17,62 @@ from forms import *
 from models import *
 
 #Middleware
-def login_required(fn):
-    @functools.wraps(fn)
-    def inner(*args, **kwargs):
-        if session.get('logged_in'):
-            return fn(*args, **kwargs)
-        return redirect(url_for('login', next=request.path))
-    return inner
-@app.route('/login/', methods=['GET', 'POST'])
-def login():
-    next_url = request.args.get('next') or request.form.get('next')
-    if request.method == 'POST' and request.form.get('password'):
-        password = request.form.get('password')
-        if password == app.config['ADMIN_PASSWORD']:
-            session['logged_in'] = True
-            session.permanent = True  # Use cookie to store session.
-            flash('You are now logged in.', 'success')
-            return redirect(next_url or url_for('admin_index'))
-        else:
-            flash('Incorrect password.', 'danger')
-    return render_template('admin/login.html', next_url=next_url)
+# def login_required(fn):
+#     @functools.wraps(fn)
+#     def inner(*args, **kwargs):
+#         if session.get('logged_in'):
+#             return fn(*args, **kwargs)
+#         return redirect(url_for('login', next=request.path))
+#     return inner
+# @app.route('/login/', methods=['GET', 'POST'])
+# def login():
+#     next_url = request.args.get('next') or request.form.get('next')
+#     if request.method == 'POST' and request.form.get('password'):
+#         password = request.form.get('password')
+#         if password == app.config['ADMIN_PASSWORD']:
+#             session['logged_in'] = True
+#             session.permanent = True  # Use cookie to store session.
+#             flash('You are now logged in.', 'success')
+#             return redirect(next_url or url_for('admin_index'))
+#         else:
+#             flash('Incorrect password.', 'danger')
+#     return render_template('admin/login.html', next_url=next_url)
 
-@app.route('/logout/', methods=['GET', 'POST'])
+# @app.route('/logout/', methods=['GET', 'POST'])
+# def logout():
+#     if request.method == 'POST':
+#         session.clear()
+#         return redirect(url_for('login'))
+#     return render_template('logout.html')
+@app.route('/admin/login', methods=['POST', 'GET'])
+@app.route('/admin/login/', methods=['POST', 'GET'])
+def admin_login():
+	if session.get('logged_in'):
+		return redirect(url_for("admin_index"))
+	form = UserMemberForm()
+	if request.method == 'POST':
+		email_form = request.form['email']
+		password_form = request.form['password']
+		user = UserMember.query.filter_by(email=email_form,password = password_form)
+		#return "{}".format(user.count())
+		if user.count()>0:
+			#"set session"
+			session['blog_email'] = email_form
+			session['blog_password'] = password_form
+			session['logged_in'] = True
+			return redirect(url_for('admin_index'))
+		else:
+			flash('Wrong user name or password !')
+			return redirect(url_for("admin_login"))
+	elif request.method == 'GET':
+		return render_template('admin/form/login.html',form = form)
+@app.route('/admin/logout', methods=['POST', 'GET'])
+@app.route('/admin/logout/', methods=['POST', 'GET'])
 def logout():
-    if request.method == 'POST':
-        session.clear()
-        return redirect(url_for('login'))
-    return render_template('logout.html')
-
+	session['blog_email'] = False
+	session['blog_password'] = False
+	session['logged_in'] = False
+	return redirect(url_for('admin_login'))
 @app.route('/ckupload/', methods=['POST', 'OPTIONS'])
 def ckupload():
     """file/img upload interface"""
@@ -56,6 +84,8 @@ def ckupload():
 @app.route('/admin/')
 @app.route('/admin/<pagination>')
 def admin_index(pagination=1):
+	if not session.get('logged_in'):
+		return redirect(url_for("admin_login"))
 	limit=2
 	posts=Post.query.join(Category,Post.category_id == Category.id).order_by(Post.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
 	pagin=math.ceil((Post.query.join(Category,Post.category_id == Category.id).count())/limit)
@@ -68,6 +98,8 @@ def admin_index(pagination=1):
 @app.route('/admin/post/edit/<slug>', methods = ['GET', 'POST'])
 @app.route('/admin/post/edit/<slug>/', methods = ['GET', 'POST'])
 def admin_post_add(slug=""):
+	if not session.get('logged_in'):
+		return redirect(url_for("admin_login"))
 	form = PostForm()
 	#form_overrides = dict(text=CKTextAreaField)
 	categories = [(c.id, c.name) for c in Category.query.order_by(Category.name).all()]
@@ -134,6 +166,8 @@ def admin_post_add(slug=""):
 @app.route('/admin/category/edit/<slug>', methods = ['GET', 'POST'])
 @app.route('/admin/category/edit/<slug>/', methods = ['GET', 'POST'])
 def admin_category_add(slug=""):
+	if not session.get('logged_in'):
+		return redirect(url_for("admin_login"))
 	form = CategoryForm()
 	categories= Category.query.order_by(Category.name)
 	if request.method == 'POST':
@@ -179,6 +213,8 @@ def admin_page(pagination=1):
 @app.route('/admin/page/edit/<slug>/', methods = ['GET', 'POST'])
 @app.route('/admin/page/edit/<slug>', methods = ['GET', 'POST'])
 def admin_page_add(slug=''):
+	if not session.get('logged_in'):
+		return redirect(url_for("admin_login"))
 	form = PageForm()
 	if request.method == 'POST':
 		if form.validate() == False:
@@ -214,6 +250,8 @@ def admin_page_add(slug=''):
 @app.route('/admin/page/delete/<slug>/')
 @app.route('/admin/page/delete/<slug>')
 def admin_page_delete(slug=''):
+	if not session.get('logged_in'):
+		return redirect(url_for("admin_login"))
 	obj1 = Page.query.filter_by(slug=slug).first()
 	try:
 		status = Page.delete(obj1)
@@ -224,7 +262,9 @@ def admin_page_delete(slug=''):
 		return redirect(url_for('admin_page'))
 @app.route('/admin/category/delete/<slug>')
 @app.route('/admin/category/delete/<slug>/')
-def admin_category_delete(slug):	
+def admin_category_delete(slug):
+	if not session.get('logged_in'):
+		return redirect(url_for("admin_login"))	
 	obj1 = Category.query.filter_by(slug=slug).first()
 	try:
 		status = Category.delete(obj1)
@@ -233,14 +273,6 @@ def admin_category_delete(slug):
 	except:
 		flash('Fail to delete !')
 		return redirect(url_for('admin_category_add'))
-	
-
-
-# @app.route('/admin/category/')
-# @app.route('/admin/category')
-# def admin_page():
-# 	categories = Category.query.order_by(Page.id.desc())
-# 	return render_template('admin/category.html', categories=categories)
 #End Middleware
 
 
