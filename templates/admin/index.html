@@ -9,7 +9,7 @@
                         {% with messages = get_flashed_messages() %}
                           {% if messages %}
                             {% for message in messages %}
-                              <li class="alert alert-warning"> 
+                              <li class="alert"> 
                                 {{ message }}
                               </li>
                             {% endfor %}
@@ -139,7 +139,15 @@
     
 
     <!-- Menu Toggle Script -->
-    <script>
+<script>
+	if($(".alert").length>0){
+		if(($(".alert").html()).indexOf("success")>=0){
+			$(".alert").addClass('alert-success');
+		}
+		else{
+			$(".alert").addClass('alert-danger');
+		}
+	}
     $("#menu-toggle").click(function(e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
@@ -152,9 +160,7 @@
 
 });
 
-    
-    </script>
-
+</script>
 </body>
 
 </html>

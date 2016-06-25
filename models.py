@@ -1,30 +1,24 @@
-#from flask import Flask,session
-#from flask_sqlalchemy import SQLAlchemy
-#from sqlalchemy.sql.expression import text
-#from sqlalchemy.exc import SQLAlchemyError
 from database import *
 from sqlalchemy.orm import relationship
 from slugify import slugify
-# app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql://toursanak:toursanak@localhost:5432/blog'
-
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=True
-# app.secret_key = 'Hello@AmokCamSmallworld$Cambodia&*&'
-# db = SQLAlchemy(app)
- 
-#Create Database migrations
-#Create the Post Class
 from wtforms.widgets import * #TextArea
 from wtforms import * #TextField, IntegerField, TextAreaField, SubmitField, RadioField,SelectField,validators, ValidationError
 import wtforms.widgets.core
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 class UserMember(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
     email = db.Column(db.String(100),nullable=True,unique=True)
-    password = db.Column(db.String(100))
+    password = db.Column(db.String(600))
     created_at=db.Column(db.TIMESTAMP,server_default=db.func.current_timestamp())
+    post=db.relationship('Post', backref="user_member", lazy='dynamic')
+    def verify_password(self, password):
+        #return custom_app_context.encrypt(password) == self.password
+        return custom_app_context.verify(password, self.password)
+    def hash_password(self, password):
+        self.password = custom_app_context.encrypt(password)
     def __init__(self, name, email, password):
         self.name = name
         self.email = email
@@ -37,6 +31,20 @@ class UserMember(db.Model):
     def delete(user):
         db.session.delete(user)
         return session_commit()
+    # def generate_auth_token(self, expiration = 600000):
+    #     s = Serializer(SECRET_KEY, expires_in = expiration)
+    #     return s.dumps({ 'password': self.password })
+    @staticmethod
+    def verify_auth_token(token):
+        s = Serializer(SECRET_KEY)
+        try:
+            data = s.loads(token)
+        except SignatureExpired:
+            return None # valid token, but expired
+        except BadSignature:
+            return None # invalid token
+        user = UserMember.query.get(data['id'])
+        return user
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name=  db.Column(db.String(100),nullable=True,unique=True)
@@ -100,23 +108,25 @@ class Post(db.Model):
     feature_image=db.Column(db.String(200),nullable=True)
     slug=db.Column(db.String(255),nullable=True,unique=True)
     category_id=db.Column(db.Integer,db.ForeignKey('category.id'),nullable=True)
+    user_id=db.Column(db.Integer,db.ForeignKey('user_member.id'))
     published_at=db.Column(db.TIMESTAMP,server_default=db.func.current_timestamp())
     views = db.Column(db.Integer, nullable=True)
-    def to_Json(self):
-        return dict(id=self.id,
-            title=self.title,
-            description=self.description,
-            feature_image=self.feature_image,
-            slug=self.slug,
-            category_id=self.category_id,
-            published_at="{}".format(self.published_at),
-            view=self.view
-            )
-    def __init__(self, title, description, category_id, feature_image):
+    # def to_Json(self):
+    #     return dict(id=self.id,
+    #         title=self.title,
+    #         description=self.description,
+    #         feature_image=self.feature_image,
+    #         slug=self.slug,
+    #         category_id=self.category_id,
+    #         published_at="{}".format(self.published_at),
+    #         view=self.view
+    #         )
+    def __init__(self, title, description, category_id, feature_image, user_id):
         self.title = title
         self.description = description
         self.feature_image = feature_image
         self.category_id = category_id
+        self.user_id = user_id
         self.slug =slugify(title)
     def add(post):
         db.session.add(post)
@@ -157,7 +167,7 @@ class Post(db.Model):
 
 #need when migrate database 
 if __name__ == '__main__':
-    app.secret_key = 'Hello@AmokCamSmallworld$Cambodia&*&'
+    app.secret_key = SECRET_KEY
     app.config['DEBUG'] = True
     app.config['SESSION_TYPE'] = 'filesystem'
    # sess.init_app(app)

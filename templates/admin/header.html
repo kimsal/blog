@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Amok.com | Web publisher</title>
+    <title>Amok.com | Blog and Web publisher</title>
     
     <link rel="icon" href="/static/images/logo.png" type="image/x-icon">
     <!-- <link rel="stylesheet" href="/static/admin/css/font-awesome.css"> -->
@@ -46,10 +46,14 @@
                         </div>
                 </form>
                 <li class="dropdown">
-                    <a class="dropdown-toggle" role="button" style="color:white;" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-user"></i> Admin <span class="caret"></span></a>
-                    <ul id="g-account-menu" class="dropdown-menu" role="menu">
+                    <a class="dropdown-toggle" style="color:white;cursor:default;" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-user" >
+                        
+                    </i> Hello {{ logined_name }} 
+                    <!-- <span class="caret"></span> -->
+                    </a>
+                    <!-- <ul id="g-account-menu" class="dropdown-menu" role="menu">
                         <li><a href="#">My Profile</a></li>
-                    </ul>
+                    </ul> -->
                 </li>
                 <li><a href="/admin/logout/" style="color:white;"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
             </ul>
@@ -112,7 +116,7 @@
                         <li>
                             <a href="#" class="off-canvas-submenu-call"><span class="right"></span>
                                <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                My Blogs
+                                Settings
                         </a>
                         </li>
                         <ul class="off-canvas-submenu" >
@@ -125,7 +129,7 @@
                             <li style="list-style:none;">
                                 <a href="#">
                                 <i class="fa fa-cog" aria-hidden="true"></i>
-                                	Social
+                                    Social
                                 </a>
                             </li>
                         
