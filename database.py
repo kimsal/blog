@@ -19,6 +19,8 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
+#template is the url of selected template 
+template ="template-2016"
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 #upload url for feature images
 app.config['UPLOAD_FOLDER'] = 'static/images/feature_images/'

@@ -18,10 +18,11 @@ from models import *
 #Middleware
 @app.context_processor
 def inject_dict_for_all_templates():
-    return dict(logined_name=session.get('blog_name'))
-#==========================================================
+    return dict(logined_name=session.get('blog_name'),template_name= template,categories = Category.query.all())
+#========================================================
 @auth.verify_token
 def verify_token(token):
+	return True
 	# g.current_user = UserMember.query.filter_by(token=token).first()
 	# return g.current_user is not None
 	user = UserMember.query.filter_by(email = session.get('blog_email'))
@@ -127,7 +128,7 @@ def ckupload():
 def admin_index(pagination=1):
 	# if not session.get('logged_in'):
 	# 	return redirect(url_for("admin_login"))
-	limit=2
+	limit=10
 	posts=Post.query.join(Category,Post.category_id == Category.id).order_by(Post.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
 	pagin=math.ceil((Post.query.join(Category,Post.category_id == Category.id).count())/limit)
 	if((Post.query.count())%limit != 0 ):
@@ -330,10 +331,37 @@ def admin_category_delete(slug):
 #client
 @app.route('/')
 def index():
-	return render_template('index.html')
+	posts_top = Post.query.order_by(Post.id.desc()).limit(4)
+	posts_bottom = Post.query.order_by(Post.id.desc()).limit(60).offset(5)
+	#return "{}".format(posts_top)
+	return render_template(template+'/index.html',posts_top=posts_top,posts_bottom = posts_bottom)
 @app.route('/<slug>')
+@app.route('/<slug>/')
 def single(slug):
-	return render_template('single.html')
+	post_object=Post.query.filter_by(slug=slug).limit(1)
+	return render_template(template+'/single.html',post_object=post_object)
+@app.route('/category/<slug>')
+@app.route('/category/<slug>/')
+@app.route('/category/<slug>/<pagination>')
+@app.route('/category/<slug>/<pagination>')
+def category(slug='',pagination=1):
+	limit=10
+	category=Category.query.filter_by(slug=slug)
+	cat_id=""
+	category_name=""
+	category_slug=""
+	for cat in category:
+		cat_id=cat.id
+		category_name
+		category_slug=cat.slug
+	if cat_id == "":
+		flash('Problem in loading category page !')
+		return redirect(url_for("index"))
+	posts=Post.query.filter_by(category_id=cat_id).order_by(Post.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
+	pagin=math.ceil((Post.query.filter_by(category_id=cat_id).count())/limit)
+	if(math.ceil(Post.query.filter_by(category_id=cat_id).count())%limit != 0 ):
+		pagin=int(pagin+1)
+	return render_template(template+'/category.html',category_slug=category_slug,category_name=category_name,posts=posts,pagin=int(pagin),current_pagin=int(pagination))
 #end client
 if __name__ == '__main__':
 	 app.run(debug = True)
