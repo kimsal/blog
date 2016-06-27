@@ -25,7 +25,6 @@ def inject_dict_for_all_templates():
 #========================================================
 @auth.verify_token
 def verify_token(token):
-	return True
 	# g.current_user = UserMember.query.filter_by(token=token).first()
 	# return g.current_user is not None
 	user = UserMember.query.filter_by(email = session.get('blog_email'))
