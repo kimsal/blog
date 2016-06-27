@@ -2,14 +2,41 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    {% if page_name == 'single' %}
+        {% for post in post_object%}
+            <meta name="description" content="{{post.title}}">
+            <meta name="keywords" content="{{post.title}}">
+            <meta name="author" content="Kimsal San">
+            <title>{{post.title}}</title>
+        {%endfor%}
+    {% elif page_name == "category" %}
+        <meta name="description" content="1{{category_name}}">
+        <meta name="keywords" content="{{category_name}}">
+        <meta name="author" content="Kimsal San">
+        <title>{{category_name}}</title>
+
+    {% elif page_name == "page"%}
+        <meta name="description" content="{{page_name}}">
+        <meta name="keywords" content="{{page_name}}">
+        <meta name="author" content="Kimsal San">
+        <title>Page</title>
+
+    {% elif page_name == "search"%}
+        <meta name="description" content="{{search_text}}">
+        <meta name="keywords" content="{{search_text}}">
+        <meta name="author" content="Kimsal San">
+        <title>search</title>
+    {% else%}
+        <meta name="description" content="{{category_name}}">
+        <meta name="keywords" content="{{category_name}}">
+        <meta name="author" content="Kimsal San">
+        <title>Common | Co-working Space</title>
+    {% endif %}
+
     <link rel="icon" href="/static/admin/images/logo.png" type="image/x-icon">
-    <title>Common</title>
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/static/{{template_name}}/css/bootstrap.min.css" type="text/css">
     <!-- Custom Fonts -->
@@ -50,7 +77,7 @@
                     </li>
                     {%endfor%}
                 </ul>
-                <div class="col-sm-3 col-md-3">
+                <div class="col-sm-3 col-md-3 navbar-right">
                     <form class="navbar-form" role="search">
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="Search" name="q">

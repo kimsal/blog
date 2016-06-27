@@ -336,12 +336,19 @@ def index():
 	posts_top = Post.query.order_by(Post.id.desc()).limit(4)
 	posts_bottom = Post.query.order_by(Post.id.desc()).limit(60).offset(5)
 	#return "{}".format(posts_top)
-	return render_template(template+'/index.html',posts_top=posts_top,posts_bottom = posts_bottom)
+	return render_template(template+'/index.html',page_name='home',posts_top=posts_top,posts_bottom = posts_bottom)
 @app.route('/<slug>')
 @app.route('/<slug>/')
 def single(slug):
-	post_object=Post.query.filter_by(slug=slug).limit(1)
-	return render_template(template+'/single.html',post_object=post_object)
+	post_object=Post.query.filter_by(slug=slug)#.limit(1)
+	for post in post_object:
+		old_view=post.views
+	try:
+		post_object.update({"views" : (old_view+1) })
+		status = db.session.commit()
+	except (ValueError, KeyError, TypeError):
+		print "error in updating views:"
+	return render_template(template+'/single.html',page_name='single',post_object=post_object)
 @app.route('/category/<slug>')
 @app.route('/category/<slug>/')
 @app.route('/category/<slug>/<pagination>')
@@ -350,11 +357,11 @@ def category(slug='',pagination=1):
 	limit=10
 	category=Category.query.filter_by(slug=slug)
 	cat_id=""
-	category_name=""
+	category_name="None"
 	category_slug=""
 	for cat in category:
 		cat_id=cat.id
-		category_name
+		category_name=cat.name
 		category_slug=cat.slug
 	if cat_id == "":
 		flash('Problem in loading category page !')
@@ -363,7 +370,7 @@ def category(slug='',pagination=1):
 	pagin=math.ceil((Post.query.filter_by(category_id=cat_id).count())/limit)
 	if(math.ceil(Post.query.filter_by(category_id=cat_id).count())%limit != 0 ):
 		pagin=int(pagin+1)
-	return render_template(template+'/category.html',category_slug=category_slug,category_name=category_name,posts=posts,pagin=int(pagin),current_pagin=int(pagination))
+	return render_template(template+'/category.html',page_name='category',category_slug=category_slug,category_name=category_name,posts=posts,pagin=int(pagin),current_pagin=int(pagination))
 @app.route('/search/<slug>', methods=['POST', 'GET'])
 @app.route('/search/<slug>/', methods=['POST', 'GET'])
 def search(slug):
