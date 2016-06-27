@@ -18,3 +18,5 @@ class UserMemberForm(Form):
    email = TextField("Email",[validators.Required("Please enter your email.")])
    password = PasswordField("Password",[validators.Required("Please enter your password.")])
    submit = SubmitField("Login")
+class SearchForm(Form):
+    search = TextField("search")

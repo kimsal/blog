@@ -15,6 +15,9 @@ import math
 from models import *
 from forms import *
 from models import *
+# import flask_sqlalchemy
+# import flask_whooshalchemy
+
 #Middleware
 @app.context_processor
 def inject_dict_for_all_templates():
@@ -362,9 +365,16 @@ def category(slug='',pagination=1):
 	if(math.ceil(Post.query.filter_by(category_id=cat_id).count())%limit != 0 ):
 		pagin=int(pagin+1)
 	return render_template(template+'/category.html',category_slug=category_slug,category_name=category_name,posts=posts,pagin=int(pagin),current_pagin=int(pagination))
+@app.route('/search/<slug>', methods=['POST', 'GET'])
+@app.route('/search/<slug>/', methods=['POST', 'GET'])
+def search(slug):
+	#whooshalchemy.whoosh_index(app, Post)
+	results = "Post.query.whoosh_search('cool')"
+	return "{}".format(results)
 #end client
 if __name__ == '__main__':
 	 app.run(debug = True)
+
 
 
 
