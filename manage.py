@@ -4,13 +4,14 @@ import os.path as op
 import os
 import flask
 #from views import *
-from flask import Flask,g, render_template,request,session,redirect,url_for,flash
+from flask import abort,Flask,g, render_template,request,session,redirect,url_for,flash
 from werkzeug import secure_filename
 from flask_wtf import Form
 from wtforms import TextField, IntegerField, TextAreaField, SubmitField, RadioField,SelectField,validators, ValidationError
 from flask_sijax import sijax
 from api import *
 from flask.json import jsonify
+from datetime import datetime
 import math
 from models import *
 from forms import *
@@ -40,6 +41,7 @@ def goLoginPage():
 #================
 @app.errorhandler(404)
 def page_not_found(e):
+	return render_template(template+"/404.html")
 	return "Page not found"
 @auth.login_required
 def get_auth_token():
@@ -51,7 +53,7 @@ def get_auth_token():
 def admin_login():
 	# if session.get('logged_in'):
 	# 	return redirect(url_for("admin_index"))
-	if session.get('email')=="":
+	if not session.get('email')=="":
 		return redirect(url_for("admin_index"))
 	form = UserMemberForm()
 	if request.method == 'POST':
@@ -130,7 +132,7 @@ def ckupload():
 def admin_index(pagination=1):
 	# if not session.get('logged_in'):
 	# 	return redirect(url_for("admin_login"))
-	limit=10
+	limit=20
 	posts=Post.query.join(Category,Post.category_id == Category.id).order_by(Post.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
 	pagin=math.ceil((Post.query.join(Category,Post.category_id == Category.id).count())/limit)
 	if((Post.query.count())%limit != 0 ):
@@ -155,13 +157,15 @@ def admin_post_add(slug=""):
 	   		flash('All fields are required.')
 	   		return redirect(url_for('admin_post_add'))
 	   	else:
+	   		now = str(datetime.now())
+			now= now.replace(':',"",10).replace(' ','',4).replace('.','',5).replace('-','',5)
 	   		result = request.form
 			file = request.files['feature_image']
 			filename = secure_filename(file.filename)
 	   		if not slug:
 	   			if file:
-	   				file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-		        	obj=Post(request.form['title'],request.form['description'],request.form['category_id'],filename,session.get('blog_id'))
+	   				file.save(os.path.join(app.config['UPLOAD_FOLDER'], now+"-"+filename))
+		        	obj=Post(request.form['title'],request.form['description'],request.form['category_id'],(now+"-"+filename),session.get('blog_id'))
 		        	status=Post.add(obj)
 			        if not status:
 			            flash("Post added was successfully")
@@ -340,14 +344,14 @@ def index():
 @app.route('/<slug>')
 @app.route('/<slug>/')
 def single(slug):
-	post_object=Post.query.filter_by(slug=slug)#.limit(1)
-	for post in post_object:
-		old_view=post.views
 	try:
+		post_object=Post.query.filter_by(slug=slug)#.limit(1)
+		for post in post_object:
+			old_view=post.views
 		post_object.update({"views" : (old_view+1) })
 		status = db.session.commit()
-	except (ValueError, KeyError, TypeError):
-		print "error in updating views:"
+	except:
+		abort(404)
 	return render_template(template+'/single.html',page_name='single',post_object=post_object)
 @app.route('/category/<slug>')
 @app.route('/category/<slug>/')
@@ -364,8 +368,7 @@ def category(slug='',pagination=1):
 		category_name=cat.name
 		category_slug=cat.slug
 	if cat_id == "":
-		flash('Problem in loading category page !')
-		return redirect(url_for("index"))
+		abort(404)
 	posts=Post.query.filter_by(category_id=cat_id).order_by(Post.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
 	pagin=math.ceil((Post.query.filter_by(category_id=cat_id).count())/limit)
 	if(math.ceil(Post.query.filter_by(category_id=cat_id).count())%limit != 0 ):
