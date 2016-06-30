@@ -39,22 +39,15 @@ def verify_token(token):
 def goLoginPage():
 	return redirect(url_for("admin_login"))
 #================
-@app.errorhandler(404)
-def page_not_found(e):
-	return render_template(template+"/404.html")
-	return "Page not found"
 @auth.login_required
 def get_auth_token():
     token = g.user.generate_auth_token()
     return jsonify({ 'token': token.decode('ascii') })
-
 @app.route('/admin/login', methods=['POST', 'GET'])
 @app.route('/admin/login/', methods=['POST', 'GET'])
 def admin_login():
 	# if session.get('logged_in'):
 	# 	return redirect(url_for("admin_index"))
-	if not session.get('email')=="":
-		return redirect(url_for("admin_index"))
 	form = UserMemberForm()
 	if request.method == 'POST':
 		email_form = request.form['email']
@@ -329,12 +322,21 @@ def admin_category_delete(slug):
 	except:
 		flash('Fail to delete !')
 		return redirect(url_for('admin_category_add'))
+@app.route('/admin/template')
+@app.route('/admin/template/')
+@auth.login_required
+def admin_template():
+
+	return render_template("/admin/template.html")
 #End Middleware
 
 
 
 
 #client
+@app.errorhandler(404)
+def page_not_found(e):
+	return render_template(template+"/404.html")
 @app.route('/')
 def index():
 	posts_top = Post.query.order_by(Post.id.desc()).limit(4)
