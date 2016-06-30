@@ -96,7 +96,7 @@ def logout():
 	#return redirect(url_for('admin_login'),401)
 @app.route('/admin/register', methods=['POST', 'GET'])
 @app.route('/admin/register/', methods=['POST', 'GET'])
-@auth.login_required
+#@auth.login_required
 def admin_register():
 	# if not session.get('logged_in'):
 	# 	return redirect(url_for("admin_login"))
