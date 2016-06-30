@@ -1,20 +1,23 @@
 {% include 'admin/header.html' %} 
-
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12" style="padding:0px;">
                         <br><br>
+                        <h3>
+                        <center>
                         {% with messages = get_flashed_messages() %}
                           {% if messages %}
                             {% for message in messages %}
-                              <li class="alert alert-warning"> 
+                              <li class="alert" style="list-style:none"> 
                                 {{ message }}
                               </li>
                             {% endfor %}
                           {% endif %}
                         {% endwith %}
+                        </center>
+                        <h3>
                         <div class="panel panel-default" style="padding:0px;">
                           <div class="panel-heading">
                            <a href="/admin/post/add" class="btn btn-default btn-sm pull-right">
@@ -34,9 +37,9 @@
                                   <thead>
                                     <tr>
                                       <th>Title</th>
-                                      <th>Published Date</th>
-                                      <th>Category</th>
-                                      <th>Views</th>
+                                      <th class="hidden-xs">Published Date</th>
+                                      <th class="hidden-xs">Category</th>
+                                      <th class="hidden-xs">Views</th>
                                       <th>Actions</th>
                                     </tr>
                                   </thead>
@@ -50,13 +53,13 @@
 	                                        {{ post.title }}
 	                                        </a>
 	                                      </td>
-	                                      <td id="date_{{post.id}}">
+	                                      <td id="date_{{post.id}}" class="hidden-xs">
 	                                          {{post.published_at}}
 	                                      </td>
-	                                      <td>
+	                                      <td class="hidden-xs">
 	                                          {{post.category.name}}
 	                                      </td>
-	                                      <td>
+	                                      <td class="hidden-xs">
 	                                      <!-- <i class="fa fa-eye" aria-hidden="true"></i> -->
 	                                      	{{post.views}}
 	                                      </td>
@@ -139,7 +142,15 @@
     
 
     <!-- Menu Toggle Script -->
-    <script>
+<script>
+	if($(".alert").length>0){
+		if(($(".alert").html()).indexOf("success")>=0){
+			$(".alert").addClass('alert-success');
+		}
+		else{
+			$(".alert").addClass('alert-danger');
+		}
+	}
     $("#menu-toggle").click(function(e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
@@ -152,9 +163,7 @@
 
 });
 
-    
-    </script>
-
+</script>
 </body>
 
 </html>

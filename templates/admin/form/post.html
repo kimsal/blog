@@ -59,7 +59,7 @@
                                     {% with messages = get_flashed_messages() %}
                                       {% if messages %}
                                         {% for message in messages %}
-                                          <li class="alert alert-warning"> 
+                                          <li class="alert"> 
                                             {{ message }}
                                           </li>
                                         {% endfor %}
@@ -68,7 +68,7 @@
                                       <!-- input title-->
                                      {{ form.hidden_tag() }}
                                       <div class="form-group">
-                                        <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3"><br/>
                                           <!-- <input id="name" name="name" type="text" placeholder="Type your title here..." class="form-control"> -->
                                           {{ form.title.label }}
                                           </div>
@@ -82,7 +82,7 @@
                                           <!-- <input id="name" name="name" type="text" placeholder="Type your title here..." class="form-control"> -->
                                           {{ form.description.label }}
                                           </div>
-                                          <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11">
+                                          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                             {{ form.description(class_="form-control ckeditor",id="description") }}
                                           </div>
                                         
@@ -91,7 +91,7 @@
                                               //     filebrowserUploadUrl: '/static/images/content/',
                                               //     filebrowserImageUploadUrl: '/static/images/content/'
                                               // });
-                                              CKEDITOR.replace("desc", {
+                                              CKEDITOR.replace("description", {
                                                   filebrowserUploadUrl: '/admin/ckupload/',
                                                   filebrowserImageUploadUrl: '/ckupload/'
                                               });
@@ -99,7 +99,7 @@
                                       </div>
                                       <!--select box-->
                                       <div class="form-group">
-                                        <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1"><br/>
+                                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3"><br/>
                                           <!-- <input id="name" name="name" type="text" placeholder="Type your title here..." class="form-control"> -->
                                           {{ form.category_id.label }}
                                         </div>
@@ -150,6 +150,10 @@
                                       <!--end add feature image-->
                                       <!--feature image-->
                                       <div class="form-group">
+                                      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                          <br/>
+                                          Feature Image
+                                        </div>
                                         <div class="col-md-7 col-xs-12 co-md-8 col-lg-7">
                                           <span class="btn btn-default fileinput-button">
                                               <!-- <i class="glyphicon glyphicon-plus"></i>
@@ -206,10 +210,10 @@
     <!-- /#wrapper -->
 
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-    <script src="js/scroll.js"></script>
+    <script src="static/admin/js/jquery.js"></script>
+    <script src="static/admin/js/scroll.js"></script>
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="static/admin/js/bootstrap.min.js"></script>
 
     <!-- Menu Toggle Script -->
     <script>
@@ -230,8 +234,6 @@
    $('input#title').attr('value',"{{p.title}}"); 
    $('#frm').attr('action','/admin/post/edit/{{p.slug}}/');
    var help="{{p.description.replace('\n', '').replace('\r','')}}";
-   //help=help.replace(/(&lt;br\/&gt;)+/gi,'')
-   //alert(help);
    $('#description').html(help);  
    $('select#category_id option[value="{{p.category_id}}"]').attr("selected","selected");
    $(".feature_output").attr("src","/static/images/feature_images/{{p.feature_image}}");
@@ -288,10 +290,27 @@
 
     <!--end start crop plugin-->
 {% endfor %}
+<<<<<<< HEAD
 
 
 
 
+=======
+<script type="text/javascript">
+  if($("#output").attr("src")=="/static/images/feature_images/" ){
+    $("#output").css("display","none");
+  }
+  if($(".alert").length>0){
+    alert('d');
+    if(($(".alert").html()).indexOf("success")>=0){
+      $(".alert").addClass('alert-success');
+    }
+    else{
+      $(".alert").addClass('alert-danger');
+    }
+  }
+</script>
+>>>>>>> a446e5624c76bd3b7b48f254028871a4dbb00153
 </body>
 
 </html>

@@ -6,20 +6,26 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import Blueprint
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
+#from passlib.apps import custom_app_context as pwd_context
+from passlib.apps import * 
+from itsdangerous import (TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired)
+from flask_httpauth import HTTPTokenAuth
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql://postgres:postgres@localhost:5432/blog'
-
+app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql://toursanak:toursanak@localhost:5432/blog'
+auth = HTTPTokenAuth(scheme='Token')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=True
 app.secret_key = 'Hello@AmokCamSmallworld$Cambodia&*&'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
+#template is the url of selected template 
+template ="template-2016"
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 #upload url for feature images
 app.config['UPLOAD_FOLDER'] = 'static/images/feature_images/'
 
-
+SECRET_KEY="!Amok123#smallworld_common_toursanak_amok"
 def init_db():
     import BLOG.models
     Base.metadata.create_all(bind=engine)

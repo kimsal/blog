@@ -24,7 +24,7 @@
                             {% with messages = get_flashed_messages() %}
                               {% if messages %}
                                 {% for message in messages %}
-                                  <li class="alert alert-warning"> 
+                                  <li class="alert"> 
                                     {{ message }}
                                   </li>
                                 {% endfor %}
@@ -84,10 +84,19 @@
   });
   $(".off-canvas-submenu").hide();
   $(".off-canvas-submenu-call").click(function() {
-  var icon = $(this).parent().next(".off-canvas-submenu").is(':visible') ? '':'';
-  $(this).parent().next(".off-canvas-submenu").slideToggle('slow');
-  $(this).find("span").text(icon);
-});
+    var icon = $(this).parent().next(".off-canvas-submenu").is(':visible') ? '':'';
+    $(this).parent().next(".off-canvas-submenu").slideToggle('slow');
+    $(this).find("span").text(icon);
+  });
+  if($(".alert").length>0){
+    alert('d');
+    if(($(".alert").html()).indexOf("success")>=0){
+      $(".alert").addClass('alert-success');
+    }
+    else{
+      $(".alert").addClass('alert-danger');
+    }
+  }
 </script>
 </body>
 </html>

@@ -16,6 +16,11 @@ python models.py db init
 python models.py db migrate
 python models.py db upgrade
 
+#admin:
+sudo pip install passlib
+sudo pip install flask_httpauth
+
+
 ############################################
 
 
@@ -26,6 +31,8 @@ http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xviii-deploymen
 
 ckeditor:
 https://github.com/Still-not-satisfied-projects/flask-ckeditor/tree/master/examples/app
++LOGIN: http://codereview.stackexchange.com/questions/110679/simple-login-system-using-python-flask-and-mysql
++password encrypt: http://blog.miguelgrinberg.com/post/restful-authentication-with-flask
 
 
 NOTE (must delete after it works):
