@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<!-- saved from url=(0085)https://recalll.co/app/?q=python%20-%20List%20files%20in%20directories%20with%20flask -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="https://recalll.co/recalllPlugin.xml" rel="search" title="Recalll Plugin" type="application/opensearchdescription+xml">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="Recalll" property="og:title">
+    <meta content="https://www.recalll.co/" property="og:url">
+    <meta content="website" property="og:type">
+    <meta content="Recalll" property="og:site_name">
+    <meta property="og:image" content="https://recalll.co/img/recalll-logo.png">
+    <meta content="Recalll is crowed sourced knowledge vault, where community can create and curate to access qualitative content." property="og:description">
+    <meta name="msvalidate.01" content="61060B9EFE09ACE81BCB159A9C9F922F">
+    <meta name="google-site-verification" content="saSWsQZG3s1loAVaN7RLGywyKyjBE8ntyQt1hYKcAHY">
+    <!--[if lt IE 9]>
+    <script src="/js/lib/html5.js"></script>
+    <![endif]-->
+            <meta name="verify-property" content="65ded5353c5ee48d0b7d48c591b8f430">
+
+    <title>
+                    python - List files in directories with flask - Recalll
+                        </title>
+                    <link rel="icon" type="image/x-icon" href="https://recalll.co/favicon.ico">
+                <!--Latest boostrap 3.2-->
+        <link rel="stylesheet" href="./python - List files in directories with flask - Recalll_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./python - List files in directories with flask - Recalll_files/font-awesome.min.css">
+        <!---->
+        <link rel="stylesheet" href="./python - List files in directories with flask - Recalll_files/common.css">
+
+        <link rel="stylesheet" href="./python - List files in directories with flask - Recalll_files/search.css">
+
+
+        <!--[if IE]>
+        <link rel="stylesheet" href="/css/ie.css" />
+        <![endif]-->
+
+    
+    <link rel="stylesheet" href="./python - List files in directories with flask - Recalll_files/style.css">
+
+    <link rel="stylesheet" href="./python - List files in directories with flask - Recalll_files/idea.css">
+    <link rel="stylesheet" href="./python - List files in directories with flask - Recalll_files/index.style.css">
+        <link rel="stylesheet" href="./python - List files in directories with flask - Recalll_files/recalll.style.css">
+    <link rel="stylesheet" href="./python - List files in directories with flask - Recalll_files/style.css">
+
+                                
+    <meta name="X-UA-Compatible" content="IE=edge"><style type="text/css">#rhfrm_101198_167001_2 { display: none; }</style><style type="text/css"> pre + [data-readmore-toggle], pre[data-readmore]{display: block; width: 100%;}pre[data-readmore]{transition: height 75ms;overflow: hidden;}</style><meta name="X-UA-Compatible" content="IE=edge"><meta name="X-UA-Compatible" content="IE=edge"><style type="text/css">#rhfrm_footer_101198_167001_4 { display: none; }</style><link rel="stylesheet" type="text/css" href="./python - List files in directories with flask - Recalll_files/footer_03.css" id="rhw_footer_css"></head>
+    <body style="background: rgb(249, 249, 251);">
+                                                
+            
+    
+    
+            <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+                                <style>
+    .beta {
+        font-size: 11px;
+        color: #fff;
+        position: relative;
+        top: -38px;
+        left: 38px;
+        font-weight: normal;
+    }
+</style>
+        
+<a class="navbar-brand" href="https://recalll.co/">
+    <img alt="Recalll" src="./python - List files in directories with flask - Recalll_files/recalll-logo-white.png" class="img-responsive" style="width: 80px">
+    <span class="beta">beta</span>
+</a>                <div class="" id="main-menu">
+                                            <ul class="nav" id="main-menu-left" style="/* left: 14%; */width: 48%;">
+                            <div id="nav-search-box" style="height: 40px;margin-top: 10px;">
+                                <form id="searchform" action="https://recalll.co/app/get/" onsubmit="parent.scrollTo(0, 0); return true" method="GET">
+                                    <a href="https://recalll.co/app/?q=python%20-%20List%20files%20in%20directories%20with%20flask#" class="clear-input" style="display: none;"></a>
+                                    <input id="search" class="" type="text" style="margin-bottom: 0px" name="q" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" value="python - List files in directories with flask" placeholder="Type a query to search.">
+                                    <input type="image" src="./python - List files in directories with flask - Recalll_files/search-blue.png">
+                                </form>
+                            </div>
+                                                                                                            </ul>
+                                        <ul class="nav pull-right" id="main-menu-right">
+                                                    <li class="divider-vertical"></li>
+                            <li><a href="https://recalll.co/">Home</a></li>
+                            <li class="divider-vertical"></li>
+                            <li><a href="https://recalll.co/user/login">Login</a></li>
+                            <li class="divider-vertical"></li>
+
+                                                                                                                                                                                        </ul>
+                </div>
+                    </div>
+    </div>
+</div>
+<span><div id="notify" class="hide" style="display: none">Loading...</div></span>        <div class="bar-stand" style="height: 65px"></div>
+    
+
+    
+
+
+
+        
+
+        <div id="main-container" class="container" style="padding: 0px; min-height: 616px;">
+        <div id="search-container" class="row">
+                                        <div class="col-sm-8 span8" style="padding: 0px;">
+    <div id="main-results" name="" class=" clearfix masonry" style=" position: relative;">
+        <div id="" class="type-post QAblocks col-sm-12 format-standard category-design masonry-box masonry-brick" style="">
+    <div class="post-entry clearfix" style="">
+        <div style="padding: 15px 10px;">
+            <a id="" href="" class="blog-link">
+                <h2 class="single-title" style="font-size: 15px;margin-bottom: 0px;color: #808080;">
+                                            About <b>30</b> results
+                                                        </h2>
+            </a>
+                    </div>
+                                <div class="basic-result" style=" border-top: 1px solid #eee;">
+            <ul id="search-list" class="list-group" style="margin-bottom: 0px">
+
+                                                                        <script async="" src="./python - List files in directories with flask - Recalll_files/analytics.js"></script><script type="text/javascript" async="" src="./python - List files in directories with flask - Recalll_files/mixpanel-2-latest.min.js"></script><script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/banners"></script><script id="rh_tag_POPUNDER_101198_167001_9" type="text/javascript" src="./python - List files in directories with flask - Recalll_files/rhpop_1.1.45.js"></script><script id="rh_tag_POPUNDER_101198_167001_9" type="text/javascript" src="./python - List files in directories with flask - Recalll_files/rhpop_1.1.45.js"></script><script id="rh_tag_POPUNDER_101198_167001_9" type="text/javascript" src="./python - List files in directories with flask - Recalll_files/rhpop_1.1.45.js"></script><script id="rh_tag_POPUNDER_101198_167001_9" type="text/javascript" src="./python - List files in directories with flask - Recalll_files/rhpop_1.1.45.js"></script><script id="rh_tag_POPUNDER_101198_167001_9" type="text/javascript" src="./python - List files in directories with flask - Recalll_files/rhpop_1.1.45.js"></script><script id="rh_tag_POPUNDER_101198_167001_9" type="text/javascript" src="./python - List files in directories with flask - Recalll_files/rhpop_1.1.45.js"></script><script id="rh_tag_POPUNDER_101198_167001_9" type="text/javascript" src="./python - List files in directories with flask - Recalll_files/rhpop_1.1.45.js"></script><script id="rh_tag_POPUNDER_101198_167001_9" type="text/javascript" src="./python - List files in directories with flask - Recalll_files/rhpop_1.1.45.js"></script><script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/banners(1)"></script><script id="rh_tag_BOUNCE_101198_167001_2" type="text/javascript" src="./python - List files in directories with flask - Recalll_files/bounce-tag_1.0.23.js"></script><script id="rh_tag_POPUNDER_101198_167001_9" type="text/javascript" src="./python - List files in directories with flask - Recalll_files/rhpop_1.1.45.js"></script><script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/apu.php"></script>
+                                                                                                                                                <li id="554dbf3404ce0242428b48c1" class="list-group-item clearfix inbox-item">
+                    <div>
+                                <a id="554dbf3404ce0242428b48c1" href="https://recalll.co/app/redirect/url/?id=554dbf3404ce0242428b48c1&amp;src=2" class="blog-link" target="_blank">
+                                                                                <h2 class="single-title" style="color: #000"></h2>
+                </a>
+                                                                                                                                                                                                                                            <pre class="html hljs xml" style="max-height: none;">                                                                                                            <span class="hljs-tag">&lt;<span class="hljs-title">ul</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"/static/{{ loop(item.children) }}"</span>&gt;</span>{{ loop(item.children) }}<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
+                                                                                                                                                                                                                                                                                                                                </pre>
+                                                                                                                                                                                                                                                <p class="text-default">
+                                                                        I just added the static path that you need directly after href=", before {{.
+                                </p>
+                                                                                                                                                                                                                                                <p class="text-default">
+                                                                        Another way you can do this is to add the add the needed part of the path in your make_tree function already.
+                                </p>
+                                                                                                                                                                                                                                                <pre class="html hljs xml" style="max-height: none; height: 200px;" data-readmore="" aria-expanded="false" id="rmjs-1">                                                                                                            def make_tree(path):
+    tree = dict(name=path, children=[])
+    try: lst = os.listdir(path)
+    except OSError:
+        pass #ignore errors
+    else:
+        for name in lst:
+            fn = os.path.join(path, name)
+            if os.path.isdir(fn):
+                tree['children'].append(make_tree(fn))
+            else:
+                tree['children'].append(dict(name=fn))
+    return tree
+                                                                                                                                                                                                                                                                                                                                </pre><a href="https://recalll.co/app/?q=python%20-%20List%20files%20in%20directories%20with%20flask#" data-readmore-toggle="" aria-controls="rmjs-1">more</a>
+                                                                                                                                                                                                                                                <p class="text-default">
+                                                                        Then it returns full path names and not just file names.
+                                </p>
+                                                                                                                                                                                                                                                <p class="text-default">
+                                                                        I can add /static, indeed. But I cant add repertory/subrepertory, because it dynamic (their are few of them, not always the same).
+                                </p>
+                                                                                                                                                                                                                                                <p class="text-default">
+                                                                        So add the "/static" in the template, and the repertory/whatever in in your make_tree function!
+                                </p>
+                                                                                                                                                                                            <script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/banners"></script><script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/apu.php"></script>
+                                                    <a id="" href="https://recalll.co/app/redirect/url/?id=554dbf3404ce0242428b48c1&amp;src=2" class="blog-link" target="_blank">
+                                                                        <h2 class="single-title" style="margin-top: 15px;">python - List files in directories with flask - Stack Overflow</h2>
+                    </a>
+                                <a class="view-more" href="https://recalll.co/app/redirect/url/?id=554dbf3404ce0242428b48c1&amp;src=2">View More at </a>
+                <a class="" style="font-size: 14px;" href="https://recalll.co/app/redirect/url/?id=554dbf3404ce0242428b48c1&amp;src=2" target="_blank">
+                                                                                                        http://stackoverflow.com/questions/17828538/list-files-in-directo...                </a>
+
+            </div>
+                </li>
+                <li id="5592551f7d3563da768b9576" class="list-group-item clearfix inbox-item">
+                    <div>
+                                <a id="5592551f7d3563da768b9576" href="https://recalll.co/app/redirect/url/?id=5592551f7d3563da768b9576&amp;src=2" class="blog-link" target="_blank">
+                                                                                <h2 class="single-title" style="color: #000"></h2>
+                </a>
+                                                                                                                                                                                                                                            <p class="text-default">
+                                                                        The Flask app has a property static_folder that returns the absolute path to the static folder.  You can use this to know what directory to list without tying it to your computer's specific folder structure.  To generate a url for the image to be used in an HTML &lt;img/&gt; tag, use `url_for('static', filename='static_relative_path_to/file')'.
+                                </p>
+                                                                                                                                                                                                                                                <pre class="html hljs xml" style="max-height: none;">                                                                                                            import os
+from random import choice
+from flask import url_for, render_template
+
+
+@app.route('/random_image')
+def random_image():
+    names = os.listdir(os.path.join(app.static_folder, 'imgs'))
+    img_url = url_for('static', filename=os.path.join('imgs', choice(names)))
+
+    return render_template('random_image.html', img_url=img_url)
+                                                                                                                                                                                                                                                                                                                                </pre>
+                                                                                                                                                                                                                                                <p class="text-default">
+                                                                        Thank you! I just had to define app.static_path = "static/" in the top of my file. Great help.
+                                </p>
+                                                                                                                                                                                                                                                <p class="text-default">
+                                                                        @user3724369 that was a typo on my part, the property is app.static_folder, and is already defined for you, you don't need to define it.
+                                </p>
+                                                                                                                                                                                            <script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/banners"></script><script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/apu.php"></script>
+                                                    <a id="" href="https://recalll.co/app/redirect/url/?id=5592551f7d3563da768b9576&amp;src=2" class="blog-link" target="_blank">
+                                                                        <h2 class="single-title" style="margin-top: 15px;">python - How to list all image files in Flask static subdirectory? - S...</h2>
+                    </a>
+                                <a class="view-more" href="https://recalll.co/app/redirect/url/?id=5592551f7d3563da768b9576&amp;src=2">View More at </a>
+                <a class="" style="font-size: 14px;" href="https://recalll.co/app/redirect/url/?id=5592551f7d3563da768b9576&amp;src=2" target="_blank">
+                                                                                                        http://stackoverflow.com/questions/26052561/how-to-list-all-image...                </a>
+
+            </div>
+                </li>
+                <li id="5575e7452bd273a7608b4d2b" class="list-group-item clearfix inbox-item">
+                    <div>
+                                <a id="5575e7452bd273a7608b4d2b" href="https://recalll.co/app/redirect/url/?id=5575e7452bd273a7608b4d2b&amp;src=2" class="blog-link" target="_blank">
+                                                                                <h2 class="single-title" style="color: #000"></h2>
+                </a>
+                                                                                                                                                                                                                                            <p class="text-default">
+                                                                        Use this to get all the files in your directory:
+                                </p>
+                                                                                                                                                                                                                                                                                                                                                    <p class="text-default">
+                                                                        Once you get that list of json files, you can use it to populate the choices in a WTForms SelectField
+                                </p>
+                                                                                                                                                                                                                                                <pre class="html hljs xml" style="max-height: none;">                                                                                                            from flask.ext.wtf import Form
+from wtforms import SelectField
+
+filenames = ['1.json', '2.json'] # This will be generated by you
+class MyForm
+    json_file = SelectField(u"Filename", [Optional()], choices=[(f, f) for f in filenames])
+                                                                                                                                                                                                                                                                                                                                </pre>
+                                                                                                                                                                                                                                                <p class="text-default">
+                                                                        I upvoted you, but what is the '[Optional()]' parameter?
+                                </p>
+                                                                                                                                                                                            <script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/banners"></script><script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/apu.php"></script>
+                                                    <a id="" href="https://recalll.co/app/redirect/url/?id=5575e7452bd273a7608b4d2b&amp;src=2" class="blog-link" target="_blank">
+                                                                        <h2 class="single-title" style="margin-top: 15px;">python - flask wtforms populating drop down list - Stack Overflow</h2>
+                    </a>
+                                <a class="view-more" href="https://recalll.co/app/redirect/url/?id=5575e7452bd273a7608b4d2b&amp;src=2">View More at </a>
+                <a class="" style="font-size: 14px;" href="https://recalll.co/app/redirect/url/?id=5575e7452bd273a7608b4d2b&amp;src=2" target="_blank">
+                                                                                                        http://stackoverflow.com/questions/29169699/flask-wtforms-populat...                </a>
+
+            </div>
+                </li>
+                <li id="559254907d3563da768b8ffc" class="list-group-item clearfix inbox-item">
+                    <div>
+                                <a id="559254907d3563da768b8ffc" href="https://recalll.co/app/redirect/url/?id=559254907d3563da768b8ffc&amp;src=2" class="blog-link" target="_blank">
+                                                                                <h2 class="single-title" style="color: #000"></h2>
+                </a>
+                                                                                                                                                                                                                                            <p class="text-default">
+                                                                        You do need to use url_for() here; it'll generate the various /programme/&lt;prog_id&gt; urls for you. Presumably you have a series of prog_id.json files in your bandsdaily directory that you want to link to here.
+                                </p>
+                                                                                                                                                                                                                                                <p class="text-default">
+                                                                        You'll need to get a list of all possible prog_id values and use url_for() with each:
+                                </p>
+                                                                                                                                                                                                                                                <pre class="html hljs xml" style="max-height: none;">                                                                                                            {% for prog_id in prog_ids %}
+    {{ url_for('programme', prog_id=prog_id) }}
+{% endfor %}
+                                                                                                                                                                                                                                                                                                                                </pre>
+                                                                                                                                                                                                                                                <p class="text-default">
+                                                                        and pass in your a prog_ids as a list to the template:
+                                </p>
+                                                                                                                                                                                                                                                <pre class="html hljs xml" style="max-height: none; height: 200px;" data-readmore="" aria-expanded="false" id="rmjs-2">                                                                                                            from flask import abort, render_template
+import os.path
+
+
+@cache.cached(timeout=86400)
+@app.route('/programme/<span class="hljs-tag">&lt;<span class="hljs-title">prog_id</span>&gt;</span>')
+def programme(prog_id):
+    path = os.path.join(my_location, "static/data/bandsdaily/")
+    prog_ids = [os.path.splitext(filename)[0] for filename in os.listdir(path)]
+    if prog_id not in prog_ids:
+        # no such file, return a not-found status
+        abort(404)
+
+    daily_bands = os.path.join(my_location, prog_id  + ".json")
+    with open(daily_bands) as f:
+        event_details = [json.loads(l) for l in f]
+
+    return render_template('index.html', data=event_details, prog_ids=prog_ids)
+                                                                                                                                                                                                                                                                                                                                </pre><a href="https://recalll.co/app/?q=python%20-%20List%20files%20in%20directories%20with%20flask#" data-readmore-toggle="" aria-controls="rmjs-2">more</a>
+                                                                                                                                                                                                                                                <p class="text-default">
+                                                                        This version of your view also returns a 404 Not Found status if a prog_id file doesn't exist.
+                                </p>
+                                                                                                                                                                                                                                                <pre class="html hljs xml" style="max-height: none;">                                                                                                            prog_ids = [os.path.splitext(filename)[0] for filename in os.listdir(path) if os.path.isfile(os.path.join(path, filename))]
+                                                                                                                                                                                                                                                                                                                                </pre>
+                                                                                                                                                                                                                                                <pre class="html hljs xml" style="max-height: none;">                                                                                                            prog_ids.sort(key=lambda x: datetime.strptime(x, '%d%m%Y'))
+                                                                                                                                                                                                                                                                                                                                </pre>
+                                                                                                                                                                                            <script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/banners"></script><script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/apu.php"></script>
+                                                    <a id="" href="https://recalll.co/app/redirect/url/?id=559254907d3563da768b8ffc&amp;src=2" class="blog-link" target="_blank">
+                                                                        <h2 class="single-title" style="margin-top: 15px;">python - Get list of routes of a Flask function - Stack Overflow</h2>
+                    </a>
+                                <a class="view-more" href="https://recalll.co/app/redirect/url/?id=559254907d3563da768b8ffc&amp;src=2">View More at </a>
+                <a class="" style="font-size: 14px;" href="https://recalll.co/app/redirect/url/?id=559254907d3563da768b8ffc&amp;src=2" target="_blank">
+                                                                                                        http://stackoverflow.com/questions/21973625/get-list-of-routes-of...                </a>
+
+            </div>
+                </li>
+                <li id="5565eb8d2bd27302158b5251" class="list-group-item clearfix inbox-item">
+                    <div>
+                                <a id="5565eb8d2bd27302158b5251" href="https://recalll.co/app/redirect/url/?id=5565eb8d2bd27302158b5251&amp;src=2" class="blog-link" target="_blank">
+                                                                                <h2 class="single-title" style="color: #000"></h2>
+                </a>
+                                                                                                                                                                                                                                            <p class="text-default">
+                                                                        /static/ is being routed through Flask. If you put a file in that directory and request it: /wiki/static/file.jpg it should work. Flask does not supply an index for the root of the static folder like Apache does.
+                                </p>
+                                                                                                                                                                                            <script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/banners"></script><script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/apu.php"></script>
+                                                    <a id="" href="https://recalll.co/app/redirect/url/?id=5565eb8d2bd27302158b5251&amp;src=2" class="blog-link" target="_blank">
+                                                                        <h2 class="single-title" style="margin-top: 15px;">python - Directory Listing issue with Apache/Flask - Stack Overflow</h2>
+                    </a>
+                                <a class="view-more" href="https://recalll.co/app/redirect/url/?id=5565eb8d2bd27302158b5251&amp;src=2">View More at </a>
+                <a class="" style="font-size: 14px;" href="https://recalll.co/app/redirect/url/?id=5565eb8d2bd27302158b5251&amp;src=2" target="_blank">
+                                                                                                        http://stackoverflow.com/questions/27284196/directory-listing-iss...                </a>
+
+            </div>
+                </li>
+                <li id="5540950c04ce02413b8b65ac" class="list-group-item clearfix inbox-item">
+                    <div>
+                                <a id="5540950c04ce02413b8b65ac" href="https://recalll.co/app/redirect/url/?id=5540950c04ce02413b8b65ac&amp;src=2" class="blog-link" target="_blank">
+                                                                                <h2 class="single-title" style="color: #000">  convert pdf to bmp [Python]
+  </h2>
+                </a>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <pre class="html hljs xml" style="max-height: none; height: 200px;" data-readmore="" aria-expanded="false" id="rmjs-3">                                                                                                            #!/usr/bin/env python
+#-*- coding: utf-8 -*-
+
+from __future__ import unicode_literals, absolute_import, division, print_function
+import ufp.pdf
+
+with open('test.pdf', 'r') as f:
+	pdf = f.read()
+
+# ufp.pdf.toBmps function convert pdf to bmp files.
+# this function is generator. raise every page to bmp file.
+# ufp.pdf.toBmps not use temp file.
+# this example use runnable server too slower load bmp file. so, i set slower dpi. 
+# if you use this function. you set more higer dpi 10. I think almost proper dpi is 200.
+buffer = ufp.pdf.toBmps(pdf, dpi=10)
+for page, bmp in enumerate(buffer, start=1):
+	savename = '%05d.bmp' % page
+	print("at '{0}' in {1} page convert to '{2}'".format('test.pdf', page, savename))
+	with open(savename, 'w') as f:
+		f.write(bmp)
+
+# show result in webpage.
+print()
+print('show result...')
+from flask import Flask, make_response
+import os
+import os.path
+import glob
+app = Flask(__name__, static_url_path = "", static_folder = ".")
+app.secret_key = os.urandom(24)
+@app.route("/<span class="hljs-tag">&lt;<span class="hljs-title">path:filename</span>&gt;</span>")
+def getFile(filename):
+    headers = {"Content-Disposition": "attachment; filename=%s" % filename}
+    with open(filename, 'r') as f:
+        body = f.read()
+    return make_response((body, headers))
+@app.route('/')
+def index():
+	html = list()
+	html.append('<span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>')
+	html.append('<span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"/test.pdf"</span>&gt;</span>test.pdf<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">br</span>/&gt;</span>')
+	for filePath in glob.glob('./*.bmp'):
+		basename = os.path.basename(filePath)
+		html.append("<span class="hljs-tag">&lt;<span class="hljs-title">img</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">'/{0}'</span>/&gt;</span>".format(basename))
+		html.append('<span class="hljs-tag">&lt;<span class="hljs-title">br</span>/&gt;</span>')
+		html.append('<span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>{0}<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>'.format(basename))
+		html.append('<span class="hljs-tag">&lt;<span class="hljs-title">br</span>/&gt;</span>')
+	html.append('<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>')
+	return ''.join(html)
+app.run(host="0.0.0.0", port=80)
+                                                                                                                                                                                                                                                                                                                                </pre><a href="https://recalll.co/app/?q=python%20-%20List%20files%20in%20directories%20with%20flask#" data-readmore-toggle="" aria-controls="rmjs-3">more</a>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/banners"></script><script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/apu.php"></script>
+                                                <a class="view-more" href="https://recalll.co/app/redirect/url/?id=5540950c04ce02413b8b65ac&amp;src=2">View More at </a>
+                <a class="" style="font-size: 14px;" href="https://recalll.co/app/redirect/url/?id=5540950c04ce02413b8b65ac&amp;src=2" target="_blank">
+                                                                                                        http://runnable.com/VQ-PD6EuyEYfeJNo/convert-pdf-to-bmp                </a>
+
+            </div>
+                </li>
+                <li id="559990ae7d356321318b6322" class="list-group-item clearfix inbox-item">
+                    <div>
+                                <a id="559990ae7d356321318b6322" href="https://recalll.co/app/redirect/url/?id=559990ae7d356321318b6322&amp;src=2" class="blog-link" target="_blank">
+                                                                                <h2 class="single-title" style="color: #000"></h2>
+                </a>
+                                                                                                                                                                                                                                            <p class="text-default">
+                                                                        Normally, all data sent over HTTP is just bytes, or strings of characters.
+                                </p>
+                                                                                                                                                                                                                                                <p class="text-default">
+                                                                        You'll need to use a format that can handle lists. JSON is such a format, and flask supports that directly, provided you actually POST JSON data from your AJAX call:
+                                </p>
+                                                                                                                                                                                                                                                <pre class="html hljs xml" style="max-height: none;">                                                                                                            key = request.json['key']
+filters = requests.json.get('filters', [])
+                                                                                                                                                                                                                                                                                                                                </pre>
+                                                                                                                                                                                                                                                <p class="text-default">
+                                                                        which assumes you posted the JavaScript structure:
+                                </p>
+                                                                                                                                                                                                                                                <pre class="html hljs xml" style="max-height: none;">                                                                                                            {'key': 'somekey', 'filters': [['14', '15'], ['10']]}
+                                                                                                                                                                                                                                                                                                                                </pre>
+                                                                                                                                                                                                                                                <p class="text-default">
+                                                                        Perfect, that got me going in the right direct. I did need to make sure I added contentType: "application/json; charset=utf-8" to my Ajax POST, and then just do a list(filters) in my code, and it worked like a charm. Thanks for your help!
+                                </p>
+                                                                                                                                                                                                                                                <p class="text-default">
+                                                                        You don't need to specify UTF-8 encoding for JSON in Content-Type header, it's the default.
+                                </p>
+                                                                                                                                                                                            <script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/banners"></script><script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/apu.php"></script>
+                                                    <a id="" href="https://recalll.co/app/redirect/url/?id=559990ae7d356321318b6322&amp;src=2" class="blog-link" target="_blank">
+                                                                        <h2 class="single-title" style="margin-top: 15px;">Cast POST value to list using Ajax and Flask with Python 2.7 - Stack O...</h2>
+                    </a>
+                                <a class="view-more" href="https://recalll.co/app/redirect/url/?id=559990ae7d356321318b6322&amp;src=2">View More at </a>
+                <a class="" style="font-size: 14px;" href="https://recalll.co/app/redirect/url/?id=559990ae7d356321318b6322&amp;src=2" target="_blank">
+                                                                                                        http://stackoverflow.com/questions/14343765/cast-post-value-to-li...                </a>
+
+            </div>
+                </li>
+                <li id="55700a482bd2734c388b7194" class="list-group-item clearfix inbox-item">
+                    <div>
+                                <a id="55700a482bd2734c388b7194" href="https://recalll.co/app/redirect/url/?id=55700a482bd2734c388b7194&amp;src=2" class="blog-link" target="_blank">
+                                                                                <h2 class="single-title" style="color: #000"></h2>
+                </a>
+                                                                                                                                                                                                                                            <p class="text-default">
+                                                                        I'm not sure why you'd want to do this. If you're using checkboxes, I assume you'll want to return the value of each one. If so, then each one should be a distinct property of the WTForm instance you're using.
+                                </p>
+                                                                                                                                                                                                                                                <p class="text-default">
+                                                                        If you're only wanting to return the values checked, WTForms offers the wtforms.fields.SelectMultipleField. That would print a dropbox wherein the user could select 0, 1 or more options.
+                                </p>
+                                                                                                                                                                                                                                                <p class="text-default">
+                                                                        If you must have checkboxes, and you must use a list in the form definition, then it seems your only option is to create a custom field. You can find documentation on how to do that here.
+                                </p>
+                                                                                                                                                                                                                                                <p class="text-default">
+                                                                        In fact - this use case is the example in the Custom Widget portion of the WTForms documentation.
+                                </p>
+                                                                                                                                                                                            <script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/banners"></script><script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/apu.php"></script>
+                                                    <a id="" href="https://recalll.co/app/redirect/url/?id=55700a482bd2734c388b7194&amp;src=2" class="blog-link" target="_blank">
+                                                                        <h2 class="single-title" style="margin-top: 15px;">Using a python list in a Check Box Selection Form in Flask WTF - Stack...</h2>
+                    </a>
+                                <a class="view-more" href="https://recalll.co/app/redirect/url/?id=55700a482bd2734c388b7194&amp;src=2">View More at </a>
+                <a class="" style="font-size: 14px;" href="https://recalll.co/app/redirect/url/?id=55700a482bd2734c388b7194&amp;src=2" target="_blank">
+                                                                                                        http://stackoverflow.com/questions/14586178/using-a-python-list-i...                </a>
+
+            </div>
+                </li>
+    <input type="hidden" class="page" value="1">
+                                            </ul>
+                        <div class="bottom-container">
+                                    <div class="">
+        <button id="view-more" class="view-more btn btn-sm btn-default" style="width: 100%">View More</button>
+    </div>
+</div>
+        </div>
+            </div>
+</div>
+                    </div><!-- /search-container -->
+</div>
+<div class="col-sm-4 span4" style="/*width: 39.66666667%;*/">
+    <div id="side-container" class="sidebar clearfix" style="position: relative;">
+                                <script async="async" type="text/javascript" src="./python - List files in directories with flask - Recalll_files/notice.php"></script>
+        <div class="row" style="text-align: center;padding: 30px;/* margin-left: 10px; */background: #4285F4;color: #fff;background-image: url(&#39;/img/space-img.jpg&#39;)">
+            <h2 style="font-weight: 300;font-size: 30px;color: #fff;padding: 0 30px;line-height: 40px;">Recalll
+                - Medium for programmers.</h2>
+
+            <p class="hidden" style="font-size: 19px;color: #fff;padding: 0 30px;line-height: 30px;">
+                Recalll is crowed sourced knowledge vault, where community can create, curate and access
+                qualitative knowledge, In form of small and precise topics.
+            </p>
+            <a class="btn btn-primary btn-success" onclick="mixpanel.track(&#39;Search_To_Vault_Clicked&#39;);" href="https://recalll.co/vault" style="color: #fff;border-radius: 30px;margin-top: 10px;">Check
+                this Out</a>
+        </div>
+
+                    
+        <div class="collection-header">
+        <span id="name" class="name source-color">Similar queries</span>
+    </div>
+    <ul id="list" class="list-group item-list" style="margin-bottom: 0px">
+                                            <li id="5579dd012bd2735e6f8b486e" class="list-group-item clearfix list-item" style="border-top-left-radius: 0px;border-top-right-radius: 0px;">
+                    <div class="item-left">
+                        <a target="_blank" href="" class="bookmarked">
+                            <i class="icon-bookmark"></i>
+                        </a>
+                    </div>
+                                                            <div class="title"><a href="https://recalll.co/app/?q=%20%20%20%20%20%20%20%20%20%20C%20program%20to%20list%20files%20in%20directory%20%20%20%20%20%20%20%20" class="link-color">          C program to list files in directory        </a></div>
+                                    </li>
+                                                        <li id="557e8ac92bd273c7508b671f" class="list-group-item clearfix list-item" style="border-top-left-radius: 0px;border-top-right-radius: 0px;">
+                    <div class="item-left">
+                        <a target="_blank" href="" class="bookmarked">
+                            <i class="icon-bookmark"></i>
+                        </a>
+                    </div>
+                                                            <div class="title"><a href="https://recalll.co/app/?q=Batch%20remove%20whitespace%20in%20all%20the%20files%20in%20directory%20and%20replace%20with%20a%20dash%20%22-%22" class="link-color">Batch remove whitespace in all the files in directory and replace with a dash "-"</a></div>
+                                    </li>
+                                                        <li id="557e96ea2bd273c3548b4c2b" class="list-group-item clearfix list-item" style="border-top-left-radius: 0px;border-top-right-radius: 0px;">
+                    <div class="item-left">
+                        <a target="_blank" href="" class="bookmarked">
+                            <i class="icon-bookmark"></i>
+                        </a>
+                    </div>
+                                                            <div class="title"><a href="https://recalll.co/app/?q=Rename%20filtered%20files%20in%20directory%20with%20Qt" class="link-color">Rename filtered files in directory with Qt</a></div>
+                                    </li>
+                                                        <li id="557e98762bd273c3548b5196" class="list-group-item clearfix list-item" style="border-top-left-radius: 0px;border-top-right-radius: 0px;">
+                    <div class="item-left">
+                        <a target="_blank" href="" class="bookmarked">
+                            <i class="icon-bookmark"></i>
+                        </a>
+                    </div>
+                                                            <div class="title"><a href="https://recalll.co/app/?q=list%20all%20files%20in%20directory" class="link-color">list all files in directory</a></div>
+                                    </li>
+                                                        <li id="557e8ac72bd273c7508b670d" class="list-group-item clearfix list-item" style="border-top-left-radius: 0px;border-top-right-radius: 0px;">
+                    <div class="item-left">
+                        <a target="_blank" href="" class="bookmarked">
+                            <i class="icon-bookmark"></i>
+                        </a>
+                    </div>
+                                                            <div class="title"><a href="https://recalll.co/app/?q=UNIX%3A%20remove%20files%20and%20directories%20recursively" class="link-color">UNIX: remove files and directories recursively</a></div>
+                                    </li>
+                        </ul>
+                        <div class="wow fadeInLeft  animated" style="visibility: visible;">
+        <div class="single-service single-service-large border-bottom-hover">
+            <div class="service-icon colored-text">
+                <span class="fa fa-bookmark-o"></span>
+            </div>
+            <h3 class="colored-text">Create Collections</h3>
+            <p>
+                Add search results to the collections by just clicking on bookmark icon.
+            </p>
+        </div>
+    </div>
+<div class="wow fadeInLeft " style="visibility: hidden; -webkit-animation-name: none; -moz-animation-name: none; animation-name: none;">
+    <div class="single-service single-service-large border-bottom-hover">
+        <div class="service-icon colored-text">
+            <span class="fa fa-desktop"></span>
+        </div>
+        <h3 class="colored-text"><a href="https://recalll.co/app/services/">Connect to Services</a></h3>
+        <p>
+            Connect to personal services for more relevant search results across services.
+        </p>
+    </div>
+</div>                                
+<script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/banners(2)"></script><script id="rh_tag_BANNER_101198_167001_4" type="text/javascript" src="./python - List files in directories with flask - Recalll_files/bnr-tag_1.0.9.js"></script><script id="rh_tag_BANNER_WRAPPER_FOOTER_101198_167001_4_wrapper" type="text/javascript" src="./python - List files in directories with flask - Recalll_files/footer-tag_1.0.36.js"></script>            </div><!-- /side-container -->
+</div>                    </div>
+    </div><div id="_rhb_mask" style="display: none; z-index: 2147483646 !important; position: fixed !important; top: 0px !important; left: 0px !important; width: 100% !important; height: 100% !important; background-image: url(&quot;data:image/gif;base64,R0lGODlhgAAPAPEAAP///0hISAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQFCgAAACwAAAAAgAAPAAACo4wfoIC33NKKUtF3Z8RbN/55CEiNonMaJGp1bfiaMQvBtXzTpZuradUDZmY+opA3DK6KwaQTCbU9pVHc1LrDUrfarq765Ya9u+VRzLyO12lwG10yy39zY11Jz9t/6jf5/HfXB8hGWKaHt6eYyDgo6BaH6CgJ+QhnmWWoiVnI6ddJmbkZGkgKujhplNpYafr5OooqGst66Uq7OpjbKmvbW/p7UAAAIfkEBQoAAQAsAAAAAAcADwAAAgiEj6nL7Q+jLAAh+QQFCgABACwLAAAABwAPAAACCISPqcvtD6MsACH5BAUKAAEALBYAAAAHAA8AAAIIhI+py+0PoywAIfkEBQoAAQAsIQAAAAcADwAAAgiEj6nL7Q+jLAAh+QQFCgABACwsAAAABwAPAAACCISPqcvtD6MsACH5BAUKAAEALDcAAAAHAA8AAAIIhI+py+0PoywAIfkEBQoAAQAsQgAAAAcADwAAAgiEj6nL7Q+jLAAh+QQFCgABACxNAAAABwAPAAACCISPqcvtD6MsACH5BAUKAAEALFgAAAAHAA8AAAIIhI+py+0PoywAIfkEBQoAAQAsYwAAAAcADwAAAgiEj6nL7Q+jLAAh+QQFCgABACxuAAAABwAPAAACCISPqcvtD6MsACH5BAUKAAEALHkAAAAHAA8AAAIIhI+py+0PoywAOw==&quot;); background-attachment: initial; background-color: rgba(0, 0, 0, 0.6) !important; background-size: initial; background-origin: initial; background-clip: initial; background-position: 50% 50%; background-repeat: no-repeat;"><iframe id="_rhb_ifr" src="./python - List files in directories with flask - Recalll_files/saved_resource.html" frameborder="0" allowtransparency="true" scrolling="auto" style="border:0; padding:0; position:fixed; width:800px; height:440px; top:50%; left:50%; margin-top:-220px; margin-left:-400px; background:none transparent;border:0; padding:0; position:fixed; width:100%; height:100%; top:0; left:0; margin:0;"></iframe><div id="_rhb_close" style="height:24px;overflow:hidden;border-radius:0 0 0 3px;background-color:rgba(0, 0, 0, 0.6) !important; padding:0 0 1px 10px; z-index:2147483647 !important;position:fixed !important;top:0 !important;right:0 !important"><div id="_rhb_close_btn" style="float:right;cursor:pointer;display:block;width:24px;height:24px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABF0lEQVR4Ad2VvUoDURCFfcrEv3uXGI1NWi20ELTwcQQLIQQsxEKyJnmUBJI6nxwGFvYuFoNTyB6YZmfO/Wb2TjZHvRKx0RWcX4TEPwCkMQwS3N7DZArD3D3oOMP1FG7uYJggeQAyPD7DdgvLNVRXBrS8Ac9G8PEJmw08PMnjAKir/Z5G9dIg6vqkssPn7zTa7eRxADT6ak1LguRLOK1gNi9z8jgA6lQdyygdDki8zeDllZa+aoHlcW7RIBlk8c2vUi439+NfU+tqDItiEtAzy1nnQQCDOAABr6hYYf8lt1SvLGyScoX/uKZ6JaMJNlUBVq08IT+07nSqlSfwU2H3o5xqVCtP8MdOz5RTjWrlsVyf/w9Cozf6AaF0KS7xDW2fAAAAAElFTkSuQmCC)"></div><span style="float:right;color:#fff;font:11px/25px arial,helvetica,sans-serif;text-decoration:none;margin-right:5px;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;">Sponsored <a style="color:inherit;text-decoration:none" onmouseover="this.style.textDecoration=&#39;underline&#39;" onmouseout="this.style.textDecoration=&#39;none&#39;" target="adinfo" href="http://www.intango.com/adinfo/">Page</a></span></div></div> <!-- /container -->
+                <footer style="padding: 15px 0px;">
+            
+            <div class="container">
+                                <div>
+                    <a href="mailto:parvinder@recalll.co">contact</a>
+                    | <a href="https://recalll.co/about/privacy-policy">privacy policy</a>
+                    | <a href="https://recalll.co/about/terms">terms of use</a>
+                    © 2014-15 <a href="https://recalll.co/">recalll</a>
+                    <a style="float: right;" href="https://mixpanel.com/f/partner"><img src="./python - List files in directories with flask - Recalll_files/badge_blue.png" alt="Mobile Analytics"></a>
+                </div>
+            </div> <!-- /container -->
+        </footer>
+    
+    
+
+<!-- start Mixpanel --><script type="text/javascript">(function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+        for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
+    mixpanel.init("08c0bf88cb0e6402d966ffa584e9b108");</script><!-- end Mixpanel -->
+
+
+            <script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/jquery.min.js"></script>
+    <script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/bootstrap.min.js"></script>
+    
+
+    <script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/jquery.history.min.js"></script>
+    <script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/js.js"></script>
+    <script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/jquery.better-autocomplete.js"></script>
+    <script type="text/javascript" src="./python - List files in directories with flask - Recalll_files/collection.js"></script>
+    
+                                
+
+    <script src="./python - List files in directories with flask - Recalll_files/wow.min.js"></script>
+    <script src="./python - List files in directories with flask - Recalll_files/nivo-lightbox.min.js"></script>
+    <script src="./python - List files in directories with flask - Recalll_files/main.js"></script>
+
+    <script src="./python - List files in directories with flask - Recalll_files/highlight.pack.js"></script>
+    <script src="./python - List files in directories with flask - Recalll_files/readmore.min.js"></script>
+    <script src="./python - List files in directories with flask - Recalll_files/search-main.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            mixpanel.track('App_Search_Page_View');
+            $('#main-container').css("min-height", ($(window).height()-120) +"px" );
+            Search.init();
+            Category.Init();
+            Spam.Add();
+            Search.Search.viewMore();
+        });
+    </script>
+    <!--Modal-->
+    <!--Modal-->
+<div class="modal fade" id="modalPopup">
+    <div class="modal-dialog" style="">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 id="model-header">Modal header</h4>
+            </div>
+            <div id="modal-content">
+                <div class="modal-body">
+                    <p id="modal-body">Body...</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-success" data-dismiss="modal" aria-hidden="true">Close</button>
+                    <a href="https://recalll.co/app/?q=python%20-%20List%20files%20in%20directories%20with%20flask#" class="btn btn-danger btn-sm">Save</a>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- /.bind with js file -->
+<script src="./python - List files in directories with flask - Recalll_files/modal.popup.action.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        ModalAction.remotePopupAction();
+    });
+</script>
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-18242241-7', 'auto');
+    ga('require', 'displayfeatures');
+    ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+
+<div id="rhw_footer" style="display: inline-block;"><div id="rhw_closed"><a href="https://recalll.co/app/?q=python%20-%20List%20files%20in%20directories%20with%20flask#"></a></div><div id="rhw_opened" style="display: block; opacity: 1;"><a href="https://recalll.co/app/?q=python%20-%20List%20files%20in%20directories%20with%20flask#" id="rhw_minimize"></a><form id="rhw_search" action="http://www.google.com/search" method="get" target="search"><input name="cid" type="hidden" value="101198_167001_4" style="display: none;"><input name="q" type="text" placeholder="web search" style="display: none;"></form><div id="rhw_share" style="display: none;"><a class="rhw_twitter" href="https://twitter.com/home?status=python%20-%20List%20files%20in%20directories%20with%20flask%20-%20Recalll%20-%20https%3A%2F%2Frecalll.co%2Fapp%2F%3Fq%3Dpython%2520-%2520List%2520files%2520in%2520directories%2520with%2520flask"></a><a class="rhw_facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Frecalll.co%2Fapp%2F%3Fq%3Dpython%2520-%2520List%2520files%2520in%2520directories%2520with%2520flask"></a><a class="rhw_gplus" href="https://plus.google.com/share?url=https%3A%2F%2Frecalll.co%2Fapp%2F%3Fq%3Dpython%2520-%2520List%2520files%2520in%2520directories%2520with%2520flask"></a><div class="rhw_clear"></div></div><div id="rhw_dispunit" class="rhw_dispunit_common rhw_dispunit_728x90" style="bottom: 5px;"><div id="rh-bnr-wrp_101198_167001_4"><iframe name="rhfrm_footer_101198_167001_4" id="rhfrm_footer_101198_167001_4" frameborder="0" src="./python - List files in directories with flask - Recalll_files/20160701_016179037_image-banner.html" scrolling="no" htmlname="imgBanner20160624/20160701_016179037_image-banner.cib" cid="101198_167001_4" w="728" h="90" allowtransparency="allowtransparency" hid="bnr2.revdepo.com" style="width: 728px; height: 90px; border: none; display: inline-block;"></iframe></div></div></div><div class="rhw_clear"></div></div></body></html>
