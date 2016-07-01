@@ -1,0 +1,10 @@
+@media handheld {
+   	img#img,embed,object {width:100% !important;height: 100% !important}
+	#addiv { width:100% !important; height:100% !important; padding:0 !important; }
+	#addiv .adsTitle { margin: auto !important; background-color:transparent !important; }
+}
+@media only screen and (max-device-width: 480px) {
+   	img#img,embed,object {width:100% !important;height: 100% !important}
+	#addiv { width:100% !important; height:100% !important; padding:0 !important; }
+	#addiv .adsTitle { margin: auto !important; background-color:transparent !important; }
+}
