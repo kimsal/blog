@@ -68,7 +68,7 @@
                                       <!-- input title-->
                                      {{ form.hidden_tag() }}
                                       <div class="form-group">
-                                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3"><br/>
+                                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
                                           <!-- <input id="name" name="name" type="text" placeholder="Type your title here..." class="form-control"> -->
                                           {{ form.title.label }}
                                           </div>
@@ -138,8 +138,7 @@
                                                   <div class="panel-heading"><h3 class="panel-title">Result of cropping</h3></div>
                                                   <div class="panel-body">...</div>
                                               </div>
-                                              <div class="form-group">
-                                                  <label>Info of cropping</label>
+                                              <div class="form-group hide">
                                                   <textarea class="data form-control" rows="5">
                                                   </textarea>
                                               </div>
@@ -230,6 +229,7 @@
 });
 </script>
 {% for p in post %}
+
  <script type="text/javascript">
    $('input#title').attr('value',"{{p.title}}"); 
    $('#frm').attr('action','/admin/post/edit/{{p.slug}}/');
@@ -238,7 +238,11 @@
    $('select#category_id option[value="{{p.category_id}}"]').attr("selected","selected");
    $(".feature_output").attr("src","/static/images/feature_images/{{p.feature_image}}");
  </script>
- <!--start crop plugin-->
+ 
+
+    <!--end start crop plugin-->
+{% endfor %}
+<!--start crop plugin-->
           <script>
             $('#plugin').cropbox({
                 selectors: {
@@ -287,30 +291,20 @@
               })();
 
             </script>
-
-    <!--end start crop plugin-->
-{% endfor %}
-<<<<<<< HEAD
-
-
-
-
-=======
-<script type="text/javascript">
-  if($("#output").attr("src")=="/static/images/feature_images/" ){
-    $("#output").css("display","none");
-  }
-  if($(".alert").length>0){
-    alert('d');
-    if(($(".alert").html()).indexOf("success")>=0){
-      $(".alert").addClass('alert-success');
-    }
-    else{
-      $(".alert").addClass('alert-danger');
-    }
-  }
-</script>
->>>>>>> a446e5624c76bd3b7b48f254028871a4dbb00153
+          <script type="text/javascript">
+            if($("#output").attr("src")=="/static/images/feature_images/" ){
+              $("#output").css("display","none");
+            }
+            if($(".alert").length>0){
+              alert('d');
+              if(($(".alert").html()).indexOf("success")>=0){
+                $(".alert").addClass('alert-success');
+              }
+              else{
+                $(".alert").addClass('alert-danger');
+              }
+            }
+          </script>
 </body>
 
 </html>

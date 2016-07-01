@@ -1,0 +1,19 @@
+		Postgres command:
+==> Log in to postgres
+	sudo -i -u postgres
+	psql
+==>create user with password:
+	create user phos with password 'phos';
+=>change database owner:
+	alter database blog OWNER to phos;
+=> switch user and database:
+	psql -U user_name -d database_name -h localhost -W
+
+=> list table:
+	\dt
+=> change database:
+	\c database_name
+=>  to see info of current loged in:
+	\conninfo
+==>modify user to be super user:
+	ALTER USER myuser WITH SUPERUSER;
