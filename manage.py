@@ -146,55 +146,60 @@ def admin_post_add(slug=""):
 	#form = RecipeForm(request.form)
 	form.category_id.choices = categories
 	if request.method == 'POST':
-		if form.validate() == False:
-	   		flash('All fields are required.')
-	   		return redirect(url_for('admin_post_add'))
-	   	else:
-	   		now = str(datetime.now())
-			now= now.replace(':',"",10).replace(' ','',4).replace('.','',5).replace('-','',5)
-	   		result = request.form
-			file = request.files['feature_image']
-			filename = secure_filename(file.filename)
-	   		if not slug:
-	   			if file:
-	   				file.save(os.path.join(app.config['UPLOAD_FOLDER'], now+"-"+filename))
-		        	obj=Post(request.form['title'],request.form['description'],request.form['category_id'],(now+"-"+filename),session.get('blog_id'))
-		        	status=Post.add(obj)
-			        if not status:
-			            flash("Post added was successfully")
-			            return redirect(url_for('admin_index'))
-			        else:
-			        	flash("Fail to add post !")
-			        	return redirect(url_for('admin_post_add'))
-			   	#else:
-				flash("Fail to upload feature image !")
-	   			return render_template('admin/form/post.html', form = form)
-	   		elif slug:
-	   			#update row
-	   			obj = Post.query.filter_by(slug = slug)
-	   			tempFileName=""
-	   			for post in obj:
-	   				tempFileName=post.feature_image
-	   			if filename == "": #don't upload image
-	   				filename=tempFileName
+		try:
+			if form.validate() == False:
+		   		flash('All fields are required.')
+		   		return redirect(url_for('admin_post_add'))
+		   	else:
+		   		now = str(datetime.now())
+				now= now.replace(':',"",10).replace(' ','',4).replace('.','',5).replace('-','',5)
+		   		result = request.form
+				file = request.files['feature_image']
+				filename = secure_filename(file.filename)
+		   		if not slug:
+		   			if file:
+		   				file.save(os.path.join(app.config['UPLOAD_FOLDER'], now+"-"+filename))
+			        	obj=Post(request.form['title'],request.form['description'],request.form['category_id'],(now+"-"+filename),session.get('blog_id'))
+			        	status=Post.add(obj)
+				        if not status:
+				            flash("Post added was successfully")
+				            return redirect(url_for('admin_index'))
+				        else:
+				        	flash("Fail to add post !")
+				        	return redirect(url_for('admin_post_add'))
+				   	#else:
+					flash("Fail to upload feature image !")
+		   			return render_template('admin/form/post.html', form = form)
+		   		elif slug:
+		   			#update row
+		   			obj = Post.query.filter_by(slug = slug)
+		   			tempFileName=""
+		   			for post in obj:
+		   				tempFileName=post.feature_image
+		   			if filename == "": #don't upload image
+		   				filename=tempFileName
+		   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':filename })
+		   				status = db.session.commit()
+		   				if not status:
+		   					flash("Post updated was successfully")
+		   					return redirect(url_for('admin_index'))
+				        else:
+				        	flash("Fail to update post !")
+				        	return redirect(url_for('admin_post_add'))
+				    #else: upload images
+	   				file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 	   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':filename })
 	   				status = db.session.commit()
 	   				if not status:
-	   					flash("Post updated was successfully")
+	   					flash("Post added was successfully")
 	   					return redirect(url_for('admin_index'))
 			        else:
 			        	flash("Fail to update post !")
 			        	return redirect(url_for('admin_post_add'))
-			    #else: upload images
-   				file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':filename })
-   				status = db.session.commit()
-   				if not status:
-   					flash("Post added was successfully")
-   					return redirect(url_for('admin_index'))
-		        else:
-		        	flash("Fail to update post !")
-		        	return redirect(url_for('admin_post_add'))
+		except Exception  as e:
+			flash(str(e.message))
+			return redirect(url_for("admin_post_add"))
+
 	elif request.method == 'GET':
 		if slug:
 			post=Post.query.filter_by(slug=slug)
@@ -214,29 +219,33 @@ def admin_category_add(slug=""):
 	form = CategoryForm()
 	categories= Category.query.order_by(Category.name)
 	if request.method == 'POST':
-		if form.validate() == False:
-	   		flash('please input category name !')
-	   		return redirect(url_for('admin_category_add'))
-   		if not slug:
-   			#add category
-	   		obj=Category(request.form['name'])
-	   		status=Category.add(obj)
-			if not status:
-				flash("Category Added successfully")
-				return redirect(url_for('admin_category_add'))
-			else:
-				flash("Error in adding page !")
-				return redirect(url_for('admin_category_add'))	
-		elif slug:
-			#update category
-   			Category.query.filter_by(slug = slug).update({"slug" : slugify(request.form['name']) , "name" : request.form['name'] })
-   			status = db.session.commit()
-   			if not status:
-   				flash("Category updated successfully")
-   				return redirect(url_for('admin_category_add'))
-	        else:
-	        	flash("Error in updating category !")
-	        	return redirect(url_for('admin_category_add'))
+		try:
+			if form.validate() == False:
+		   		flash('please input category name !')
+		   		return redirect(url_for('admin_category_add'))
+	   		if not slug:
+	   			#add category
+		   		obj=Category(request.form['name'])
+		   		status=Category.add(obj)
+				if not status:
+					flash("Category Added successfully")
+					return redirect(url_for('admin_category_add'))
+				else:
+					flash("Error in adding page !")
+					return redirect(url_for('admin_category_add'))	
+			elif slug:
+				#update category
+	   			Category.query.filter_by(slug = slug).update({"slug" : slugify(request.form['name']) , "name" : request.form['name'] })
+	   			status = db.session.commit()
+	   			if not status:
+	   				flash("Category updated successfully")
+	   				return redirect(url_for('admin_category_add'))
+		        else:
+		        	flash("Error in updating category !")
+		        	return redirect(url_for('admin_category_add'))
+		except Exception as e:
+			flash(str(e.message))
+			return redirect(url_for("admin_category_add"))
 	elif request.method == 'GET':
 		if not slug:
 			return render_template('/admin/form/category.html',categories=categories, form = form)
@@ -264,30 +273,34 @@ def admin_page_add(slug=''):
 	# 	return redirect(url_for("admin_login"))
 	form = PageForm()
 	if request.method == 'POST':
-		if form.validate() == False:
-	   		flash('All fields are required !'	)
-	   		return redirect(url_for('admin_page_add'))
-	   	else:
-	   		if not slug:
-	   			#add new
-		   		obj=Page(request.form['title'],request.form['description'])
-		   		status=Page.add(obj)
-				if not status:
-					flash("Page Added successfully")
-					return redirect(url_for('admin_page'))
-				else:
-					flash("Error in adding page !")
-					return redirect(url_for('admin_page_add'))
-	   		elif slug:
-	   			#status=Category.update(obj)
-	   			Page.query.filter_by(slug = slug).update({"slug" : slugify(request.form['title']) , "title" : request.form['title'] , "description" : request.form['description']})
-	   			status = db.session.commit()
-	   			if not status:
-	   				flash("Page updated successfully")
-	   				return redirect(url_for('admin_page'))
-		        else:
-		        	flash("Error !")
-		        	return redirect(url_for('admin_page_add'))
+		try:
+			if form.validate() == False:
+		   		flash('All fields are required !'	)
+		   		return redirect(url_for('admin_page_add'))
+		   	else:
+		   		if not slug:
+		   			#add new
+			   		obj=Page(request.form['title'],request.form['description'])
+			   		status=Page.add(obj)
+					if not status:
+						flash("Page Added successfully")
+						return redirect(url_for('admin_page'))
+					else:
+						flash("Error in adding page !")
+						return redirect(url_for('admin_page_add'))
+		   		elif slug:
+		   			#status=Category.update(obj)
+		   			Page.query.filter_by(slug = slug).update({"slug" : slugify(request.form['title']) , "title" : request.form['title'] , "description" : request.form['description']})
+		   			status = db.session.commit()
+		   			if not status:
+		   				flash("Page updated successfully")
+		   				return redirect(url_for('admin_page'))
+			        else:
+			        	flash("Error !")
+			        	return redirect(url_for('admin_page_add'))
+		except Exception as e:
+			flash(str(e.message))
+			return redirect(url_for("admin_page_add"))
 	else:
 		if not slug:
 			return render_template('/admin/form/page.html', form = form)

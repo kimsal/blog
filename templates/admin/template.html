@@ -1,5 +1,33 @@
 {% include 'admin/header.html' %} 
-        
+<style type="text/css">
+	.template{
+		border:1px solid #CCC;
+		padding:10px;
+	}
+	.template a{
+		color:black;
+	}
+	.template:hover{
+		background-color:#DDD;
+	}
+	.template h5{
+		color:blue;
+	}
+</style>
+	<br/><br/><br/>
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 template">
+		<a href="#">
+			<div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+				<img src="/static/template-2016/screenshoot.png" class="img-responsive"/>
+			</div>
+			<div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+				<h5>Free template 1</h5>
+				<p>
+					This is our first free template. 
+				</p>
+			</div>
+		</a>
+	</div> 
 <script>
     $("#menu-toggle").click(function(e) {
         e.preventDefault();
@@ -7,12 +35,10 @@
     });
     $(".off-canvas-submenu").hide();
     $(".off-canvas-submenu-call").click(function() {
-    var icon = $(this).parent().next(".off-canvas-submenu").is(':visible') ? '':'';
-    $(this).parent().next(".off-canvas-submenu").slideToggle('slow');
-    $(this).find("span").text(icon);
-
-});
+	    var icon = $(this).parent().next(".off-canvas-submenu").is(':visible') ? '':'';
+	    $(this).parent().next(".off-canvas-submenu").slideToggle('slow');
+	    $(this).find("span").text(icon);
+	});
 </script>
 </body>
-
 </html>
