@@ -109,7 +109,19 @@ form > li{
     background-color: #222;
     border-color: #F2F2F2;
 }
-
+.form-control:focus {
+  border-color:#ccc;
+  outline: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.form-control{
+  border-color:#ccc;
+  outline: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-radius: 2px;
+}
 @media(min-width:768px) {
     #wrapper {
         padding-left: 250px;
@@ -160,7 +172,7 @@ form > li{
         margin-bottom: 0;
         -webkit-border-radius: 3px;
         -moz-border-radius: 3px;
-        border-radius: 3px;
+        border-radius: 17px;
     }
     #custom-search-input button {
         border: 0;
