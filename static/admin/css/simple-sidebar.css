@@ -16,7 +16,14 @@ form > li{
 #wrapper.toggled {
     padding-left: 250px;
 }
-
+.panel-default {
+    border-color: white;
+}
+.panel-default > .panel-heading {
+    color: #333;
+    background-color: white;
+    border-color: #fff;
+}
 #sidebar-wrapper {
     z-index: 1000;
     position: fixed;
@@ -32,7 +39,6 @@ form > li{
     transition: all 0.5s ease;
     background-color:#F8F8F8;
     color: gray;
-    border-right: solid 1px #E0DADA;;
 }
 
 #wrapper.toggled #sidebar-wrapper {
@@ -42,7 +48,8 @@ form > li{
 #page-content-wrapper {
     width: 100%;
     position: absolute;
-    padding: 15px;
+    /*padding: 15px;*/
+    padding-top: 5px;
 }
 
 #wrapper.toggled #page-content-wrapper {
@@ -66,17 +73,17 @@ form > li{
     text-indent: 20px;
     line-height: 40px;
 }
-
+.navbar-default{
+    background-color: white;
+}
 .sidebar-nav li a {
     display: block;
     text-decoration: none;
-    color: white;
+    font-weight: 600;
 }
 
 .sidebar-nav li a:hover {
-   text-decoration: none;
-color: #fcecec;
-background: RGBA(0, 0, 0, 0.43);
+   text-decoration: underline;
 }
 
 .sidebar-nav li a:active,
@@ -153,7 +160,7 @@ background: RGBA(0, 0, 0, 0.43);
         margin-bottom: 0;
         -webkit-border-radius: 3px;
         -moz-border-radius: 3px;
-        border-radius: 3px;
+        border-radius: 30px;
     }
     #custom-search-input button {
         border: 0;
@@ -223,3 +230,9 @@ background: RGBA(0, 0, 0, 0.43);
 
 
 /*end scroll top*/
+.fa-trash-o{
+    font-size: 20px;
+}
+.fa-pencil-square-o{
+    font-size: 20px;
+}

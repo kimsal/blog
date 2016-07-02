@@ -1,4 +1,36 @@
 {% include 'admin/header.html' %} 
+          <style type="text/css">
+            div.cropbox .btn-file {
+                position: relative;
+                overflow: hidden;
+            }
+            div.cropbox .btn-file input[type=file] {
+                position: absolute;
+                top: 0;
+                right: 0;
+                min-width: 100%;
+                min-height: 100%;
+                font-size: 100px;
+                text-align: right;
+                filter: alpha(opacity=0);
+                opacity: 0;
+                outline: none;
+                background: white;
+                cursor: inherit;
+                display: block;
+            }
+            div.cropbox .cropped {
+                margin-top: 10px;
+            }
+            .syntaxhighlighter table .container:before {
+                display: none !important;
+            }
+            footer {
+                margin-top: 10px;
+                border-top: #cdcdcd 1px solid;
+            }
+            /*.container { margin:150px auto 30px auto;}*/
+        </style>
          Page Content
         <div id="page-content-wrapper">
             <div class="container-fluid">
@@ -11,12 +43,12 @@
                               <i class="fa fa-plus-circle" aria-hidden="true"></i>
                               New 
                            </a>
-                            <h3 class="panel-title">
+                            <h4 class="panel-title">
                               <a href="#menu-toggle" style="border:none;font-size:20px;" class="" id="menu-toggle">
                               <i class="fa fa-bars" aria-hidden="true"></i>
                               </a>
                                Post Form
-                            </h3>
+                            </h4>
                           </div>
                           <div class="panel-body" >
                             <div class="table-responsive" style="border:none;">
@@ -27,7 +59,7 @@
                                     {% with messages = get_flashed_messages() %}
                                       {% if messages %}
                                         {% for message in messages %}
-                                          <li class="alert"> 
+                                          <li class="alert alert-warning"> 
                                             {{ message }}
                                           </li>
                                         {% endfor %}
@@ -36,7 +68,7 @@
                                       <!-- input title-->
                                      {{ form.hidden_tag() }}
                                       <div class="form-group">
-                                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3"><br/>
+                                        <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
                                           <!-- <input id="name" name="name" type="text" placeholder="Type your title here..." class="form-control"> -->
                                           {{ form.title.label }}
                                           </div>
@@ -50,7 +82,7 @@
                                           <!-- <input id="name" name="name" type="text" placeholder="Type your title here..." class="form-control"> -->
                                           {{ form.description.label }}
                                           </div>
-                                          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                          <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11">
                                             {{ form.description(class_="form-control ckeditor",id="description") }}
                                           </div>
                                         
@@ -59,16 +91,15 @@
                                               //     filebrowserUploadUrl: '/static/images/content/',
                                               //     filebrowserImageUploadUrl: '/static/images/content/'
                                               // });
-                                              CKEDITOR.replace("description", {
+                                              CKEDITOR.replace("desc", {
                                                   filebrowserUploadUrl: '/admin/ckupload/',
                                                   filebrowserImageUploadUrl: '/ckupload/'
                                               });
                                           </script>
                                       </div>
                                       <!--select box-->
-                                
                                       <div class="form-group">
-                                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3"><br/>
+                                        <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1"><br/>
                                           <!-- <input id="name" name="name" type="text" placeholder="Type your title here..." class="form-control"> -->
                                           {{ form.category_id.label }}
                                         </div>
@@ -78,12 +109,47 @@
                                         </div>
                                       </div>
                                       <!--end select box-->
+                                      <!--test add feature image-->
+                                      <div class="form-group">
+                                        <div class="col-md-7 col-xs-12 co-md-8 col-lg-7">
+                                          <div id="plugin" class="cropbox">
+                                            <div class="workarea-cropbox">
+                                                <div class="bg-cropbox">
+                                                    <img class="image-cropbox">
+                                                    <div class="membrane-cropbox"></div>
+                                                </div>
+                                                <div class="frame-cropbox">
+                                                    <div class="resize-cropbox"></div>
+                                                </div>
+                                            </div>
+                                            <div class="btn-group">
+                                                  <span class="btn btn-primary btn-file">
+                                                      <i class="glyphicon glyphicon-folder-open"></i>
+                                                      Browse <input type="file" accept="image/*">
+                                                  </span>
+                                                  <button type="button" class="btn btn-success btn-crop">
+                                                      <i class="glyphicon glyphicon-scissors"></i> Crop
+                                                  </button>
+                                                  <button type="button" class="btn btn-warning btn-reset">
+                                                      <i class="glyphicon glyphicon-repeat"></i> Reset
+                                                  </button>
+                                              </div>
+                                            <div class="cropped panel panel-default">
+                                                  <div class="panel-heading"><h3 class="panel-title">Result of cropping</h3></div>
+                                                  <div class="panel-body">...</div>
+                                              </div>
+                                              <div class="form-group">
+                                                  <label>Info of cropping</label>
+                                                  <textarea class="data form-control" rows="5">
+                                                  </textarea>
+                                              </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <!--end add feature image-->
                                       <!--feature image-->
                                       <div class="form-group">
-                                      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-                                          <br/>
-                                          Feature Image
-                                        </div>
                                         <div class="col-md-7 col-xs-12 co-md-8 col-lg-7">
                                           <span class="btn btn-default fileinput-button">
                                               <!-- <i class="glyphicon glyphicon-plus"></i>
@@ -140,10 +206,10 @@
     <!-- /#wrapper -->
 
     <!-- jQuery -->
-    <script src="static/admin/js/jquery.js"></script>
-    <script src="static/admin/js/scroll.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/scroll.js"></script>
     <!-- Bootstrap Core JavaScript -->
-    <script src="static/admin/js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 
     <!-- Menu Toggle Script -->
     <script>
@@ -156,7 +222,6 @@
     var icon = $(this).parent().next(".off-canvas-submenu").is(':visible') ? '':'';
     $(this).parent().next(".off-canvas-submenu").slideToggle('slow');
     $(this).find("span").text(icon);
-
 });
 </script>
 {% for p in post %}
@@ -164,26 +229,65 @@
    $('input#title').attr('value',"{{p.title}}"); 
    $('#frm').attr('action','/admin/post/edit/{{p.slug}}/');
    var help="{{p.description.replace('\n', '').replace('\r','')}}";
+   //help=help.replace(/(&lt;br\/&gt;)+/gi,'')
+   //alert(help);
    $('#description').html(help);  
    $('select#category_id option[value="{{p.category_id}}"]').attr("selected","selected");
    $(".feature_output").attr("src","/static/images/feature_images/{{p.feature_image}}");
  </script>
+ 
 {% endfor %}
-<script type="text/javascript">
-  if($("#output").attr("src")=="/static/images/feature_images/" ){
-    $("#output").css("display","none");
-  }
-  if($(".alert").length>0){
-    alert('d');
-    if(($(".alert").html()).indexOf("success")>=0){
-      $(".alert").addClass('alert-success');
-    }
-    else{
-      $(".alert").addClass('alert-danger');
-    }
-  }
-</script>
+
+
+<!--start crop plugin-->
+          <script>
+            $('#plugin').cropbox({
+                selectors: {
+                    inputInfo: '#plugin textarea.data',
+                    inputFile: '#plugin input[type="file"]',
+                    btnCrop: '#plugin .btn-crop',
+                    btnReset: '#plugin .btn-reset',
+                    resultContainer: '#plugin .cropped .panel-body',
+                    messageBlock: '#message'
+                },
+                imageOptions: {
+                    class: 'img-thumbnail',
+                    style: 'margin-right: 5px; margin-bottom: 0px'
+                },
+                variants: [
+                    {
+                        width: 400,
+                        height: 300,
+                        minWidth: 180,
+                        minHeight: 200,
+                        maxWidth: 400,
+                        maxHeight: 400
+                    },
+                    {
+                        width: 400,
+                        height: 400
+                    }
+                ],
+                messages: [
+                    'Crop a middle image.',
+                    'Crop a small image.'
+                ]
+            });
+            </script>
+            <script type="text/javascript">
+              var _gaq = _gaq || [];
+              _gaq.push(['_setAccount', 'UA-36251023-1']);
+              _gaq.push(['_setDomainName', 'jqueryscript.net']);
+              _gaq.push(['_trackPageview']);
+              (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+              })();
+            </script>
+
+    <!--end start crop plugin-->
+
 </body>
 
 </html>
-

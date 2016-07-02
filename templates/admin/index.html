@@ -4,8 +4,8 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12" style="padding:0px;">
-                        <br><br>
-                        <h3>
+                        <br>
+                        <br>
                         <center>
                         {% with messages = get_flashed_messages() %}
                           {% if messages %}
@@ -17,7 +17,7 @@
                           {% endif %}
                         {% endwith %}
                         </center>
-                        <h3>
+                        
                         <div class="panel panel-default" style="padding:0px;">
                           <div class="panel-heading">
                            <a href="/admin/post/add" class="btn btn-default btn-sm pull-right">
@@ -65,7 +65,9 @@
 	                                      </td>
 	                                      <td>
 	                                        <!-- <a href="/admin/post/edit/{{post.slug}}" class="">Edit</a> - -->
-	                                        <a href="/admin/post/delete/{{post.slug}}" class="" style="color:red">Delete</a>
+	                                        <a href="/admin/post/delete/{{post.slug}}" class="" style="color:red">
+	                                        	<i class="fa fa-trash-o" aria-hidden="true"></i>
+	                                        </a>
 	                                      </td>
 	                                    </tr>
 	                                    <script>
