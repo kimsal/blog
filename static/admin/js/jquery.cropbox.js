@@ -260,12 +260,11 @@
         frameMouseUp = function(event) {
             event.preventDefault();
             event.stopPropagation();
-
             frameState.dragable = false;
         },
+        
         resizeMouseDown = function(event) {
             event.stopImmediatePropagation();    
-            
             resizeState.dragable = true;
             resizeState.mouseX = event.clientX;
             resizeState.mouseY = event.clientY;
@@ -276,7 +275,6 @@
                     heightOld = $frame.height(),
                     width = event.clientX - resizeState.mouseX + widthOld,
                     height = event.clientY - resizeState.mouseY + heightOld;
-
                 resizeState.mouseX = event.clientX;
                 resizeState.mouseY = event.clientY;
                 refrashSizeFrame(width, height);
@@ -285,7 +283,6 @@
         resizeMouseUp = function(event) {
             event.preventDefault();
             event.stopPropagation();
-
             resizeState.dragable = false;
         },
         imageMouseDown = function(event) {
@@ -299,11 +296,9 @@
                     topOld = $image.position().top,
                     left = event.clientX - imageState.mouseX + leftOld,
                     top = event.clientY - imageState.mouseY + topOld;
-
                 imageState.mouseX = event.clientX;
                 imageState.mouseY = event.clientY;
                 refrashImage(left, top);
-
                 frameState.mouseX = event.clientX;
                 frameState.mouseY = event.clientY;
                 refrashPosFrame($frame.position().left, $frame.position().top);

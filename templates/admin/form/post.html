@@ -1,36 +1,4 @@
 {% include 'admin/header.html' %} 
-          <style type="text/css">
-            div.cropbox .btn-file {
-                position: relative;
-                overflow: hidden;
-            }
-            div.cropbox .btn-file input[type=file] {
-                position: absolute;
-                top: 0;
-                right: 0;
-                min-width: 100%;
-                min-height: 100%;
-                font-size: 100px;
-                text-align: right;
-                filter: alpha(opacity=0);
-                opacity: 0;
-                outline: none;
-                background: white;
-                cursor: inherit;
-                display: block;
-            }
-            div.cropbox .cropped {
-                margin-top: 10px;
-            }
-            .syntaxhighlighter table .container:before {
-                display: none !important;
-            }
-            footer {
-                margin-top: 10px;
-                border-top: #cdcdcd 1px solid;
-            }
-            /*.container { margin:150px auto 30px auto;}*/
-        </style>
          Page Content
         <div id="page-content-wrapper">
             <div class="container-fluid">
@@ -109,46 +77,38 @@
                                         </div>
                                       </div>
                                       <!--end select box-->
-                                      <!--test add feature image-->
-                                      <div class="form-group">
-                                        <div class="col-md-7 col-xs-12 co-md-8 col-lg-7">
-                                          <div id="plugin" class="cropbox">
-                                            <div class="workarea-cropbox">
-                                                <div class="bg-cropbox">
-                                                    <img class="image-cropbox">
-                                                    <div class="membrane-cropbox"></div>
-                                                </div>
-                                                <div class="frame-cropbox">
-                                                    <div class="resize-cropbox"></div>
-                                                </div>
-                                            </div>
-                                            <div class="btn-group">
-                                                  <span class="btn btn-primary btn-file">
-                                                      <i class="glyphicon glyphicon-folder-open"></i>
-                                                      Browse <input type="file" accept="image/*">
-                                                  </span>
-                                                  <button type="button" class="btn btn-success btn-crop">
-                                                      <i class="glyphicon glyphicon-scissors"></i> Crop
-                                                  </button>
-                                                  <button type="button" class="btn btn-warning btn-reset">
-                                                      <i class="glyphicon glyphicon-repeat"></i> Reset
-                                                  </button>
-                                              </div>
-                                            <div class="cropped panel panel-default">
-                                                  <div class="panel-heading"><h3 class="panel-title">Result of cropping</h3></div>
-                                                  <div class="panel-body">...</div>
-                                              </div>
-                                              <div class="form-group">
-                                                  <label>Info of cropping</label>
-                                                  <textarea class="data form-control" rows="5">
-                                                  </textarea>
-                                              </div>
-                                          </div>
+                                     
+                                      <!--phos add feature image-->
+                                     <div class="row">
+                                        <div class="panel panel-body">
+                                          <div class="span4 cropme" id="landscape" style="width:100px; height: 100px;"></div>
+                                        <!--  <div class="span4 cropme" id="portrait" style="width: 200px; height: 300px;"></div> -->
                                         </div>
                                       </div>
+                                      <script>
+                                       // Init Simple Cropper
+                                      $('.cropme').simpleCropper();
+                                      $('#portrait').hide();
+                                      $('.switch').click(function (){
+                                          $(this).text("Switch to "+($('#portrait').is(":visible") ? "Portrait" : "Landscape"));
+                                        $('#portrait').toggle();
+                                        $('#landscape').toggle();
+                                      });
+                                      </script>
+                                      <script type="text/javascript">
+                                      var _gaq = _gaq || [];
+                                      _gaq.push(['_setAccount', 'UA-36251023-1']);
+                                      _gaq.push(['_setDomainName', 'jqueryscript.net']);
+                                      _gaq.push(['_trackPageview']);
 
-                                      <!--end add feature image-->
-                                      <!--feature image-->
+                                      (function() {
+                                        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                                        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                                        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                                      })();
+
+                                    </script>
+                                      <!--end phos add feature image -->
                                       <div class="form-group">
                                         <div class="col-md-7 col-xs-12 co-md-8 col-lg-7">
                                           <span class="btn btn-default fileinput-button">
@@ -238,55 +198,6 @@
  
 {% endfor %}
 
-
-<!--start crop plugin-->
-          <script>
-            $('#plugin').cropbox({
-                selectors: {
-                    inputInfo: '#plugin textarea.data',
-                    inputFile: '#plugin input[type="file"]',
-                    btnCrop: '#plugin .btn-crop',
-                    btnReset: '#plugin .btn-reset',
-                    resultContainer: '#plugin .cropped .panel-body',
-                    messageBlock: '#message'
-                },
-                imageOptions: {
-                    class: 'img-thumbnail',
-                    style: 'margin-right: 5px; margin-bottom: 0px'
-                },
-                variants: [
-                    {
-                        width: 400,
-                        height: 300,
-                        minWidth: 180,
-                        minHeight: 200,
-                        maxWidth: 400,
-                        maxHeight: 400
-                    },
-                    {
-                        width: 400,
-                        height: 400
-                    }
-                ],
-                messages: [
-                    'Crop a middle image.',
-                    'Crop a small image.'
-                ]
-            });
-            </script>
-            <script type="text/javascript">
-              var _gaq = _gaq || [];
-              _gaq.push(['_setAccount', 'UA-36251023-1']);
-              _gaq.push(['_setDomainName', 'jqueryscript.net']);
-              _gaq.push(['_trackPageview']);
-              (function() {
-                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-              })();
-            </script>
-
-    <!--end start crop plugin-->
 
 </body>
 
