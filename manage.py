@@ -9,9 +9,7 @@ from werkzeug import secure_filename
 from flask_wtf import Form
 from wtforms import TextField, IntegerField, TextAreaField, SubmitField, RadioField,SelectField,validators, ValidationError
 from flask_sijax import sijax
-from api import *
 from flask.json import jsonify
-from datetime import datetime
 import math
 from models import *
 from forms import *
@@ -22,16 +20,16 @@ from models import *
 #Middleware
 @app.context_processor
 def inject_dict_for_all_templates():
-    return dict(logined_name=session.get('blog_name'),template_name= template,categories = Category.query.all())
+    return dict(logined_name=request.cookies.get('blog_name'),template_name= template,categories = Category.query.all(),pages = Page.query.all())
 #========================================================
 @auth.verify_token
 def verify_token(token):
 	# g.current_user = UserMember.query.filter_by(token=token).first()
 	# return g.current_user is not None
-	user = UserMember.query.filter_by(email = session.get('blog_email'))
+	user = UserMember.query.filter_by(email = request.cookies.get('blog_email'))
 	if user.count()>0:
 		for user_object in user:
-			if user_object.verify_password(session.get('blog_password')):
+			if user_object.verify_password(request.cookies.get('blog_password')):
 				return True
 	return False
 
@@ -60,32 +58,48 @@ def admin_login():
 				for user_object in user:
 					#return "{}".format(user_object.verify_password(password_form))
 					if user_object.verify_password(password_form):
-						session['blog_id'] = user_object.id
-						session['blog_name'] = user_object.name
-						session['blog_email'] = user_object.email
-						session['blog_password'] = password_form
+						# session['blog_id'] = user_object.id
+						# session['blog_name'] = user_object.name
+						# session['blog_email'] = user_object.email
+						# session['blog_password'] = password_form
+
+						response = make_response(redirect('/admin'))
+						response.set_cookie("blog_id",str(user_object.id), expires=expire_date)
+						response.set_cookie("blog_name",user_object.name, expires=expire_date)
+						response.set_cookie("blog_email",user_object.email, expires=expire_date)
+						response.set_cookie("blog_password",password_form, expires=expire_date)
+						#print request.cookies.get('blog_name')
 						#session['logged_in'] = True
 						#token = user_object.generate_auth_token()
 						#return token
-						check=True
-						return redirect(url_for('admin_index'))
+						#check=True
+						return response
+						#return redirect(url_for('admin_index'))
 					else:
-						flash('Wrong user name or password 1!')
+						flash('Wrong user name or password !')
 						return redirect(url_for("admin_login"))
 		else:
-			flash('Wrong user name or password 2!')
+			flash('Wrong user name or password !')
 			return redirect(url_for("admin_login"))
 	elif request.method == 'GET':
+		if request.cookies.get("blog_name"):
+			return redirect(url_for("admin_index"))
 		return render_template('admin/form/login.html',form = form)
 @app.route('/admin/logout', methods=['POST', 'GET'])
 @app.route('/admin/logout/', methods=['POST', 'GET'])
 @auth.login_required
 def logout():
 	#return session.get['blog_email']
-	session['blog_email'] = ""
-	session['blog_password'] = ""
-	session['logged_in'] = False
-	return redirect(url_for("index"))
+	# session['blog_email'] = ""
+	# session['blog_password'] = ""
+	# session['logged_in'] = False
+	response = make_response(redirect('/'))
+	response.set_cookie("blog_id","", expires=0)
+	response.set_cookie("blog_name","", expires=0)
+	response.set_cookie("blog_email","", expires=0)
+	response.set_cookie("blog_password","", expires=0)
+	#return redirect(url_for("index"))
+	return response
 	#return redirect(url_for('admin_login'),401)
 @app.route('/admin/register', methods=['POST', 'GET'])
 @app.route('/admin/register/', methods=['POST', 'GET'])
@@ -159,7 +173,9 @@ def admin_post_add(slug=""):
 		   		if not slug:
 		   			if file:
 		   				file.save(os.path.join(app.config['UPLOAD_FOLDER'], now+"-"+filename))
-			        	obj=Post(request.form['title'],request.form['description'],request.form['category_id'],(now+"-"+filename),session.get('blog_id'))
+			        	#return str(result)+":"+str(file)+":"+str(filename)
+			        	obj=Post(request.form['title'],request.form['description'],request.form['category_id'],(now+"-"+filename),request.cookies.get('blog_id'))
+			        	
 			        	status=Post.add(obj)
 				        if not status:
 				            flash("Post added was successfully")
@@ -360,14 +376,41 @@ def index():
 	return render_template(template+'/index.html',page_name='home',posts_top=posts_top,posts_bottom = posts_bottom)
 @app.route('/<slug>')
 @app.route('/<slug>/')
-def single(slug):
+@app.route('/<slug>/<pagination>')
+@app.route('/<slug>/<pagination>/')
+#can be single and category page
+def single(slug='',pagination=1):
 	try:
 		post_object=Post.query.filter_by(slug=slug)#.limit(1)
-		for post in post_object:
-			old_view=post.views
-		post_object.update({"views" : (old_view+1) })
-		status = db.session.commit()
+		page_object=Page.query.filter_by(slug=slug)#.limit(1)
+		if post_object.count()>0:
+			#return "1"
+			for post in post_object:
+				old_view=post.views
+				post_object.update({"views" : (old_view+1) })
+				status = db.session.commit()
+		elif page_object.count()>0:
+			return render_template("/template-2016/page.html",page_object=page_object)
+		else:
+			#return "2"
+			limit=10
+			category=Category.query.filter_by(slug=slug)
+			cat_id=""
+			category_name="None"
+			category_slug=""
+			for cat in category:
+				cat_id=cat.id
+				category_name=cat.name
+				category_slug=cat.slug
+			if cat_id == "":
+				abort(404)
+			posts=Post.query.filter_by(category_id=cat_id).order_by(Post.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
+			pagin=math.ceil((Post.query.filter_by(category_id=cat_id).count())/limit)
+			if(math.ceil(Post.query.filter_by(category_id=cat_id).count())%limit != 0 ):
+				pagin=int(pagin+1)
+			return render_template(template+'/category.html',page_name='category',category_slug=category_slug,category_name=category_name,posts=posts,pagin=int(pagin),current_pagin=int(pagination))
 	except:
+		#return e.message
 		abort(404)
 	return render_template(template+'/single.html',page_name='single',post_object=post_object)
 @app.route('/category/<slug>')

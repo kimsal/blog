@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine
-from flask import Flask,session
+from flask import Flask,session, make_response
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from flask_sqlalchemy import SQLAlchemy
@@ -10,6 +10,7 @@ from flask_script import Manager
 from passlib.apps import * 
 from itsdangerous import (TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired)
 from flask_httpauth import HTTPTokenAuth
+from datetime import datetime, timedelta
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql://blog:blog@localhost:5432/blog'
 auth = HTTPTokenAuth(scheme='Token')
@@ -24,6 +25,9 @@ template ="template-2016"
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 #upload url for feature images
 app.config['UPLOAD_FOLDER'] = 'static/images/feature_images/'
+
+expire_date = datetime.now()
+expire_date = expire_date + timedelta(days=90)
 
 SECRET_KEY="!Amok123#smallworld_common_toursanak_amok"
 def init_db():

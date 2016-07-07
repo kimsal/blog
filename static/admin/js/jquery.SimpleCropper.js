@@ -22,7 +22,7 @@
     var file_display_area = null;
     var ias = null;
     var jcrop_api;
-    var bottom_html = "<input type='file' id='fileInput' name='files[]'/><canvas id='myCanvas' style='display:none;'></canvas><div id='modal'></div><div id='preview'><div class='buttons'><div class='cancel'></div><div class='ok'></div></div></div>";
+    var bottom_html = "<input type='file' id='feature_image' name='feature_image'/><canvas id='myCanvas' style='display:none;'></canvas><div id='modal'></div><div id='preview'><div class='buttons'><div class='cancel'></div><div class='ok'></div></div></div>";
     $('body').append(bottom_html);
 
     //add click to element
@@ -30,12 +30,12 @@
       aspX = $(this).width();
       aspY = $(this).height();
       file_display_area = $(this);
-      $('#fileInput').click();
+      $('#feature_image').click();
     });
 
     $(document).ready(function() {
       //capture selected filename
-      $('#fileInput').change(function(click) {
+      $('#feature_image').change(function(click) {
         imageUpload($('#preview').get(0));
         // Reset input value
         $(this).val("");
@@ -73,8 +73,8 @@
     }
 
     function imageUpload(dropbox) {
-      var file = $("#fileInput").get(0).files[0];
-      //var file = document.getElementById('fileInput').files[0];
+      var file = $("#feature_image").get(0).files[0];
+      //var file = document.getElementById('feature_image').files[0];
       var imageType = /image.*/;
 
       if (file.type.match(imageType)) {
