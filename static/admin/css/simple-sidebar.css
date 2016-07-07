@@ -74,9 +74,10 @@ form > li{
     line-height: 40px;
 }
 .navbar-default{
-    background-color: white;
+    background-color:rgb(42, 47, 48);
 }
 .sidebar-nav li a {
+    color: #f6dada;
     display: block;
     text-decoration: none;
     font-weight: 600;
@@ -84,6 +85,7 @@ form > li{
 
 .sidebar-nav li a:hover {
    text-decoration: underline;
+   color: #f9f9f9;
 }
 
 .sidebar-nav li a:active,
@@ -184,11 +186,11 @@ form > li{
     .off-canvas-submenu-call{
     display: block;
     text-decoration: none;
-    color: #000;
+    color: #D2C1C1;
    /* border-bottom: solid #EBEBEB thin;*/
     font-size: 14px;
 }
-    }
+    
 /*scroll top*/
 .scroll-top-wrapper {
     position: fixed;
