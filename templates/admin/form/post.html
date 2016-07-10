@@ -59,7 +59,7 @@
                                               //     filebrowserUploadUrl: '/static/images/content/',
                                               //     filebrowserImageUploadUrl: '/static/images/content/'
                                               // });
-                                              CKEDITOR.replace("desc", {
+                                              CKEDITOR.replace("description", {
                                                   filebrowserUploadUrl: '/admin/ckupload/',
                                                   filebrowserImageUploadUrl: '/ckupload/'
                                               });
@@ -79,23 +79,26 @@
                                       <!--end select box-->
                                      
                                       <!--phos add feature image-->
-                                     <div class="row">
+
+
+                                      <!-- <div class="row">
                                         <div class="panel panel-body">
-                                          <div class="span4 cropme" id="landscape" style="width:100px; height: 100px;"></div>
-                                        <!--  <div class="span4 cropme" id="portrait" style="width: 200px; height: 300px;"></div> -->
+                                           <div class="span4 cropme" id="landscape" style="width:230px; height: 150px;"></div>
                                         </div>
-                                      </div>
+                                      </div> -->
+
+
                                       <script>
                                        // Init Simple Cropper
-                                      $('.cropme').simpleCropper();
-                                      $('#portrait').hide();
-                                      $('.switch').click(function (){
-                                          $(this).text("Switch to "+($('#portrait').is(":visible") ? "Portrait" : "Landscape"));
-                                        $('#portrait').toggle();
-                                        $('#landscape').toggle();
-                                      });
-                                      </script>
-                                      <script type="text/javascript">
+                                       //$('.cropme').simpleCropper();
+                                      // $('#portrait').hide();
+                                      // $('.switch').click(function (){
+                                      //     $(this).text("Switch to "+($('#portrait').is(":visible") ? "Portrait" : "Landscape"));
+                                      //   $('#portrait').toggle();
+                                      //   $('#landscape').toggle();
+                                      // });    
+
+
                                       var _gaq = _gaq || [];
                                       _gaq.push(['_setAccount', 'UA-36251023-1']);
                                       _gaq.push(['_setDomainName', 'jqueryscript.net']);

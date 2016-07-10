@@ -24,7 +24,7 @@
 	<br/><br/><br/>
 	{%for template in templates_dir %}
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 template">
-		<a href="#">
+		
 			<div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
 				<img src="/static/{{template}}/screenshoot.png" class="img-responsive"/>
 			</div>
@@ -36,8 +36,11 @@
 			</div>
 			<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 				By Kimsal San
+				<a href="#">
+					<label class="btn btn-success">Install</label>
+				</a>
 			</div>
-		</a>
+			
 	</div> 
 	{%endfor%}
 <script>

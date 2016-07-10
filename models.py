@@ -105,7 +105,7 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255),nullable=True,unique=True)
     description = db.Column(db.Text,nullable=True)
-    feature_image=db.Column(db.String(200),nullable=True)
+    feature_image=db.Column(db.Text,nullable=True)
     slug=db.Column(db.String(255),nullable=True,unique=True)
     category_id=db.Column(db.Integer,db.ForeignKey('category.id'),nullable=True)
     user_id=db.Column(db.Integer,db.ForeignKey('user_member.id'))
@@ -136,7 +136,7 @@ class Post(db.Model):
         return session_commit()
     def delete(post):
         db.session.delete(post)
-        return session_commit()
+        return db.session.commit()
 
 
 #http://flask-admin.readthedocs.io/en/latest/advanced/
