@@ -165,11 +165,13 @@ def admin_post_add(slug=""):
 		   		flash('All fields are required.')
 		   		return redirect(url_for('admin_post_add'))
 		   	else:
+		   		obj=Post.query.filter_by(slug=slug)
 		   		now = str(datetime.now())
 				now= now.replace(':',"",10).replace(' ','',4).replace('.','',5).replace('-','',5)
 		   		result = request.form
 				file = request.files['feature_image']
 				filename = secure_filename(file.filename)
+				#return str(result)+" : "+str(file)+" : "+str(filename)
 		   		if not slug:
 		   			if file:
 		   				file.save(os.path.join(app.config['UPLOAD_FOLDER'], now+"-"+filename))
@@ -183,35 +185,38 @@ def admin_post_add(slug=""):
 				        else:
 				        	flash("Fail to add post !")
 				        	return redirect(url_for('admin_post_add'))
-				   	#else:
-					flash("Fail to upload feature image !")
-		   			return render_template('admin/form/post.html', form = form)
+				 #   	#else:
+					# flash("Fail to upload feature image !")
+		   # 			return render_template('admin/form/post.html', form = form)
 		   		elif slug:
-		   			#update row
-		   			obj = Post.query.filter_by(slug = slug)
-		   			tempFileName=""
-		   			for post in obj:
-		   				tempFileName=post.feature_image
-		   			if filename == "": #don't upload image
-		   				filename=tempFileName
-		   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':filename })
+		   			#upload feature image
+		   			#return str(not not file)
+		   			if not not file: 
+			   			#upload imagesif len(filename)>0:
+		   				file.save(os.path.join(app.config['UPLOAD_FOLDER'], (now+"-"+filename)))
+		   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':(now+"-"+filename) })
 		   				status = db.session.commit()
 		   				if not status:
-		   					flash("Post updated was successfully")
+		   					flash("Post added was successfully")
 		   					return redirect(url_for('admin_index'))
-				        else:
-				        	flash("Fail to update post !")
-				        	return redirect(url_for('admin_post_add'))
-				    #else: upload images
-	   				file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-	   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':filename })
+				        # else:
+				        # 	flash("Fail to update post 2 !")
+				        # 	return redirect(url_for('admin_index'))
+				    #else:
+					    #don't upload image
+					    #update row
+		   			for post in obj:
+		   				tempFileName=post.feature_image
+	   				filename=tempFileName
+	   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':str(filename) })
 	   				status = db.session.commit()
 	   				if not status:
-	   					flash("Post added was successfully")
+	   					flash("Post updated was successfully 1")
 	   					return redirect(url_for('admin_index'))
 			        else:
-			        	flash("Fail to update post !")
-			        	return redirect(url_for('admin_post_add'))
+			        	flash("Fail to update post 111 !")
+			        	return redirect(url_for('admin_index'))
+
 		except Exception  as e:
 			flash(str(e.message))
 			return redirect(url_for("admin_post_add"))
@@ -351,6 +356,19 @@ def admin_category_delete(slug):
 	except:
 		flash('Fail to delete !')
 		return redirect(url_for('admin_category_add'))
+
+@app.route('/admin/post/delete/<slug>')
+@app.route('/admin/post/delete/<slug>/')
+@auth.login_required
+def admiin_post_delete(slug=''):
+	obj = Post.query.filter_by(slug=slug).first()
+	try:
+		status = Post.delete(obj)
+		flash('Post deleted successful.')
+		return redirect(url_for('admin_index'))
+	except Exception as e:
+		flash(str(e.message))
+		return redirect(url_for('admin_index'))
 @app.route('/admin/template')
 @app.route('/admin/template/')
 @auth.login_required
