@@ -218,10 +218,10 @@ def admin_post_add(slug=""):
 	   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':str(filename) })
 	   				status = db.session.commit()
 	   				if not status:
-	   					flash("Post updated was successfully 1")
+	   					flash("Post updated was successfully")
 	   					return redirect(url_for('admin_index'))
 			        else:
-			        	flash("Fail to update post 111 !")
+			        	flash("Fail to update post!")
 			        	return redirect(url_for('admin_index'))
 
 		except Exception  as e:
@@ -418,10 +418,12 @@ def admin_limit():
 @app.route('/admin/social/')
 def admin_social():
 	return render_template('/admin/social.html')
-@app.route('/admin/menu')
-@app.route('/admin/menu/')
+@app.route('/admin/menu', methods=['POST', 'GET'])
+@app.route('/admin/menu/', methods=['POST', 'GET'])
 def admin_menu():
-	return render_template('/admin/menu.html')
+	pages=Page.query.all()
+	categories=Category.query.all()
+	return render_template('/admin/menu.html',pages=pages,categories=categories)
 
 #End Middleware
 
