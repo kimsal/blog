@@ -16,7 +16,15 @@ from forms import *
 from models import *
 # import flask_sqlalchemy
 # import flask_whooshalchemy
-
+limit=10
+template ="template-2016"
+config=""
+with open('config.txt','r') as f:
+	config=str(f.read())
+	data=config.split('\n')
+	template=data[0].split('"')[1]
+	limit=int(data[1].split('"')[1])
+########## End Configuration ############
 #Middleware
 @app.context_processor
 def inject_dict_for_all_templates():
@@ -139,7 +147,6 @@ def ckupload():
 def admin_index(pagination=1):
 	# if not session.get('logged_in'):
 	# 	return redirect(url_for("admin_login"))
-	limit=20
 	posts=Post.query.join(Category,Post.category_id == Category.id).order_by(Post.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
 	pagin=math.ceil((Post.query.join(Category,Post.category_id == Category.id).count())/limit)
 	if((Post.query.count())%limit != 0 ):
@@ -377,6 +384,45 @@ def admin_template():
 	templates_dir.remove("admin")
 	#return "{}".format(templates_dir)
 	return render_template("/admin/template.html",templates_dir=templates_dir)
+@app.route('/admin/template/<new_template>')
+@app.route('/admin/template/<new_template>/')
+def admin_choose_template(new_template):
+	try:
+		# with open('config.txt','r') as f:
+		# 	config=str(f.read())
+		# 	data=config.split('\n')
+		# 	template=data[0].split('"')[1]
+		# 	limit=int(data[1].split('"')[1])
+		#return config
+		global config
+		global template
+		global limit
+		with open('config.txt','w') as f:
+			config=config.replace(template,new_template)
+			f.write(config)
+		###Read again:
+		with open('config.txt','r') as f:
+			config=str(f.read())
+			data=config.split('\n')
+			template=data[0].split('"')[1]
+			limit=int(data[1].split('"')[1])
+		flash("Template changed successfully.")
+	except Exception as e:
+		flash(str(e.message))
+	return redirect(url_for('admin_index'))
+@app.route('/admin/limit')
+@app.route('/admin/limit/')
+def admin_limit():
+	return render_template('/admin/limit.html')
+@app.route('/admin/social')
+@app.route('/admin/social/')
+def admin_social():
+	return render_template('/admin/social.html')
+@app.route('/admin/menu')
+@app.route('/admin/menu/')
+def admin_menu():
+	return render_template('/admin/menu.html')
+
 #End Middleware
 
 
@@ -388,6 +434,7 @@ def page_not_found(e):
 	return render_template(template+"/404.html")
 @app.route('/')
 def index():
+	#return template
 	posts_top = Post.query.order_by(Post.id.desc()).limit(4)
 	posts_bottom = Post.query.order_by(Post.id.desc()).limit(60).offset(5)
 	#return "{}".format(posts_top)

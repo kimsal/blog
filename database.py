@@ -12,7 +12,7 @@ from itsdangerous import (TimedJSONWebSignatureSerializer as Serializer, BadSign
 from flask_httpauth import HTTPTokenAuth
 from datetime import datetime, timedelta
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql://phos:phos@localhost:5432/blog'
+app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql://angkorjobs:angkorjobs@localhost:5432/blog'
 auth = HTTPTokenAuth(scheme='Token')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=True
 app.secret_key = 'Hello@AmokCamSmallworld$Cambodia&*&'
@@ -21,7 +21,6 @@ migrate = Migrate(app, db)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 #template is the url of selected template 
-template ="template-2016"
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 #upload url for feature images
 app.config['UPLOAD_FOLDER'] = 'static/images/feature_images/'
