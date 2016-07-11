@@ -28,7 +28,7 @@ with open('config.txt','r') as f:
 #Middleware
 @app.context_processor
 def inject_dict_for_all_templates():
-    return dict(logined_name=request.cookies.get('blog_name'),template_name= template,categories = Category.query.all(),pages = Page.query.all())
+    return dict(logined_name=request.cookies.get('blog_name'),template_name= template,categories = Category.query.filter_by(is_menu=True),pages = Page.query.filter_by(is_menu=True))
 #========================================================
 @auth.verify_token
 def verify_token(token):

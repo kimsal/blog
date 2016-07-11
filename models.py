@@ -50,6 +50,7 @@ class Category(db.Model):
     name=  db.Column(db.String(100),nullable=True,unique=True)
     slug= db.Column(db.String(100),nullable=True)
     posts=db.relationship('Post', backref="category", lazy='dynamic')
+    is_menu=db.Column(db.Boolean,nullable=True,default=False)
     def get_absolute_url(self):
         return ('Category', (), {'slug': self.slug,'id': self.id,})
     def __str__(self):
@@ -78,6 +79,7 @@ class Page(db.Model):
     slug= db.Column(db.String(255),nullable=True)
     description = db.Column(db.Text,nullable=True)
     published_at= db.Column(db.TIMESTAMP,server_default=db.func.current_timestamp())
+    is_menu=db.Column(db.Boolean,nullable=True,default=False)
     def get_absolute_url(self):
         return ('Page', (), {'slug': self.slug,'id': self.id,})
     def __str__(self):
