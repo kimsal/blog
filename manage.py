@@ -173,14 +173,16 @@ def admin_post_add(slug=""):
 		   		now = str(datetime.now())
 				now= now.replace(':',"",10).replace(' ','',4).replace('.','',5).replace('-','',5)
 		   		result = request.form
-				file = request.files['feature_image']
-				filename = secure_filename(file.filename)
-				return str(result)+" : "+str(file)+" : "+str(filename)
+				#file = request.files['feature_image']
+				#filename = secure_filename(file.filename)
+				filename=str(request.form['txt_temp_image'])
+				#return filename
+				#return str(result)+" : "+str(file)+" : "+str(filename)
 		   		if not slug:
 		   			if file:
-		   				file.save(os.path.join(app.config['UPLOAD_FOLDER'], now+"-"+filename))
+		   				#file.save(os.path.join(app.config['UPLOAD_FOLDER'], now+"-"+filename))
 			        	#return str(result)+":"+str(file)+":"+str(filename)
-			        	obj=Post(request.form['title'],request.form['description'],request.form['category_id'],(now+"-"+filename),request.cookies.get('blog_id'))
+		   				obj=Post(request.form['title'],request.form['description'],request.form['category_id'],filename,request.cookies.get('blog_id'))
 			        	
 			        	status=Post.add(obj)
 				        if not status:
@@ -197,8 +199,8 @@ def admin_post_add(slug=""):
 		   			#return str(not not file)
 		   			if not not file: 
 			   			#upload imagesif len(filename)>0:
-		   				file.save(os.path.join(app.config['UPLOAD_FOLDER'], (now+"-"+filename)))
-		   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':(now+"-"+filename) })
+		   				#file.save(os.path.join(app.config['UPLOAD_FOLDER'], (now+"-"+filename)))
+		   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':filename })
 		   				status = db.session.commit()
 		   				if not status:
 		   					flash("Post added was successfully")
@@ -212,7 +214,7 @@ def admin_post_add(slug=""):
 		   			for post in obj:
 		   				tempFileName=post.feature_image
 	   				filename=tempFileName
-	   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':str(filename) })
+	   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':filename })
 	   				status = db.session.commit()
 	   				if not status:
 	   					flash("Post updated was successfully")
@@ -222,6 +224,7 @@ def admin_post_add(slug=""):
 			        	return redirect(url_for('admin_index'))
 
 		except Exception  as e:
+			raise
 			flash(str(e.message))
 			return redirect(url_for("admin_post_add"))
 

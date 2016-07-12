@@ -200,8 +200,9 @@
       var imageFoo = document.createElement('img');
       imageFoo.src = dataUrl;
       image_string=imageFoo.src;
-      alert(image_string);
+      //alert(image_string);
       console.log("my img = "+image_string);
+      $('.txt_temp_image[name="txt_temp_image"]').attr('value', image_string);
       // Append it to the body element
       $('#feature_image[name="feature_image"]').attr('value',imageFoo.src);
       $('#preview').delay(100).hide();
