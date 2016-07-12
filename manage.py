@@ -28,7 +28,7 @@ with open('config.txt','r') as f:
 #Middleware
 @app.context_processor
 def inject_dict_for_all_templates():
-    return dict(logined_name=request.cookies.get('blog_name'),template_name= template,categories = Category.query.filter_by(is_menu=True),pages = Page.query.filter_by(is_menu=True))
+    return dict(logined_name=request.cookies.get('blog_name'),template_name= template,categories = Category.query.filter_by(is_menu=1),pages = Page.query.filter_by(is_menu=1))
 #========================================================
 @auth.verify_token
 def verify_token(token):
@@ -388,12 +388,6 @@ def admin_template():
 @app.route('/admin/template/<new_template>/')
 def admin_choose_template(new_template):
 	try:
-		# with open('config.txt','r') as f:
-		# 	config=str(f.read())
-		# 	data=config.split('\n')
-		# 	template=data[0].split('"')[1]
-		# 	limit=int(data[1].split('"')[1])
-		#return config
 		global config
 		global template
 		global limit
@@ -412,19 +406,65 @@ def admin_choose_template(new_template):
 	return redirect(url_for('admin_index'))
 @app.route('/admin/limit')
 @app.route('/admin/limit/')
-def admin_limit():
-	return render_template('/admin/limit.html')
+@app.route('/admin/limit/<number>', methods=['POST','GET'])
+@app.route('/admin/limit/<number>/', methods=['POST','GET'])
+def admin_limit(number=0):
+	if number==0:
+		return render_template('/admin/limit.html',limit=limit)
+	else:
+		try:
+			global config
+			global template
+			global limit
+			#return config
+			with open('config.txt','w') as f:
+				config=config.replace('limit="'+str(limit)+'"','limit="'+str(number)+'"')
+				f.write(str(config))
+			###Read again:
+			with open('config.txt','r') as f:
+				config=str(f.read())
+				data=config.split('\n')
+				template=data[0].split('"')[1]
+				limit=int(data[1].split('"')[1])
+			return jsonify({'success':"Ok" })
+		except Exception as e:
+			return jsonify({'success':str(e.message) })
 @app.route('/admin/social')
 @app.route('/admin/social/')
 def admin_social():
 	return render_template('/admin/social.html')
-@app.route('/admin/menu', methods=['POST', 'GET'])
-@app.route('/admin/menu/', methods=['POST', 'GET'])
-def admin_menu():
-	pages=Page.query.all()
-	categories=Category.query.all()
-	return render_template('/admin/menu.html',pages=pages,categories=categories)
-
+@app.route('/admin/menu')
+@app.route('/admin/menu/')
+def admin_menu(id=0,value=0):
+	if request.method == 'GET':
+		ps=Page.query.all()
+		cats=Category.query.all()
+		return render_template('/admin/menu.html',ps=ps,cats=cats)
+@app.route('/admin/menu/<id>/<value>/<model>', methods=['POST', 'GET'])
+@app.route('/admin/menu/<id>/<value>/<model>/', methods=['POST', 'GET'])
+def admin_menu_set(id=0,value=0,model=''):
+		if model=='category':
+			try:
+				category_object=Category.query.filter_by(id=id)
+				category_object.update({"is_menu" : value })
+				status = db.session.commit()
+				if not status:
+					return jsonify({'success':True}) 
+				else:
+					return jsonify({'success':False})
+			except Exception as e:
+				return jsonify({'success':str(e.message) })
+		elif model=='page':
+			try:
+				page_object=Page.query.filter_by(id=id)
+				page_object.update({"is_menu" : value })
+				status = db.session.commit()
+				if not status:
+					return jsonify({'success':True}) 
+				else:
+					return jsonify({'success':False})
+			except Exception as e:
+				return jsonify({'success':str(e.message) })
 #End Middleware
 
 
@@ -449,7 +489,8 @@ def index():
 def single(slug='',pagination=1):
 	try:
 		post_object=Post.query.filter_by(slug=slug)#.limit(1)
-		page_object=Page.query.filter_by(slug=slug)#.limit(1)
+		if post_object.count()<=0:
+			page_object=Page.query.filter_by(slug=slug)#.limit(1)
 		if post_object.count()>0:
 			#return "1"
 			for post in post_object:
@@ -509,7 +550,7 @@ def search(slug):
 	return "{}".format(results)
 #end client
 if __name__ == '__main__':
-	 app.run(debug = True)
+	 app.run(debug = True,host='0.0.0.0')
 
 
 

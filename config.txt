@@ -1,2 +1,2 @@
 Template="template-2016";
-limit_post="20";
+limit="8";

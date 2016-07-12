@@ -9,8 +9,8 @@
 	<div class="row" style="margin-top:10px;border-bottom: solid thin #ececec !important;">
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         	<legend>Select Menu</legend>
-        	 <form role="form">
-        	 	{%for category in categories%}
+        	 <form role="form" name="frmcategory" id="category">
+        	 	{%for category in cats%}
 			    <div class="checkbox">
 			      <label>
 			      <input {%if category.is_menu %} checked {%endif%} type="checkbox" value="{{category.id}}">
@@ -23,8 +23,8 @@
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 
         	<legend>Select Page</legend>
-        	 <form role="form">
-			    {%for page in pages %}
+        	 <form role="form" name="frmpage" id="page">
+			    {%for page in ps %}
 			    <div class="checkbox">
 			      <label>
 			      <input {%if page.is_menu %} checked {%endif%} type="checkbox" value="{{page.id}}">
@@ -46,6 +46,45 @@
 	    var icon = $(this).parent().next(".off-canvas-submenu").is(':visible') ? '':'';
 	    $(this).parent().next(".off-canvas-submenu").slideToggle('slow');
 	    $(this).find("span").text(icon);
+	});
+	//save and update data 
+	$("#category input").change(function(){
+		//alert($(this).val());
+		var id=$(this).val();
+		var category_check=$(this).is(':checked');
+		//egory_check=document.getElementById('1').checked;
+		//alert(id+" : "+category_check);
+		if(category_check==true)
+			category_check=1;
+		else
+			category_check=0;
+		//alert(category_check);
+		$.ajax({
+          type: "GET",
+          url: '/admin/menu/'+id+"/"+category_check+"/category",
+          success: function(response) {
+          	//console.log(":"+response);
+          }
+        });
+	});
+	$("#page input").change(function(){
+		//alert($(this).val());
+		var id=$(this).val();
+		var page_check=$(this).is(':checked');
+		//egory_check=document.getElementById('1').checked;
+		//alert(id+" : "+category_check);
+		if(page_check==true)
+			page_check=1;
+		else
+			page_check=0;
+		//alert(category_check);
+		$.ajax({
+          type: "GET",
+          url: '/admin/menu/'+id+"/"+page_check+"/page",
+          success: function(response) {
+          	//console.log(":"+response);
+          }
+        });
 	});
 </script>
 </body>
