@@ -159,10 +159,7 @@ def admin_index(pagination=1):
 @app.route('/admin/post/edit/<slug>/', methods = ['GET', 'POST'])
 @auth.login_required
 def admin_post_add(slug=""):
-	# if not session.get('logged_in'):
-	# 	return redirect(url_for("admin_login"))
 	form = PostForm()
-	#form_overrides = dict(text=CKTextAreaField)
 	categories = [(c.id, c.name) for c in Category.query.order_by(Category.name).all()]
 	#form = RecipeForm(request.form)
 	form.category_id.choices = categories
@@ -178,7 +175,7 @@ def admin_post_add(slug=""):
 		   		result = request.form
 				file = request.files['feature_image']
 				filename = secure_filename(file.filename)
-				#return str(result)+" : "+str(file)+" : "+str(filename)
+				return str(result)+" : "+str(file)+" : "+str(filename)
 		   		if not slug:
 		   			if file:
 		   				file.save(os.path.join(app.config['UPLOAD_FOLDER'], now+"-"+filename))
