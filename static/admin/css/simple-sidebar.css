@@ -12,7 +12,20 @@ form > li{
     transition: all 0.5s ease;
 
 }
-
+/*search box*/
+.input-sm {
+    height: 30px;
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 24px;
+}
+.#irrelevantContainer {
+  width: 100px;
+  margin: 10px auto;
+  border-radius: 20px;
+}
+/*end search*/
 #wrapper.toggled {
     padding-left: 250px;
 }
@@ -77,15 +90,17 @@ form > li{
     background-color:rgb(42, 47, 48);
 }
 .sidebar-nav li a {
-    color: #f6dada;
+    color: #D2D7D3;
     display: block;
     text-decoration: none;
     font-weight: 600;
 }
-
+.sidebar-nav li a:active{
+    color: yellow;
+}
 .sidebar-nav li a:hover {
    text-decoration: underline;
-   color: #f9f9f9;
+   color: #D2D7D3;
 }
 
 .sidebar-nav li a:active,

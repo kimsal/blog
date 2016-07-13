@@ -9,12 +9,17 @@
     <title>Amok.com | Blog and Web publisher</title>
     <script src="/static/admin/js/jquery.js"></script>
     <link rel="icon" href="/static/admin/images/logo.png" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="/static/admin/bootstrap-social.css">
     <!-- <link rel="stylesheet" href="/static/admin/css/font-awesome.css"> -->
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <!--custom crop image-->
     <!-- <link href="/static/admin/css/jquery.cropbox.css" rel="stylesheet" type="text/css"> -->
-
+     <!-- Custom Fonts -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <!--end font-->
 
     <!--these link for crop image only-->
         <link rel="stylesheet" type="text/css" href="/static/admin/css/style12.css" />
@@ -50,16 +55,10 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <form class="navbar-form navbar-left" role="search">
-                    <div id="custom-search-input">
-                        <div class="input-group col-md-12">
-                            <input type="text" class="  search-query form-control" placeholder=" Search . . ." />
-                                <span class="input-group-btn">
-                                    <button class="btn btn-danger" type="button">
-                                        <span class="glyphicon glyphicon-search"></span>
-                                    </button>
-                                </span>
-                            </div>
-                        </div>
+                    <div class="form-group has-feedback">
+                      <input type="text" placeholder="Search..." class="form-control input-sm">
+                      <span class="fa fa-search form-control-feedback"></span>
+                    </div>
                 </form>
                 <li class="dropdown">
                     <a class="dropdown-toggle" style="color:white;cursor:pointer;" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-user" >
@@ -105,7 +104,7 @@
                             <a href="#" class="off-canvas-submenu-call"><span class="right">
                             </span>
                                Manage Content
-                               <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                               
                         </a>
                         </li>
                             <ul class="off-canvas-submenu" >
@@ -129,7 +128,7 @@
                         <li>
                             <a href="#" class="off-canvas-submenu-call"><span class="right"></span>
                                 Settings
-                                <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                                
                         </a>
                         </li>
                         <ul class="off-canvas-submenu" >
