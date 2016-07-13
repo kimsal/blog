@@ -30,6 +30,13 @@ with open('config.txt','r') as f:
 def inject_dict_for_all_templates():
     return dict(logined_name=request.cookies.get('blog_name'),template_name= template,categories = Category.query.filter_by(is_menu=1),pages = Page.query.filter_by(is_menu=1))
 #========================================================
+@app.route("/admin/sendmail")
+@app.route("/admin/sendmail/")
+def admin_send_mail():
+	msg = Message('Hello',sender='kimsalsan12@gmail.com',recipients=['kimsalsan007@gmail.com'])
+	msg.body = "This is the email body"
+	mail.send(msg)
+	return "Sent"
 @auth.verify_token
 def verify_token(token):
 	# g.current_user = UserMember.query.filter_by(token=token).first()
@@ -465,6 +472,10 @@ def admin_menu_set(id=0,value=0,model=''):
 					return jsonify({'success':False})
 			except Exception as e:
 				return jsonify({'success':str(e.message) })
+@app.route('/verify')
+@app.route('/verify/')
+def verify_email():
+	return render_template('admin/verify-email.html')
 #End Middleware
 
 
