@@ -20,6 +20,8 @@ python models.py db upgrade
 sudo pip install passlib
 sudo pip install flask_httpauth
 
+sudo pip install Flask-Social
+
 
 ############################################
 
@@ -44,3 +46,7 @@ from .forms import CKEditorForm
 	    form = CKEditorForm()
 	    response = form.upload(endpoint=app)
 	    return response
+
+
+URL:
+	http://flask.pocoo.org/snippets/85/

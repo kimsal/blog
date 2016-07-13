@@ -11,6 +11,7 @@ from passlib.apps import *
 from itsdangerous import (TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired)
 from flask_httpauth import HTTPTokenAuth
 from datetime import datetime, timedelta
+from flask_mail import Mail,Message
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql://blog:blog@localhost:5432/blog'
 auth = HTTPTokenAuth(scheme='Token')
@@ -24,9 +25,21 @@ manager.add_command('db', MigrateCommand)
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 #upload url for feature images
 app.config['UPLOAD_FOLDER'] = 'static/images/feature_images/'
-
 expire_date = datetime.now()
 expire_date = expire_date + timedelta(days=90)
+#### send mail ####
+app.config.update(
+	DEBUG=True,
+	#EMAIL SETTINGS
+	MAIL_SERVER='smtp.gmail.com',
+	MAIL_PORT=465,
+	MAIL_USE_SSL=True,
+	MAIL_USERNAME = 'kimsalsan12@gmail.com',
+	MAIL_PASSWORD = '11101999sal'
+	)
+
+mail=Mail(app)
+#####################
 
 SECRET_KEY="!Amok123#smallworld_common_toursanak_amok"
 def init_db():
