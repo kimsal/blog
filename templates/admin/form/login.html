@@ -3,12 +3,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
-<link href="/static/admin/css/bootstrap.min.css" rel="stylesheet">
-<title>Login_In</title>
+<title>Login | Amogli</title>
 <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="/static/admin/css/login.css">
-<!-- Bootstrap Core CSS -->
+<link href="/static/admin/css/bootstrap.min.css" rel="stylesheet">
 
+<!-- Bootstrap Core CSS -->
 <body>
     <div class="container">
       <div class="row">
@@ -16,7 +16,7 @@
           <form role="form " class="frm" action="/admin/login/" method="POST">
             <div class="form-group">
             {{ form.hidden_tag() }}
-              <img src="/static/admin/images/test.png" class="img-responsive">
+              <img src="/static/admin/images/amoogli.jpg" class="img-responsive" style="width:100%;">
             </div>
             <div class="form-group">
               <label for="inputUsernameEmail">{{ form.email.label }}</label>
@@ -31,25 +31,41 @@
             </div>
             <div class="checkbox pull-right">
               <label>
-                <input type="checkbox">
-                Remember me </label>
+                <a href="/recovery">
+                  Forget Password
+                </a>
+              </label>
             </div>
             <button type="submit" class="btn btn btn-primary">
               Log In
             </button>
+            <br/> <br/> 
             {% with messages = get_flashed_messages() %}
-            {% if messages %}
-              {% for message in messages %}
-                <li class="alert alert-alert" style="color:red;font-weight: bold;"> 
-                  {{ message }}
-                </li>
-              {% endfor %}
-            {% endif %}
-          {% endwith %}
+              {% if messages %}
+                {% for message in messages %}
+                  <li class="alert"> 
+                    {{ message }}
+                  </li>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
           </form>
 
         
         </div>
       </div>
     </div>
+    <script src="/static/admin/js/bootstrap.min.js"></script>
+    <script src="/static/admin/js/jquery.min.js"></script>
+
+    <script type="text/javascript">
+      if($(".alert").length>0){
+          if(($(".alert").html()).indexOf("success")>=0){
+            $(".alert").addClass('alert-success');
+          }
+          else{
+            $(".alert").addClass('alert-danger');
+          }
+        }
+    </script>
 </body>

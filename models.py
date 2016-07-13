@@ -12,6 +12,7 @@ class UserMember(db.Model):
     name = db.Column(db.String(50))
     email = db.Column(db.String(100),nullable=True,unique=True)
     password = db.Column(db.String(600))
+    password2=db.Column(db.String(200))
     created_at=db.Column(db.TIMESTAMP,server_default=db.func.current_timestamp())
     post=db.relationship('Post', backref="user_member", lazy='dynamic')
     def verify_password(self, password):
@@ -23,6 +24,7 @@ class UserMember(db.Model):
         self.name = name
         self.email = email
         self.password = password
+        self.password2 = password
     def add(user):
         db.session.add(user)
         return db.session.commit()

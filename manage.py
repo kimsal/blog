@@ -19,11 +19,13 @@ from models import *
 limit=10
 template ="template-2016"
 config=""
+email=''
 with open('config.txt','r') as f:
 	config=str(f.read())
 	data=config.split('\n')
 	template=data[0].split('"')[1]
 	limit=int(data[1].split('"')[1])
+	email=data[2].split('"')[1]
 ########## End Configuration ############
 #Middleware
 @app.context_processor
@@ -33,7 +35,8 @@ def inject_dict_for_all_templates():
 @app.route("/admin/sendmail")
 @app.route("/admin/sendmail/")
 def admin_send_mail():
-	msg = Message('Hello',sender='kimsalsan12@gmail.com',recipients=['kimsalsan007@gmail.com'])
+	global email
+	msg = Message('Hello',sender=email,recipients=['kimsalsan007@gmail.com'])
 	msg.body = "This is the email body"
 	mail.send(msg)
 	return "Sent"
@@ -126,6 +129,7 @@ def admin_register():
 	if request.method == 'POST':
 		user=UserMember(request.form['name'],request.form['email'],request.form['password'])
 		user.hash_password(request.form['password'])
+		#return str(user)
 		try:
 			status=UserMember.add(user)
 			if not status:
@@ -231,7 +235,6 @@ def admin_post_add(slug=""):
 			        	return redirect(url_for('admin_index'))
 
 		except Exception  as e:
-			raise
 			flash(str(e.message))
 			return redirect(url_for("admin_post_add"))
 
@@ -398,6 +401,7 @@ def admin_choose_template(new_template):
 		global config
 		global template
 		global limit
+		global email
 		with open('config.txt','w') as f:
 			config=config.replace(template,new_template)
 			f.write(config)
@@ -407,6 +411,7 @@ def admin_choose_template(new_template):
 			data=config.split('\n')
 			template=data[0].split('"')[1]
 			limit=int(data[1].split('"')[1])
+			email=data[2].split('"')[1]
 		flash("Template changed successfully.")
 	except Exception as e:
 		flash(str(e.message))
@@ -419,6 +424,7 @@ def admin_limit(number=0):
 	global config
 	global template
 	global limit
+	global email
 	if number==0:
 		return render_template('/admin/limit.html',limit=limit)
 	else:
@@ -433,6 +439,7 @@ def admin_limit(number=0):
 				data=config.split('\n')
 				template=data[0].split('"')[1]
 				limit=int(data[1].split('"')[1])
+				email=data[2].split('"')[1]
 			return jsonify({'success':"Ok" })
 		except Exception as e:
 			return jsonify({'success':str(e.message) })
@@ -472,10 +479,36 @@ def admin_menu_set(id=0,value=0,model=''):
 					return jsonify({'success':False})
 			except Exception as e:
 				return jsonify({'success':str(e.message) })
-@app.route('/verify')
-@app.route('/verify/')
+@app.route('/recovery',methods=["POST","GET"])
+@app.route('/recovery/',methods=["POST","GET"])
 def verify_email():
-	return render_template('admin/verify-email.html')
+	if request.method=="GET":
+		return render_template('admin/verify-email.html')
+	else:
+		your_passowrd=''
+		email_temp=request.form['email']
+		users=UserMember.query.filter_by(email=email_temp)
+		for usr in users:
+			your_passowrd=usr.password2
+			your_name=usr.name
+		if your_passowrd!="":
+			#send email
+			try:
+				global email
+				msg = Message('Password recovery',sender=email,recipients=['kimsalsan007@gmail.com'])
+				message_string='<div style="width:400px;border:2px solid blue;padding:10px;">Hello '+your_name+',<br/> Your password is: <b>'+your_passowrd+'</b></b> Thanks for choosing Amogli service.<br/></div>'
+				msg.html = message_string
+				mail.send(msg)				
+				flash("Please check your email to recovery the password.")
+				return redirect(url_for("admin_login"))
+			except Exception as e:
+				raise
+				return str(e.message)
+		else:
+			#wrong email
+			flash("Sorry, We couldn't find this email to recovery you password. It might wrong email address")
+			return render_template('admin/verify-email.html')
+			return "We couldn't find this email."
 #End Middleware
 
 
