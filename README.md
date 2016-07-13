@@ -20,7 +20,7 @@ python models.py db upgrade
 sudo pip install passlib
 sudo pip install flask_httpauth
 
-sudo pip install Flask-Social
+sudo pip install flask_mail
 
 
 ############################################
