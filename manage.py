@@ -409,13 +409,13 @@ def admin_choose_template(new_template):
 @app.route('/admin/limit/<number>', methods=['POST','GET'])
 @app.route('/admin/limit/<number>/', methods=['POST','GET'])
 def admin_limit(number=0):
+	global config
+	global template
+	global limit
 	if number==0:
 		return render_template('/admin/limit.html',limit=limit)
 	else:
 		try:
-			global config
-			global template
-			global limit
 			#return config
 			with open('config.txt','w') as f:
 				config=config.replace('limit="'+str(limit)+'"','limit="'+str(number)+'"')
@@ -548,6 +548,10 @@ def search(slug):
 	#whooshalchemy.whoosh_index(app, Post)
 	results = "Post.query.whoosh_search('cool')"
 	return "{}".format(results)
+@app.route('/admin/earn')
+@app.route('/admin/earn/')
+def admin_earn():
+	return render_template("admin/earn.html")
 #end client
 if __name__ == '__main__':
 	 app.run(debug = True,host='0.0.0.0')

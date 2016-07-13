@@ -5,7 +5,9 @@
     Homepage   : http://www.dragar.net
 */
 
-
+.container-fluid{
+  padding:0px;
+}
 #fileInput {
   width: 0;
   height: 0;
