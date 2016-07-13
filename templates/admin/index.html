@@ -6,17 +6,7 @@
                     <div class="col-lg-12" style="padding:0px;">
                         <br>
                         <br>
-                        <center>
-                        {% with messages = get_flashed_messages() %}
-                          {% if messages %}
-                            {% for message in messages %}
-                              <li class="alert" style="list-style:none"> 
-                                {{ message }}
-                              </li>
-                            {% endfor %}
-                          {% endif %}
-                        {% endwith %}
-                        </center>
+                        
                         
                         <div class="panel panel-default" style="padding:0px;">
                           <div class="panel-heading">
@@ -31,6 +21,17 @@
                             	Post list
                             </h3>
                           </div>
+                          <center>
+                        {% with messages = get_flashed_messages() %}
+                          {% if messages %}
+                            {% for message in messages %}
+                              <li class="alert" style="list-style:none"> 
+                                {{ message }}
+                              </li>
+                            {% endfor %}
+                          {% endif %}
+                        {% endwith %}
+                        </center>
                           <div class="panel-body">
                                 <div class="table-responsive">
                                 <table class="table table-hover ">

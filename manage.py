@@ -28,7 +28,7 @@ with open('config.txt','r') as f:
 #Middleware
 @app.context_processor
 def inject_dict_for_all_templates():
-    return dict(logined_name=request.cookies.get('blog_name'),template_name= template,categories = Category.query.all(),pages = Page.query.all())
+    return dict(logined_name=request.cookies.get('blog_name'),template_name= template,categories = Category.query.filter_by(is_menu=1),pages = Page.query.filter_by(is_menu=1))
 #========================================================
 @auth.verify_token
 def verify_token(token):
@@ -159,10 +159,7 @@ def admin_index(pagination=1):
 @app.route('/admin/post/edit/<slug>/', methods = ['GET', 'POST'])
 @auth.login_required
 def admin_post_add(slug=""):
-	# if not session.get('logged_in'):
-	# 	return redirect(url_for("admin_login"))
 	form = PostForm()
-	#form_overrides = dict(text=CKTextAreaField)
 	categories = [(c.id, c.name) for c in Category.query.order_by(Category.name).all()]
 	#form = RecipeForm(request.form)
 	form.category_id.choices = categories
@@ -176,14 +173,16 @@ def admin_post_add(slug=""):
 		   		now = str(datetime.now())
 				now= now.replace(':',"",10).replace(' ','',4).replace('.','',5).replace('-','',5)
 		   		result = request.form
-				file = request.files['feature_image']
-				filename = secure_filename(file.filename)
+				#file = request.files['feature_image']
+				#filename = secure_filename(file.filename)
+				filename=str(request.form['txt_temp_image'])
+				#return filename
 				#return str(result)+" : "+str(file)+" : "+str(filename)
 		   		if not slug:
 		   			if file:
-		   				file.save(os.path.join(app.config['UPLOAD_FOLDER'], now+"-"+filename))
+		   				#file.save(os.path.join(app.config['UPLOAD_FOLDER'], now+"-"+filename))
 			        	#return str(result)+":"+str(file)+":"+str(filename)
-			        	obj=Post(request.form['title'],request.form['description'],request.form['category_id'],(now+"-"+filename),request.cookies.get('blog_id'))
+		   				obj=Post(request.form['title'],request.form['description'],request.form['category_id'],filename,request.cookies.get('blog_id'))
 			        	
 			        	status=Post.add(obj)
 				        if not status:
@@ -200,8 +199,8 @@ def admin_post_add(slug=""):
 		   			#return str(not not file)
 		   			if not not file: 
 			   			#upload imagesif len(filename)>0:
-		   				file.save(os.path.join(app.config['UPLOAD_FOLDER'], (now+"-"+filename)))
-		   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':(now+"-"+filename) })
+		   				#file.save(os.path.join(app.config['UPLOAD_FOLDER'], (now+"-"+filename)))
+		   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':filename })
 		   				status = db.session.commit()
 		   				if not status:
 		   					flash("Post added was successfully")
@@ -215,16 +214,17 @@ def admin_post_add(slug=""):
 		   			for post in obj:
 		   				tempFileName=post.feature_image
 	   				filename=tempFileName
-	   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':str(filename) })
+	   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':filename })
 	   				status = db.session.commit()
 	   				if not status:
-	   					flash("Post updated was successfully 1")
+	   					flash("Post updated was successfully")
 	   					return redirect(url_for('admin_index'))
 			        else:
-			        	flash("Fail to update post 111 !")
+			        	flash("Fail to update post!")
 			        	return redirect(url_for('admin_index'))
 
 		except Exception  as e:
+			raise
 			flash(str(e.message))
 			return redirect(url_for("admin_post_add"))
 
@@ -388,12 +388,6 @@ def admin_template():
 @app.route('/admin/template/<new_template>/')
 def admin_choose_template(new_template):
 	try:
-		# with open('config.txt','r') as f:
-		# 	config=str(f.read())
-		# 	data=config.split('\n')
-		# 	template=data[0].split('"')[1]
-		# 	limit=int(data[1].split('"')[1])
-		#return config
 		global config
 		global template
 		global limit
@@ -412,17 +406,65 @@ def admin_choose_template(new_template):
 	return redirect(url_for('admin_index'))
 @app.route('/admin/limit')
 @app.route('/admin/limit/')
-def admin_limit():
-	return render_template('/admin/limit.html')
+@app.route('/admin/limit/<number>', methods=['POST','GET'])
+@app.route('/admin/limit/<number>/', methods=['POST','GET'])
+def admin_limit(number=0):
+	global config
+	global template
+	global limit
+	if number==0:
+		return render_template('/admin/limit.html',limit=limit)
+	else:
+		try:
+			#return config
+			with open('config.txt','w') as f:
+				config=config.replace('limit="'+str(limit)+'"','limit="'+str(number)+'"')
+				f.write(str(config))
+			###Read again:
+			with open('config.txt','r') as f:
+				config=str(f.read())
+				data=config.split('\n')
+				template=data[0].split('"')[1]
+				limit=int(data[1].split('"')[1])
+			return jsonify({'success':"Ok" })
+		except Exception as e:
+			return jsonify({'success':str(e.message) })
 @app.route('/admin/social')
 @app.route('/admin/social/')
 def admin_social():
 	return render_template('/admin/social.html')
 @app.route('/admin/menu')
 @app.route('/admin/menu/')
-def admin_menu():
-	return render_template('/admin/menu.html')
-
+def admin_menu(id=0,value=0):
+	if request.method == 'GET':
+		ps=Page.query.all()
+		cats=Category.query.all()
+		return render_template('/admin/menu.html',ps=ps,cats=cats)
+@app.route('/admin/menu/<id>/<value>/<model>', methods=['POST', 'GET'])
+@app.route('/admin/menu/<id>/<value>/<model>/', methods=['POST', 'GET'])
+def admin_menu_set(id=0,value=0,model=''):
+		if model=='category':
+			try:
+				category_object=Category.query.filter_by(id=id)
+				category_object.update({"is_menu" : value })
+				status = db.session.commit()
+				if not status:
+					return jsonify({'success':True}) 
+				else:
+					return jsonify({'success':False})
+			except Exception as e:
+				return jsonify({'success':str(e.message) })
+		elif model=='page':
+			try:
+				page_object=Page.query.filter_by(id=id)
+				page_object.update({"is_menu" : value })
+				status = db.session.commit()
+				if not status:
+					return jsonify({'success':True}) 
+				else:
+					return jsonify({'success':False})
+			except Exception as e:
+				return jsonify({'success':str(e.message) })
 #End Middleware
 
 
@@ -447,7 +489,8 @@ def index():
 def single(slug='',pagination=1):
 	try:
 		post_object=Post.query.filter_by(slug=slug)#.limit(1)
-		page_object=Page.query.filter_by(slug=slug)#.limit(1)
+		if post_object.count()<=0:
+			page_object=Page.query.filter_by(slug=slug)#.limit(1)
 		if post_object.count()>0:
 			#return "1"
 			for post in post_object:
@@ -505,9 +548,13 @@ def search(slug):
 	#whooshalchemy.whoosh_index(app, Post)
 	results = "Post.query.whoosh_search('cool')"
 	return "{}".format(results)
+@app.route('/admin/earn')
+@app.route('/admin/earn/')
+def admin_earn():
+	return render_template("admin/earn.html")
 #end client
 if __name__ == '__main__':
-	 app.run(debug = True)
+	 app.run(debug = True,host='0.0.0.0')
 
 
 
