@@ -1,0 +1,23 @@
+{% include template_name+'/header.html' %}
+<section class="container-fluid" id="section2">
+  <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+    {% for post in post_object %}
+    <div class="col-xs-12 col-sm-12">
+       <center>
+         <h3><b>
+           {{post.title}}
+         </b></h3>
+       </center>
+    </div>
+    <div class="col-xs-12 col-sm-12">
+      <p>
+        {{post.description|safe}}
+      </p><br/>
+      <center>
+          <img src="{{post.feature_image}}" class="img-responsive"/>
+        </center>
+    </div>
+    {%endfor%}
+  </div>
+</section>
+{% include template_name+'/footer.html' %} 

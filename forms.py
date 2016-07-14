@@ -22,3 +22,5 @@ class SearchForm(Form):
     search = TextField("search")
 class GroupForm(Form):
     name = TextField("Group Name")
+class SearchForm(Form):
+    q = TextField("Search ...")

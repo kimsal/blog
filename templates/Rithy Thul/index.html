@@ -1,0 +1,67 @@
+{% include template_name+'/header.html' %}
+	<header>
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+					<div class="img-logo">
+					<img src="/static/{{template_name}}/images/t2.png" class="img-responsive">
+					</div>
+				</div>
+				<div class="hidden-xs col-sm-2 col-md-2 col-lg-2"></div>
+			</div>
+			<div class="row">
+				<!--show add small xs-->
+				<div class="col-xs-12 hidden-sm hidden-md hidden-lg">
+					<a href="#" >
+						<div class="alert alert-dismissible alert-default" >
+						  <button type="button" class="close" data-dismiss="alert">&times;</button>
+						  <img src="/static/{{template_name}}/images/t1.jpg" class="img-responsive" >
+						  <small>Add by Amouk</small>
+						  <hr>
+						 <!--  <h4 style="font-size:13px;">Latest Post</h4> -->
+						  	
+						</div>
+					</a>
+				</div>
+				<!--end add small xs-->
+				<div class="col-md-8 col-lg-8">	
+				{%for post in home_posts%}
+					<header class="blog-box">
+						<h2><a href="/{{post.slug}}">
+						{{post.title}}
+						</a></h2>
+						<span>Posted by </span>
+						<span class="name"><a href="/{{post.slug}}">{{post.user_member.name}}</a></span>
+						<span>about </span>
+						<span><a href="/{{post.slug}}" class="time-left-{{post.id}}">July 8 th, 2016
+						</a></span>
+						<p class="para">
+							{{post.description|safe|truncate(300)
+							}}
+						</p>
+					</header>
+					<script type="text/javascript">
+						var ago=moment([{{post.updated_at}}]).fromNow();
+            			$(".time-left-{{post.id}}").html(ago);
+					</script>
+					{%endfor%}
+				</div>
+				<div class="col-md-4 col-lg-4 hidden-xs">
+					<a href="http://bitriel.com/" id="sidebar">
+						<div class="alert alert-dismissible alert-default" id="main_column">
+						  <button type="button" class="close" data-dismiss="alert">&times;</button>
+						  <img src="/static/{{template_name}}/images/t1.jpg" class="img-responsive" >
+						  <small>Add by Amoogli</small>
+						  <hr>
+						  <h4 style="font-size:13px;">Latest Post</h4>
+						  	
+						</div>
+					</a>
+				</div>
+				<script type="text/javascript">
+				    $(document).ready(function(){
+				       $("#sidebar, #main_column").stick_in_parent();
+				    });
+				</script>
+			</div>
+{% include template_name+'/footer.html' %}

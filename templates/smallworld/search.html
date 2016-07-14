@@ -1,0 +1,53 @@
+{% include template_name+'/header.html' %}
+<section class="container-fluid" id="section2">
+  <div class="row">
+  	<div class="col-sm-8 col-sm-offset-2 text-center">
+        <!--start blog-->
+        <div class="container-fluid">
+        	{% if posts.count()==0 %}
+        		<h3 style="color:red">
+        		Sorry we couldn't find any result for keyword " {{search}} ".
+        		</h3>
+        		<br/>
+        		<center>
+			    	<li class="flag">
+					  <a href="/">Home Page</a>
+					</li>
+			  </center>
+        	{%endif%}
+        	{%for post in posts%}
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 title_blog"      style="border-top:solid 1px thin;">
+              <a href="#">
+                <h4 class="pull-left mytitle">
+                 {{post.title}}
+                </h4>
+                <span class="pull-right time-left-{{post.id}}"></span>
+                <br><br>
+                <small class="pull-left">
+                <!-- <span class="fa fa-heart-o f1" aria-hidden="true">1</span> -->
+                <span class="fa fa-eye f1" aria-hidden="true">
+                {{post.views}}
+                </span>
+               <!--  <span class="fa fa-comment-o f1" aria-hidden="true">400</span> -->
+                <span style="font-size:12px;">By: {{post.user_member.name}}</span>
+                </small>
+              </a>
+            </div>
+            <script type="text/javascript">
+              var ago=moment([{{post.updated_at}}]).fromNow();
+              $(".time-left-{{post.id}}").html(ago);
+            </script>
+            {%endfor%}
+        </div>
+        <!--end blog-->
+      </div>
+    </div>
+  </div>
+  <!-- <center>
+    	<li class="flag">
+		  <a href="#">See more...</a>
+		</li>
+  </center> -->
+  <br><br>
+</section>
+{% include template_name+'/footer.html' %} 
