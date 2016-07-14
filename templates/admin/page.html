@@ -82,16 +82,6 @@
 <!-- Bootstrap Core JavaScript -->
 <!-- Menu Toggle Script -->
 <script>
-  $("#menu-toggle").click(function(e) {
-      e.preventDefault();
-      $("#wrapper").toggleClass("toggled");
-  });
-  $(".off-canvas-submenu").hide();
-  $(".off-canvas-submenu-call").click(function() {
-    var icon = $(this).parent().next(".off-canvas-submenu").is(':visible') ? '':'';
-    $(this).parent().next(".off-canvas-submenu").slideToggle('slow');
-    $(this).find("span").text(icon);
-  });
   if($(".alert").length>0){
     if(($(".alert").html()).indexOf("success")>=0){
       $(".alert").addClass('alert-success');
@@ -101,5 +91,4 @@
     }
   }
 </script>
-</body>
-</html>
+{% include 'admin/footer.html' %} 
