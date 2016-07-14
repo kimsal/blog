@@ -13,7 +13,7 @@ from flask_httpauth import HTTPTokenAuth
 from datetime import datetime, timedelta
 from flask_mail import Mail,Message
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql://blog:blog@localhost:5432/blog'
+app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql://phos:phos@localhost:5432/blog'
 auth = HTTPTokenAuth(scheme='Token')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=True
 app.secret_key = 'Hello@AmokCamSmallworld$Cambodia&*&'
