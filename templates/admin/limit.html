@@ -29,16 +29,7 @@
         </p>
     </div>
     <script>
-    $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
-    $(".off-canvas-submenu").hide();
-    $(".off-canvas-submenu-call").click(function() {
-        var icon = $(this).parent().next(".off-canvas-submenu").is(':visible') ? '':'';
-        $(this).parent().next(".off-canvas-submenu").slideToggle('slow');
-        $(this).find("span").text(icon);
-    });
+    
     //input only number
     $("#txtlimit").keydown(function (e) {
         // Allow: backspace, delete, tab, escape, enter and .
@@ -85,7 +76,4 @@
         }
     });
 </script>
-
-</body>
-
-</html>
+{% include 'admin/footer.html' %} 
