@@ -134,7 +134,7 @@
     <!-- <script src="/static/admin/js/scroll.js"></script> -->
 <script>
 	if($(".alert").length>0){
-		if(($(".alert").html()).indexOf("success")>=0){
+		if(($(".alert").html()).indexOf("success")>=0||($(".alert").html()).indexOf("Please check your email to recovery the password.")>=0){
 			$(".alert").addClass('alert-success');
 		}
 		else{
