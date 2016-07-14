@@ -85,6 +85,7 @@ def admin_login():
 			flash('Wrong user name or password !')
 			return redirect(url_for("admin_login"))
 	elif request.method == 'GET':
+		#return str(request.cookies.get("blog_name"))
 		if request.cookies.get("blog_name"):
 			return redirect(url_for("admin_index"))
 		return render_template('admin/form/login.html',form = form)
