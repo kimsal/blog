@@ -137,6 +137,8 @@ class Email(db.Model):
     published_at=db.Column(db.TIMESTAMP,server_default=db.func.current_timestamp())
     def __str__(self):
         return self.name
+    def update(self):
+        return session_commit()
     def to_Json(self):
         return dict(id=self.id,
             email=self.email,
@@ -153,10 +155,12 @@ class Email(db.Model):
         return db.session.commit()
 class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name  = db.Column(db.String(255),nullable=True)
+    name  = db.Column(db.String(255))
     published_at=db.Column(db.TIMESTAMP,server_default=db.func.current_timestamp())
     def __str__(self):
         return self.name
+    # def update(self):
+    #     return session_commit()    
     def to_Json(self):
         return dict(id=self.id,
             name=self.name

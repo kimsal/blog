@@ -20,3 +20,5 @@ class UserMemberForm(Form):
    submit = SubmitField("Login")
 class SearchForm(Form):
     search = TextField("search")
+class GroupForm(Form):
+    name = TextField("Group Name")

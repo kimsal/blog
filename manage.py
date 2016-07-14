@@ -449,18 +449,74 @@ def verify_email():
 ###########SEND MAIL##############
 @app.route('/admin/email/group', methods = ['GET', 'POST'])
 @app.route('/admin/email/group/', methods = ['GET', 'POST'])
-@app.route('/admin/email/group/<slug>', methods = ['GET', 'POST'])
-@app.route('/admin/email/group/<slug>/', methods = ['GET', 'POST'])
+# @app.route('/admin/email/group/<slug>', methods = ['GET', 'POST'])
+# @app.route('/admin/email/group/<slug>/', methods = ['GET', 'POST'])
+@app.route('/admin/email/group/<slug>/<action>', methods = ['GET', 'POST'])
+@app.route('/admin/email/group/<slug>/<action>/', methods = ['GET', 'POST'])
 @auth.login_required
-def admin_mail_group(slug=''):
-	if request.method=="GET":
-		return render_template("admin/form/mailgroup.html")
+def admin_mail_group(slug='',action=''):
+	#slug is group name
+	form = GroupForm()
+	groups=Group.query.order_by(Group.published_at.desc()).all()
+	if slug=='':
+		if request.method=="GET":
+			return render_template("admin/form/mailgroup.html",form=form,groups=groups)
+		else:
+			try:
+				name = request.form['name']
+				grp=Group(name)
+				status=Group.add(grp)
+				if not status:
+					flash("Group Added successfully")
+					return redirect(url_for('admin_mail_group'))
+				else:
+					flash("Error in adding Group !")
+					return redirect(url_for('admin_mail_group'))
+			except Exception as e:
+				flask(e.message)
+				return redirect(url_for("admin_mail_group"))
+	else:
+		#edit or delete
+		if action=="edit":
+			if request.method=="GET":
+				return render_template("admin/form/mailgroup.html",form=form,groups=groups,name=slug)
+			else:
+				try:
+					obj=Group.query.filter_by(name=slug)
+					obj.update({"name" : request.form['name'] })
+					status = db.session.commit()
+					#status = obj.update({"name":request.form['name']})
+					if not status:
+						flash("Group updated successfully")
+						return redirect(url_for('admin_mail_group'))
+					else:
+						flash("Error in updating group !")
+						return redirect(url_for('admin_mail_group'))
+				except Exception as e:
+					flash(e.message)
+					return redirect(url_for("admin_mail_group"))
+		else:
+			#delete group
+			try:
+				obj=Group.query.filter_by(name=slug).first()
+				status = Group.delete(obj)
+				if not status:
+					flash("Group deleted successfully")
+					return redirect(url_for('admin_mail_group'))
+				else:
+					flash("Error in deleting group !")
+					return redirect(url_for('admin_mail_group'))
+			except Exception as e:
+				flash(e.message)
+				return redirect(url_for('admin_mail_group'))
 @app.route('/admin/mail', methods = ['GET', 'POST'])
 @app.route('/admin/mail/', methods = ['GET', 'POST'])
 @auth.login_required
 def admin_mail():
 	if request.method=="GET":
 		return render_template("admin/form/maillist.html")
+	else:
+		return 'dd'
 @app.route('/admin/email', methods = ['GET', 'POST'])
 @app.route('/admin/email/', methods = ['GET', 'POST'])
 @auth.login_required
