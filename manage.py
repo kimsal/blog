@@ -523,6 +523,25 @@ def admin_mail():
 def admin_email():
 	if request.method=="GET":
 		return render_template("admin/form/sendmail.html")
+@app.route('/admin/search')
+@app.route('/admin/search/')
+@app.route('/admin/search/<pagination>')
+@app.route('/admin/search/<pagination>/')
+def admin_search(pagination=1):
+	global limit
+	search=(str(request.args['q']))#.split()
+	search=search.replace(" ",'+')
+	#return search
+	if search=="":
+		return redirect(url_for("admin_index"))
+	query_result=(Post.query.filter((Post.title).match("'%"+search+"%'"),(Post.description).match("%'"+search+"'%"))).count()
+	posts=Post.query.filter((Post.title).match("'%"+search+"%'"),(Post.description).match("%'"+search+"'%")).limit(limit).offset(int(int(int(limit)-1)*limit))
+	pagin=math.ceil((Post.query.filter((Post.title).match("'%"+search+"%'"),(Post.description).match("%'"+search+"'%")).count())/limit)
+	#return str((posts))
+	if math.ceil(pagin)%limit != 0:
+		pagin=int(pagin+1)
+	#return str(pagin)
+	return render_template('admin/search.html',page_name='search',posts=posts,current_pagin=int(pagination),pagin=(int(pagin)))
 ############## End send mail #####################
 #End Middleware
 #client
