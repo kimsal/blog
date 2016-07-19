@@ -1,0 +1,131 @@
+{% include template_name+'/header.html' %}
+<br/><br/><br/>
+	<header>
+		<div class="container">
+			
+			<div class="row">
+				<!--show add small xs-->
+				<div class="col-xs-12 hidden-sm hidden-md hidden-lg">
+					<a href="#" >
+						<div class="alert alert-dismissible alert-default" >
+						  <button type="button" class="close" data-dismiss="alert">&times;</button>
+						  <img src="http://bitriel.com/img/bitriel-logo-1.png" class="img-responsive" >
+						  <small>Ads by Amouk</small>
+						  <hr>
+						  <!-- <h4 style="font-size:13px;">Latest Post</h4> -->
+						  	
+						</div>
+					</a>
+				</div>
+				<!--end add small xs-->
+				<div class="col-md-8 col-lg-8">	
+				{%for post in posts%}
+					<header class="blog-box">
+						<h2><a href="/{{post.slug}}">
+						{{post.title}}
+						</a></h2>
+						<span><small>Posted by </small> </span>
+						<span class="name"><small><a href="/{{post.slug}}">{{post.user_member.name}}</a></small></span>
+						<span><small>about</small></span>
+						<span><small><a href="/{{post.slug}}" class="time-left-{{post.id}}">July 8 th, 2016
+						</a></small></span>
+						<p class="para">
+							{{post.description|safe|truncate(300)
+							}}
+						</p>
+						<!--pagination-->
+						 <center>
+		               {% if pagin > 1 %}
+		                    {% if pagin < 8 %}
+		                        <ul class="pagination pagination-sm">
+		                            {% if current_pagin > 1 %}
+		                                <li>
+		                                    <a href="/category/{{category_slug}}/{{current_pagin-1}}"> << </a>
+		                                </li>
+		                            {% endif %}
+		                            {% for cat_pagin in range(1,pagin+1) %}
+		                                {% if cat_pagin == current_pagin %}
+		                                    <li class="active">
+		                                        <a href="/category/{{category_slug}}/{{cat_pagin}}">
+		                                            {{cat_pagin}}
+		                                        </a>
+		                                    </li>
+		                                {%else%}
+		                                    <li>
+		                                        <a href="/category/{{category_slug}}/{{cat_pagin}}">
+		                                            {{cat_pagin}}
+		                                        </a>
+		                                    </li>
+		                                {%endif%}
+		                            {%endfor%}
+		                            {% if current_pagin < pagin %}
+		                                <li>
+		                                    <a href="/category/{{category_slug}}/{{current_pagin+1}}"> >> </a>
+		                                </li>
+		                            {% endif %}
+		                        </ul>
+		                    {%else %}
+		                        <li>
+		                            <a href="/category/{{category_slug}}/1">1</a>
+		                        </li>
+		                        <li>
+		                            <a href="/category/{{category_slug}}/2">2</a>
+		                        </li>
+		                        <li>
+		                            <a href="/category/{{category_slug}}/3">3</a>
+		                        </li>
+		                        <li>
+		                            <a href="/category/{{category_slug}}/4">4</a>
+		                        </li>
+		                        <li>
+		                            <a href="#">...</a>
+		                        </li>
+		                        {% for cat_pagin in range(pagin-4,pagin+1) %}
+		                          {% if cat_pagin == current_pagin %}
+		                                <li class="active">
+		                                    <a href="/category/{{category_slug}}/{{cat_pagin}}">
+		                                        {{cat_pagin}}
+		                                    </a>
+		                                </li>
+		                            {%else%}
+		                                <li>
+		                                    <a href="/category/{{category_slug}}/{{cat_pagin}}">
+		                                        {{cat_pagin}}
+		                                    </a>
+		                                </li>
+		                            {%endif%}
+		                        {%endfor%}
+		                    {%endif%}
+		                {%endif%}
+		            </center>
+		            <!--end pagination-->
+					</header>
+					<script type="text/javascript">
+						var ago=moment([{{post.updated_at}}]).fromNow();
+            			$(".time-left-{{post.id}}").html(ago);
+					</script>
+					{%endfor%}
+				</div>
+				<div class="col-md-4 col-lg-4 hidden-xs">
+					<a href="http://bitriel.com/" id="sidebar">
+						<div class="alert alert-dismissible alert-default" id="main_column">
+						  <button type="button" class="close" data-dismiss="alert">&times;</button>
+						  <img src="http://bitriel.com/img/bitriel-logo-1.png" class="img-responsive" >
+						  <small>Add by Amoogli</small>
+						  <hr>
+						  <!-- <h4 style="font-size:13px;">Latest Post</h4> -->
+						  	
+						</div>
+					</a>
+				</div>
+				<script type="text/javascript">
+				    $(document).ready(function(){
+				       $("#sidebar, #main_column").stick_in_parent();
+				    });
+				</script>
+			</div>
+{% include template_name+'/footer.html' %}
+
+
+
+

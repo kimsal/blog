@@ -1,0 +1,23 @@
+{% include template_name+'/header.html' %}
+<br/><br/><br/>
+<div class="container">
+	<div class="col-md-12 col-lg-12 col-sm-12">
+		{%for post in post_object%}
+		<header class="blog-box">
+			<h2><a href="#">{{post.title}}</a></h2>
+			<!-- <span>Posted by </span>
+			<span class="name"><a href="#">{{post.user_member.name}}</a></span>
+			<span>about </span>
+			<span><a href="" class="time-left-{{post.id}}">July 8 th, 2016</a></span> -->
+			<p class="para">
+				{{post.description|safe}}
+			</p>
+		</header>
+		<!-- <script type="text/javascript">
+			var ago=moment([{{post.updated_at}}]).fromNow();
+			$(".time-left-{{post.id}}").html(ago);
+		</script> -->
+		{%endfor%}
+	</div>			
+</div>
+{% include template_name+'/footer.html' %}

@@ -1,6 +1,6 @@
-Template="template-2016";
-limit="20";
+Template="Rithy Thul";
+limit="1";
 email="kimsalsan007@gmail.com";
-password="11101999";
+password="";
 
 

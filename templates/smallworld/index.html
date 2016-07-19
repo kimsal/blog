@@ -1,0 +1,106 @@
+{% include template_name+'/header.html' %} 
+<section class="container-fluid" id="section1">
+  	<div class="container">
+    {%for post in posts_top%}
+  		<div class="responsive">
+  		  	<div class="img">
+  			    <a target="_blank" href="#">
+  			        <img src="{{post.feature_image}}" alt="Smallworld" width="300" height="200">
+  				    <div class="desc">
+              {{post.title}}
+              </div>
+  				    <div class="myspan">
+  				    	<hr class="border">
+                <small>
+                <span class="fa fa-heart-o f1" aria-hidden="true">{{post.views}}</span>
+                <span class="fa fa-comment-o f1" aria-hidden="true"> {{post.views}}</span>
+                <span class="pull-right by" aria-hidden="true">By {{post.user_member.name}}</span>
+              </small>
+  				    </div>
+  			    </a>
+  		  	</div>
+  		</div>
+      {%endfor%}
+  	</div>
+  	<!--/container-->
+    <!--contact Detail-->
+    <div class="banner" style="margin-top:3px;padding-bottom:12px;">
+      <div class="container" style="padding:20px;">
+          <div class="col-xs-12 col-sm-8 col-md-8 col-md-8 col-lg-8 padding">
+            <div class="video-container">
+                     <iframe src="http://www.youtube.com/embed/dFVxGRekRSg" frameborder="0" width="560" height="315"></iframe>
+            </div>
+          </div>
+         <div class="col-xs-12 col-sm-4 col-md-4 col-md-4 col-lg-4 padding " style="padding-right:9px;">
+         <!--contact form-->
+          <div class="form-area" >  
+              <form role="form">
+              <br style="clear:both">
+                    <legend style="color:white;"><center>Keep in Touch</center></legend>
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="name" name="name" placeholder="First name" required>
+                  </div>
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="email" name="email" placeholder="Last name" required>
+                  </div>
+                
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="subject" name="subject" placeholder="Email" required>
+                  </div>
+                  <center>
+                  <button type="button" id="submit" name="submit" class="btn btn-primary">Submit
+                  </button>
+                  </center>
+              </form>
+          </div>
+         <!--end contact form--> 
+         </div>
+      </div>
+    </div>
+    <!--end contact Detail-->
+</section>
+<!--blogger-->
+<section class="container-fluid" id="section2" style="margin-top: -46px;
+">
+    <div class="row">
+      <div class="container text-center" style="padding:24px;">
+            <h2 style="margin-top:-7px;">Latest</h2>
+              <hr>
+        <!--start blog-->
+          <!-- <div class="container-fluid"> -->
+          {%for post in posts_bottom%}
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 title_blog"      style="border-top:solid 1px thin;">
+              <a href="#">
+                <h4 class="pull-left mytitle">
+                  {{post.title}}
+                </h4>
+                <span class="pull-right time-left-{{post.id}}">agos</span>
+                <br><br>
+                <small class="pull-left">
+                <!-- <span class="fa fa-heart-o f1" aria-hidden="true">1</span>
+                <span class="fa fa-eye f1" aria-hidden="true">20</span> -->
+                <span class="fa fa-comment-o f1" aria-hidden="true">{{post.views}}</span>
+                <span style="font-size:12px;">By {{post.user_member.name}}</span>
+                </small>
+              </a>
+            </div>
+            <script type="text/javascript">
+              var ago=moment([{{post.updated_at}}]).fromNow();
+              $(".time-left-{{post.id}}").html(ago);
+            </script>
+            {%endfor%}
+          </div>
+        <!--end blog-->
+        <!-- </div> -->
+      </div>
+    </div>
+      <br>
+    <!-- <center>
+        <li class="flag">
+        <a href="#">See more...</a>
+      </li>
+    </center> -->
+      
+</section>
+<!--end blogger-->
+{% include template_name+'/footer.html' %} 

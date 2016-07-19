@@ -1,0 +1,146 @@
+{% include template_name+'/header.html' %}
+<link rel="stylesheet" type="text/css" href="/static/{{template_name}}/css/startup.css">
+
+<section class="container-fluid" id="section2">
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2 text-center">
+        <div class="container-fluid">
+          <hr>
+        </div>
+        <br>
+        <!--start box-->
+        
+        <ul class="iconsWrap">
+        {%for post in posts%}
+          <li class="iconItem col-xs-18 col-sm-4 col-md-4">
+              <a href="/{{post.slug}}">
+                <!-- <div class="col-xs-18 col-sm-4 col-md-4"> -->
+                  <div class="thumbnail">
+                    <a href="/{{post.slug}}">
+                        <div class="caption">
+                          <img class="" src="{{post.feature_image}}" alt="" >
+                        </div>
+                        <div class="caption">
+                            <small class="pull-left author1">
+                            
+                              <b class="b">{{post.title}}</b>
+                            </small>
+                            <hr class="border">
+                            <span class="fa fa-comment-o pull-left" aria-hidden="true" style="font-size: 12px;">
+                               {{post.views}}
+                            </span>
+                            <span class="f2 pull-right time-left-{{post.id}}"></span>
+                        </div>
+                    </a>
+                  <!-- </div> -->
+                  </div>
+             
+              <div class="popover bottom">
+                  <div class="popover-content">
+                      <p class="desc">
+                        {{post.description|truncate(120)|safe}}
+                      </p>
+                  </div>
+              </div>
+               </a>
+          </li>
+          <script type="text/javascript">
+            var ago=moment([{{post.updated_at}}]).fromNow();
+            $(".time-left-{{post.id}}").html(ago);
+          </script>
+          {%endfor%}
+        </ul>
+       
+        <!--end box-->
+      </div>
+    </div>
+  </div>
+  <center>
+      <!-- <li class="flag">
+      <a href="#">See more...</a> -->
+      <!--pagination-->
+        <div class="container">
+            <center>
+               {% if pagin > 1 %}
+                    {% if pagin < 8 %}
+                        <ul class="pagination pagination-sm">
+                            {% if current_pagin > 1 %}
+                                <li>
+                                    <a href="/category/{{category_slug}}/{{current_pagin-1}}"> << </a>
+                                </li>
+                            {% endif %}
+                            {% for cat_pagin in range(1,pagin+1) %}
+                                {% if cat_pagin == current_pagin %}
+                                    <li class="active">
+                                        <a href="/category/{{category_slug}}/{{cat_pagin}}">
+                                            {{cat_pagin}}
+                                        </a>
+                                    </li>
+                                {%else%}
+                                    <li>
+                                        <a href="/category/{{category_slug}}/{{cat_pagin}}">
+                                            {{cat_pagin}}
+                                        </a>
+                                    </li>
+                                {%endif%}
+                            {%endfor%}
+                            {% if current_pagin < pagin %}
+                                <li>
+                                    <a href="/category/{{category_slug}}/{{current_pagin+1}}"> >> </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    {%else %}
+                        <li>
+                            <a href="/category/{{category_slug}}/1">1</a>
+                        </li>
+                        <li>
+                            <a href="/category/{{category_slug}}/2">2</a>
+                        </li>
+                        <li>
+                            <a href="/category/{{category_slug}}/3">3</a>
+                        </li>
+                        <li>
+                            <a href="/category/{{category_slug}}/4">4</a>
+                        </li>
+                        <li>
+                            <a href="#">...</a>
+                        </li>
+                        {% for cat_pagin in range(pagin-4,pagin+1) %}
+                          {% if cat_pagin == current_pagin %}
+                                <li class="active">
+                                    <a href="/category/{{category_slug}}/{{cat_pagin}}">
+                                        {{cat_pagin}}
+                                    </a>
+                                </li>
+                            {%else%}
+                                <li>
+                                    <a href="/category/{{category_slug}}/{{cat_pagin}}">
+                                        {{cat_pagin}}
+                                    </a>
+                                </li>
+                            {%endif%}
+                        {%endfor%}
+                    {%endif%}
+                {%endif%}
+            </center>
+            <br/>
+        </div>
+    <!--end pagination-->
+    </li>
+  </center>
+  <br><br>
+</section>
+<script type="text/javascript">
+    jQuery(document).ready(function($){
+      $('li.iconItem').hover(
+          function(){
+              $('.popover',this).css({display: 'block'});
+          },
+          function(){
+              $('.popover',this).css({display: 'none'});
+          }
+      );
+  });
+  </script>
+{% include template_name+'/footer.html' %} 

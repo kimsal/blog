@@ -4,7 +4,9 @@
     Mail       : <tomaz@dragar.net>
     Homepage   : http://www.dragar.net
 */
-
+.navbar-default{
+  border-color: none;
+}
 .container-fluid{
   padding:0px;
 }

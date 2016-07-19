@@ -1,0 +1,22 @@
+{% include template_name+'/header.html' %}
+<br/><br/><br/>
+<div class="row">
+	<div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2">
+		{%for page in page_object%}
+		<header class="blog-box">
+			<h2><a href="#">{{page.title}}</a></h2>
+			
+			<span>About </span>
+			<span><a href="" class="time-left-{{page.id}}">July 8 th, 2016</a></span>
+			<p class="para">
+				{{page.description|safe}}
+			</p>
+		</header>
+		<script type="text/javascript">
+			var ago=moment([{{page.updated_at}}]).fromNow();
+			$(".time-left-{{page.id}}").html(ago);
+		</script>
+		{%endfor%}
+	</div>			
+</div>
+{% include template_name+'/footer.html' %}

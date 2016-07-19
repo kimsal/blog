@@ -79,28 +79,32 @@ form > li{
     margin: 0;
     padding: 0;
     list-style: none;
-    background-color: #222;
+    background-color: red;
 }
 
 .sidebar-nav li {
-    text-indent: 20px;
+    text-indent: 5px;
     line-height: 40px;
+
 }
 .navbar-default{
-    background-color:rgb(42, 47, 48);
+    background: rgb(102, 102, 102) none repeat scroll 0% 0%;
 }
 .sidebar-nav li a {
-    color: #D2D7D3;
+    color: #EEE;
     display: block;
     text-decoration: none;
     font-weight: 600;
+    border-top: solid thin #4e4c4c !important;
 }
 .sidebar-nav li a:active{
-    color: yellow;
+    color: white;
 }
 .sidebar-nav li a:hover {
-   text-decoration: underline;
-   color: #D2D7D3;
+   /*text-decoration: underline;*/
+   /*color: red;*/
+   background-color: #25373D;
+   color:#FFF;
 }
 
 .sidebar-nav li a:active,

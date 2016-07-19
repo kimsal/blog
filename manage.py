@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from database import *
 import os.path as op
 import os
@@ -12,7 +13,6 @@ import math
 from models import *
 from forms import *
 from models import *
-limit=10
 template ="template-2016"
 config=""
 email=''
@@ -40,7 +40,7 @@ mail=Mail(app)
 #Middleware
 @app.context_processor
 def inject_dict_for_all_templates():
-    return dict(logined_name=request.cookies.get('blog_name'),template_name= template,categories = Category.query.filter_by(is_menu=1),pages = Page.query.filter_by(is_menu=1))
+    return dict(searchform=SearchForm(),logined_name=request.cookies.get('blog_name'),template_name= template,categories = Category.query.filter_by(is_menu=1),pages = Page.query.filter_by(is_menu=1))
 #========================================================
 @auth.verify_token
 def verify_token(token):
@@ -449,24 +449,103 @@ def verify_email():
 ###########SEND MAIL##############
 @app.route('/admin/email/group', methods = ['GET', 'POST'])
 @app.route('/admin/email/group/', methods = ['GET', 'POST'])
-@app.route('/admin/email/group/<slug>', methods = ['GET', 'POST'])
-@app.route('/admin/email/group/<slug>/', methods = ['GET', 'POST'])
+# @app.route('/admin/email/group/<slug>', methods = ['GET', 'POST'])
+# @app.route('/admin/email/group/<slug>/', methods = ['GET', 'POST'])
+@app.route('/admin/email/group/<slug>/<action>', methods = ['GET', 'POST'])
+@app.route('/admin/email/group/<slug>/<action>/', methods = ['GET', 'POST'])
 @auth.login_required
-def admin_mail_group(slug=''):
-	if request.method=="GET":
-		return render_template("admin/form/mailgroup.html")
+def admin_mail_group(slug='',action=''):
+	#slug is group name
+	form = GroupForm()
+	groups=Group.query.order_by(Group.published_at.desc()).all()
+	if slug=='':
+		if request.method=="GET":
+			return render_template("admin/form/mailgroup.html",form=form,groups=groups)
+		else:
+			try:
+				name = request.form['name']
+				grp=Group(name)
+				status=Group.add(grp)
+				if not status:
+					flash("Group Added successfully")
+					return redirect(url_for('admin_mail_group'))
+				else:
+					flash("Error in adding Group !")
+					return redirect(url_for('admin_mail_group'))
+			except Exception as e:
+				flask(e.message)
+				return redirect(url_for("admin_mail_group"))
+	else:
+		#edit or delete
+		if action=="edit":
+			if request.method=="GET":
+				return render_template("admin/form/mailgroup.html",form=form,groups=groups,name=slug)
+			else:
+				try:
+					obj=Group.query.filter_by(name=slug)
+					obj.update({"name" : request.form['name'] })
+					status = db.session.commit()
+					#status = obj.update({"name":request.form['name']})
+					if not status:
+						flash("Group updated successfully")
+						return redirect(url_for('admin_mail_group'))
+					else:
+						flash("Error in updating group !")
+						return redirect(url_for('admin_mail_group'))
+				except Exception as e:
+					flash(e.message)
+					return redirect(url_for("admin_mail_group"))
+		else:
+			#delete group
+			try:
+				obj=Group.query.filter_by(name=slug).first()
+				status = Group.delete(obj)
+				if not status:
+					flash("Group deleted successfully")
+					return redirect(url_for('admin_mail_group'))
+				else:
+					flash("Error in deleting group !")
+					return redirect(url_for('admin_mail_group'))
+			except Exception as e:
+				flash(e.message)
+				return redirect(url_for('admin_mail_group'))
 @app.route('/admin/mail', methods = ['GET', 'POST'])
 @app.route('/admin/mail/', methods = ['GET', 'POST'])
 @auth.login_required
 def admin_mail():
 	if request.method=="GET":
 		return render_template("admin/form/maillist.html")
+	else:
+		return 'dd'
 @app.route('/admin/email', methods = ['GET', 'POST'])
 @app.route('/admin/email/', methods = ['GET', 'POST'])
 @auth.login_required
 def admin_email():
 	if request.method=="GET":
 		return render_template("admin/form/sendmail.html")
+@app.route('/admin/earn')
+@app.route('/admin/earn/')
+def admin_earn():
+	return render_template("admin/earn.html")
+@app.route('/admin/search')
+@app.route('/admin/search/')
+@app.route('/admin/search/<pagination>')
+@app.route('/admin/search/<pagination>/')
+def admin_search(pagination=1):
+	global limit
+	search=(str(request.args['q']))#.split()
+	search=search.replace(" ",'+')
+	#return search
+	if search=="":
+		return redirect(url_for("admin_index"))
+	query_result=(Post.query.filter((Post.title).match("'%"+search+"%'"),(Post.description).match("%'"+search+"'%"))).count()
+	posts=Post.query.filter((Post.title).match("'%"+search+"%'"),(Post.description).match("%'"+search+"'%")).limit(limit).offset(int(int(int(limit)-1)*limit))
+	pagin=math.ceil((Post.query.filter((Post.title).match("'%"+search+"%'"),(Post.description).match("%'"+search+"'%")).count())/limit)
+	#return str((posts))
+	if math.ceil(pagin)%limit != 0:
+		pagin=int(pagin+1)
+	#return str(pagin)
+	return render_template('admin/search.html',page_name='search',posts=posts,current_pagin=int(pagination),pagin=(int(pagin)))
 ############## End send mail #####################
 #End Middleware
 #client
@@ -474,10 +553,16 @@ def admin_email():
 def page_not_found(e):
 	return render_template(template+"/404.html")
 @app.route('/')
-def index():
-	posts_top = Post.query.order_by(Post.id.desc()).limit(4)
-	posts_bottom = Post.query.order_by(Post.id.desc()).limit(60).offset(5)
-	return render_template(template+'/index.html',page_name='home',posts_top=posts_top,posts_bottom = posts_bottom)
+@app.route('/pagin/<pagination>/')
+@app.route('/pagin/<pagination>')
+def index(pagination=1):
+	global limit
+	posts_top = Post.query.join(UserMember).order_by(Post.id.desc()).limit(3)
+	posts_bottom = Post.query.order_by(Post.id.desc()).limit(10).offset(4)
+	posts_bottom=Post.query.all()
+	home_posts=Post.query.join(UserMember).order_by(Post.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
+	pagin=math.ceil((Post.query.count())/limit)
+	return render_template(template+'/index.html',page_name='home',posts_top=posts_top,home_posts=home_posts,posts_bottom = posts_bottom,pagin=int(pagin),current_pagin=int(pagination))
 @app.route('/<slug>')
 @app.route('/<slug>/')
 @app.route('/<slug>/<pagination>')
@@ -494,9 +579,8 @@ def single(slug='',pagination=1):
 				post_object.update({"views" : (old_view+1) })
 				status = db.session.commit()
 		elif page_object.count()>0:
-			return render_template("/template-2016/page.html",page_object=page_object)
+			return render_template(template+"/page.html",page_object=page_object)
 		else:
-			limit=10
 			category=Category.query.filter_by(slug=slug)
 			cat_id=""
 			category_name="None"
@@ -511,6 +595,7 @@ def single(slug='',pagination=1):
 			pagin=math.ceil((Post.query.filter_by(category_id=cat_id).count())/limit)
 			if(math.ceil(Post.query.filter_by(category_id=cat_id).count())%limit != 0 ):
 				pagin=int(pagin+1)
+			#return str(limit)
 			return render_template(template+'/category.html',page_name='category',category_slug=category_slug,category_name=category_name,posts=posts,pagin=int(pagin),current_pagin=int(pagination))
 	except:
 		abort(404)
@@ -520,7 +605,6 @@ def single(slug='',pagination=1):
 @app.route('/category/<slug>/<pagination>')
 @app.route('/category/<slug>/<pagination>')
 def category(slug='',pagination=1):
-	limit=10
 	category=Category.query.filter_by(slug=slug)
 	cat_id=""
 	category_name="None"
@@ -536,15 +620,24 @@ def category(slug='',pagination=1):
 	if(math.ceil(Post.query.filter_by(category_id=cat_id).count())%limit != 0 ):
 		pagin=int(pagin+1)
 	return render_template(template+'/category.html',page_name='category',category_slug=category_slug,category_name=category_name,posts=posts,pagin=int(pagin),current_pagin=int(pagination))
-@app.route('/search/<slug>', methods=['POST', 'GET'])
-@app.route('/search/<slug>/', methods=['POST', 'GET'])
-def search(slug):
-	results = "Post.query.whoosh_search('cool')"
-	return "{}".format(results)
-@app.route('/admin/earn')
-@app.route('/admin/earn/')
-def admin_earn():
-	return render_template("admin/earn.html")
+@app.route('/search', methods=['POST', 'GET'])
+@app.route('/search/', methods=['POST', 'GET'])
+@app.route('/sw', methods=['POST', 'GET'])
+@app.route('/sw/', methods=['POST', 'GET'])
+def search():
+	search=(str(request.args['q']))#.split()
+	search=search.replace(" ",'+')
+	#return search
+	if search=="":
+		return redirect(url_for("index"))
+	#return search
+	query_result=(Post.query.filter((Post.title).match("'%"+search+"%'"),(Post.description).match("%'"+search+"'%"))).count()
+	posts=Post.query.filter((Post.title).match("'%"+search+"%'"),(Post.description).match("%'"+search+"'%"))#.limit(limit).offset(int(int(int(limit)-1)*limit))
+	return render_template(template+"/search.html",search=search,query_result=query_result,posts=posts)
+@app.route('/search', methods=['POST', 'GET'])
+@app.route('/search/', methods=['POST', 'GET'])
+def booking():
+	return render_template(template+'/booking.html')
 #end client
 if __name__ == '__main__':
 	 app.run(debug = True,host='0.0.0.0')
