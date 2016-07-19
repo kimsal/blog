@@ -1,4 +1,18 @@
 # blog
+migrate database:
+	connect database in database.py
+	python models.py db init
+	python models.py db migrate
+	python models.py db upgrade
+
+
+
+
+
+
+
+
+For developer:
 https://github.com/flask-admin/flask-admin
 http://flask-admin.readthedocs.io/en/latest/introduction/#working-with-the-built-in-templates
 ---------------------------------------------

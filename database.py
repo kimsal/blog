@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from sqlalchemy import create_engine
 from flask import Flask,session, make_response
 from sqlalchemy.orm import scoped_session, sessionmaker

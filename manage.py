@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from database import *
 import os.path as op
 import os

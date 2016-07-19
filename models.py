@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from database import *
 from sqlalchemy.orm import relationship
 from slugify import slugify

@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from flask_wtf import Form
 from wtforms import TextField,FileField,PasswordField, IntegerField, TextAreaField, SubmitField, RadioField,SelectField,validators, ValidationError
 from flaskckeditor import CKEditor
