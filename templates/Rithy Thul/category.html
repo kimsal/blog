@@ -9,10 +9,10 @@
 					<a href="#" >
 						<div class="alert alert-dismissible alert-default" >
 						  <button type="button" class="close" data-dismiss="alert">&times;</button>
-						  <img src="/static/{{template_name}}/images/t1.jpg" class="img-responsive" >
-						  <small>Add by Amouk</small>
+						  <img src="http://bitriel.com/img/bitriel-logo-1.png" class="img-responsive" >
+						  <small>Ads by Amouk</small>
 						  <hr>
-						  <h4 style="font-size:13px;">Latest Post</h4>
+						  <!-- <h4 style="font-size:13px;">Latest Post</h4> -->
 						  	
 						</div>
 					</a>
@@ -24,11 +24,11 @@
 						<h2><a href="/{{post.slug}}">
 						{{post.title}}
 						</a></h2>
-						<span>Posted by </span>
-						<span class="name"><a href="/{{post.slug}}">{{post.user_member.name}}</a></span>
-						<span>about </span>
-						<span><a href="/{{post.slug}}" class="time-left-{{post.id}}">July 8 th, 2016
-						</a></span>
+						<span><small>Posted by </small> </span>
+						<span class="name"><small><a href="/{{post.slug}}">{{post.user_member.name}}</a></small></span>
+						<span><small>about</small></span>
+						<span><small><a href="/{{post.slug}}" class="time-left-{{post.id}}">July 8 th, 2016
+						</a></small></span>
 						<p class="para">
 							{{post.description|safe|truncate(300)
 							}}
@@ -40,7 +40,7 @@
 					</script>
 					{%endfor%}
 					<!--pagination-->
-		        <div class="container">
+		        	<div class="container">
 		            <center>
 		               {% if pagin > 1 %}
 		                    {% if pagin < 8 %}
@@ -113,10 +113,10 @@
 					<a href="http://bitriel.com/" id="sidebar">
 						<div class="alert alert-dismissible alert-default" id="main_column">
 						  <button type="button" class="close" data-dismiss="alert">&times;</button>
-						  <img src="/static/{{template_name}}/images/t1.jpg" class="img-responsive" >
+						  <img src="http://bitriel.com/img/bitriel-logo-1.png" class="img-responsive" >
 						  <small>Add by Amoogli</small>
 						  <hr>
-						  <h4 style="font-size:13px;">Latest Post</h4>
+						  <!-- <h4 style="font-size:13px;">Latest Post</h4> -->
 						  	
 						</div>
 					</a>

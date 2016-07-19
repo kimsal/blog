@@ -49,7 +49,7 @@ header h2 a{
 }
 a{
 	font-weight: 600;
-	color: #026ed2;
+	color: #CCC;
 	text-decoration: none;
 	border-bottom: 3px solid transparent;
 	-webkit-transition: border .2s,color .2s ease-out;
@@ -66,15 +66,18 @@ h1, h2, h3, h4 {
 	font: 400 16px "Open Sans",serif;
 	padding-top: 0px;
 	padding-bottom: 16px;
-	margin: 15px 0;
+	margin: 0px 0;
 	line-height: 34px;
 	color: #333332;
 	word-wrap: break-word;
 	font-weight: 500;
 	color: #3b3b3b;
 }
+.pagination{
+	margin-bottom:1px;
+}
 .copy-right{
-	padding-top: 100px;
+	padding-top: 10px;
 	padding-bottom: 10px;
 
 }
@@ -91,6 +94,21 @@ h1, h2, h3, h4 {
   font-weight: 800;
   color: white;
 }
+.navbar-collapse {
+padding-right: 15px;
+padding-left: 15px;
+overflow-x: visible;
+-webkit-overflow-scrolling: touch;
+border-top: 0px solid transparent;
+-webkit-box-shadow: inset 0 0px 0 rgba(255,255,255,.1);
+box-shadow: inset 0 0px 0 rgba(255,255,255,.1);
+}
+.navbar-inverse .navbar-toggle {
+ /*border-color: #222; */
+}
+.navbar-inverse .navbar-toggle:hover {
+/*background-color: #222;*/
+}
 .navbar-custom .navbar-header .navbar-toggle {
   color: white;
   font-weight: 800;
@@ -102,6 +120,7 @@ h1, h2, h3, h4 {
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 1px;
+  color: white;
 }
 /*end navbar*/
 footer{
@@ -110,4 +129,11 @@ footer{
 .home{
 	color: black;
 	font-size: 17px;
+}
+small{
+	color: #ddd;
+	font-size: 12px;
+}
+a:hover{
+	text-decoration: none;
 }

@@ -529,12 +529,16 @@ def admin_email():
 def page_not_found(e):
 	return render_template(template+"/404.html")
 @app.route('/')
-def index():
+@app.route('/pagin/<pagination>/')
+@app.route('/pagin/<pagination>')
+def index(pagination=1):
+	global limit
 	posts_top = Post.query.join(UserMember).order_by(Post.id.desc()).limit(3)
 	posts_bottom = Post.query.order_by(Post.id.desc()).limit(10).offset(4)
 	posts_bottom=Post.query.all()
 	home_posts=Post.query.join(UserMember).order_by(Post.id.desc()).limit(limit)
-	return render_template(template+'/index.html',page_name='home',posts_top=posts_top,home_posts=home_posts,posts_bottom = posts_bottom)
+	pagin=math.ceil((Post.query.count())/limit)
+	return render_template(template+'/index.html',page_name='home',posts_top=posts_top,home_posts=home_posts,posts_bottom = posts_bottom,pagin=int(pagin),current_pagin=int(pagination))
 @app.route('/<slug>')
 @app.route('/<slug>/')
 @app.route('/<slug>/<pagination>')
