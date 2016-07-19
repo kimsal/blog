@@ -37,12 +37,12 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                 {%for category in categories%}
-                    <li>
+                    <li >
                         <a href="/{{category.slug}}">{{category.name}}</a>
                     </li>
                 {%endfor%}
                 {%for page in pages%}
-                    <li>
+                    <li >
                         <a href="/{{page.slug}}">{{page.title}}</a>
                     </li>
                 {%endfor%}

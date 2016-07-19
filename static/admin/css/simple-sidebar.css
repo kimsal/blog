@@ -99,8 +99,9 @@ form > li{
     color: yellow;
 }
 .sidebar-nav li a:hover {
-   text-decoration: underline;
-   color: #D2D7D3;
+   /*text-decoration: underline;*/
+   /*color: red;*/
+   background-color: #666;
 }
 
 .sidebar-nav li a:active,
