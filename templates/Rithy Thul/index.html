@@ -14,7 +14,7 @@
 				<div class="col-md-8 col-lg-8">	
 				{%for post in home_posts%}
 					<header class="blog-box">
-						<h2><a href="/{{post.slug}}">
+						<h2><a href="/{{post.slug}}" class="title-post">
 						{{post.title}}
 						</a></h2>
 						<span><small>Posted by </small> </span>
@@ -26,15 +26,7 @@
 							{{post.description|safe|truncate(300)
 							}}
 						</p>
-					</header>
-					<script type="text/javascript">
-						var ago=moment([{{post.updated_at}}]).fromNow();
-            			$(".time-left-{{post.id}}").html(ago);
-					</script>
-					{%endfor%}
-					<!--pagination-->
-		        	<div class="container">
-		            <center>
+						<center>
 		               {% if pagin > 1 %}
 		                    {% if pagin < 8 %}
 		                        <ul class="pagination pagination-sm">
@@ -98,9 +90,13 @@
 		                    {%endif%}
 		                {%endif%}
 		            </center>
-		            <br/>
-		        </div>
-		    <!--end pagination-->
+					</header>
+					<script type="text/javascript">
+						var ago=moment([{{post.updated_at}}]).fromNow();
+            			$(".time-left-{{post.id}}").html(ago);
+					</script>
+					{%endfor%}
+					
 
 				</div>
 				<!--show add small xs-->

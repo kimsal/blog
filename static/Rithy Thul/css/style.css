@@ -3,7 +3,7 @@ body,html{
 }
 .banner{
 	height: 70px;
-	background-color: black;
+	background-color: #00977e;
 	opacity: 0.90;
 	width: 100%;
 	position: fixed;
@@ -104,16 +104,17 @@ border-top: 0px solid transparent;
 box-shadow: inset 0 0px 0 rgba(255,255,255,.1);
 }
 .navbar-inverse .navbar-toggle {
- /*border-color: #222; */
+ border-color: #00977e; 
 }
 .navbar-inverse .navbar-toggle:hover {
-/*background-color: #222;*/
+background-color: #00977e;
 }
 .navbar-custom .navbar-header .navbar-toggle {
   color: white;
   font-weight: 800;
   text-transform: uppercase;
   font-size: 12px;
+  background: #00977e;
 }
 .navbar-custom .nav li a {
   text-transform: uppercase;
@@ -136,4 +137,9 @@ small{
 }
 a:hover{
 	text-decoration: none;
+}
+@media only screen and (max-width: 500px){
+	.title-post{
+		font-size: 18px;
+	}
 }
