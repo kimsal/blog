@@ -25,3 +25,6 @@ class GroupForm(Form):
     name = TextField("Group Name")
 class SearchForm(Form):
     q = TextField("Search ...")
+class ContactForm(Form):
+   name = TextField("Name",[validators.Required("Please enter your name.")])
+   email = TextField("Email",[validators.Required("Please enter your email.")])

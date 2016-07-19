@@ -195,6 +195,29 @@ class Emailgroup(db.Model):
     def delete(emailgroup):
         db.session.delete(emailgroup)
         return db.session.commit()
+class Contact(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name  = db.Column(db.String(255))
+    email  = db.Column(db.String(255))
+    published_at=db.Column(db.TIMESTAMP,server_default=db.func.current_timestamp())
+    def __str__(self):
+        return self.name
+    # def update(self):
+    #     return session_commit()    
+    def to_Json(self):
+        return dict(id=self.id,
+            name=self.name,
+            email=self.email
+            )
+    def __init__(self,name):
+        self.name =name,
+        self.email =email
+    def add(contact):
+        db.session.add(contact)
+        return db.session.commit()
+    def delete(contact):
+        db.session.delete(contact)
+        return db.session.commit()
 # class Booking(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)
 #     name  = db.Column(db.String(255))
