@@ -195,6 +195,34 @@ class Emailgroup(db.Model):
     def delete(emailgroup):
         db.session.delete(emailgroup)
         return db.session.commit()
+# class Booking(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     name  = db.Column(db.String(255))
+#     email  = db.Column(db.String(255))
+#     phone  = db.Column(db.String(255),nullable=True)
+#     post_id =
+#     published_at=db.Column(db.TIMESTAMP,server_default=db.func.current_timestamp())
+#     def __str__(self):
+#         return self.name
+#     # def update(self):
+#     #     return session_commit()    
+#     def to_Json(self):
+#         return dict(id=self.id,
+#             name=self.name,
+#             email=self.email,
+#             phone=self.phone
+#             )
+#     def __init__(self,name):
+#         self.name =name,
+#         self.email =email,
+#         self.phone =phone
+#     def add(booking):
+#         db.session.add(booking)
+#         return db.session.commit()
+#     def delete(booking):
+#         db.session.delete(booking)
+#         return db.session.commit()
+
 #need when migrate database 
 if __name__ == '__main__':
     app.secret_key = SECRET_KEY

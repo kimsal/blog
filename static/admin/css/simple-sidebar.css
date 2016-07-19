@@ -90,18 +90,19 @@ form > li{
     background-color:rgb(42, 47, 48);
 }
 .sidebar-nav li a {
-    color: #D2D7D3;
+    color: #EEE;
     display: block;
     text-decoration: none;
     font-weight: 600;
 }
 .sidebar-nav li a:active{
-    color: yellow;
+    color: white;
 }
 .sidebar-nav li a:hover {
    /*text-decoration: underline;*/
    /*color: red;*/
    background-color: #666;
+   color:#FFF;
 }
 
 .sidebar-nav li a:active,

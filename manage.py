@@ -523,6 +523,10 @@ def admin_mail():
 def admin_email():
 	if request.method=="GET":
 		return render_template("admin/form/sendmail.html")
+@app.route('/admin/earn')
+@app.route('/admin/earn/')
+def admin_earn():
+	return render_template("admin/earn.html")
 @app.route('/admin/search')
 @app.route('/admin/search/')
 @app.route('/admin/search/<pagination>')
@@ -556,7 +560,7 @@ def index(pagination=1):
 	posts_top = Post.query.join(UserMember).order_by(Post.id.desc()).limit(3)
 	posts_bottom = Post.query.order_by(Post.id.desc()).limit(10).offset(4)
 	posts_bottom=Post.query.all()
-	home_posts=Post.query.join(UserMember).order_by(Post.id.desc()).limit(limit)
+	home_posts=Post.query.join(UserMember).order_by(Post.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
 	pagin=math.ceil((Post.query.count())/limit)
 	return render_template(template+'/index.html',page_name='home',posts_top=posts_top,home_posts=home_posts,posts_bottom = posts_bottom,pagin=int(pagin),current_pagin=int(pagination))
 @app.route('/<slug>')
@@ -630,10 +634,10 @@ def search():
 	query_result=(Post.query.filter((Post.title).match("'%"+search+"%'"),(Post.description).match("%'"+search+"'%"))).count()
 	posts=Post.query.filter((Post.title).match("'%"+search+"%'"),(Post.description).match("%'"+search+"'%"))#.limit(limit).offset(int(int(int(limit)-1)*limit))
 	return render_template(template+"/search.html",search=search,query_result=query_result,posts=posts)
-@app.route('/admin/earn')
-@app.route('/admin/earn/')
-def admin_earn():
-	return render_template("admin/earn.html")
+@app.route('/search', methods=['POST', 'GET'])
+@app.route('/search/', methods=['POST', 'GET'])
+def booking():
+	return render_template(template+'/booking.html')
 #end client
 if __name__ == '__main__':
 	 app.run(debug = True,host='0.0.0.0')
