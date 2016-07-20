@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from flask_wtf import Form
-from wtforms import TextField,FileField,PasswordField, IntegerField, TextAreaField, SubmitField, RadioField,SelectField,validators, ValidationError
+from wtforms import DateTimeField,TextField,FileField,PasswordField, IntegerField, TextAreaField, SubmitField, RadioField,SelectField,validators, ValidationError
 from flaskckeditor import CKEditor
 class PostForm(Form,CKEditor):
    title = TextField("Title",[validators.Required("Please enter your title.")])
@@ -28,3 +28,12 @@ class SearchForm(Form):
 class ContactForm(Form):
    name = TextField("Name",[validators.Required("Please enter your name.")])
    email = TextField("Email",[validators.Required("Please enter your email.")])
+class EventForm(Form,CKEditor):
+   title = TextField("Title",[validators.Required("Please enter your title.")])
+   description = TextAreaField("Description",[validators.Required("Please enter your description.")])   
+   date = DateTimeField('Date',format='%d.%m.%Y')#,widget=DateTimePickerWidget())
+class BookingForm(Form):
+    name = TextField("Name",[validators.Required("Please enter your name.")])
+    email = TextField("Email",[validators.Required("Please enter your email.")])
+    phone = TextField("Phone",[validators.Required("Please enter your phone number.")])
+    post_id = SelectField('Post', choices=[], coerce=int)

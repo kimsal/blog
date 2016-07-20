@@ -14,6 +14,7 @@ class UserMember(db.Model):
     password2=db.Column(db.String(200))
     created_at=db.Column(db.TIMESTAMP,server_default=db.func.current_timestamp())
     post=db.relationship('Post', backref="user_member", lazy='dynamic')
+    event=db.relationship('Event', backref="user_member", lazy='dynamic')
     def verify_password(self, password):
         #return custom_app_context.encrypt(password) == self.password
         return custom_app_context.verify(password, self.password)
@@ -105,6 +106,7 @@ class Post(db.Model):
     user_id=db.Column(db.Integer,db.ForeignKey('user_member.id'))
     published_at=db.Column(db.TIMESTAMP,server_default=db.func.current_timestamp())
     views = db.Column(db.Integer, nullable=True)
+    booking=db.relationship('Booking', backref="post", lazy='dynamic')
     def to_Json(self):
         return dict(id=self.id,
             title=self.title,
@@ -218,33 +220,66 @@ class Contact(db.Model):
     def delete(contact):
         db.session.delete(contact)
         return db.session.commit()
-# class Booking(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     name  = db.Column(db.String(255))
-#     email  = db.Column(db.String(255))
-#     phone  = db.Column(db.String(255),nullable=True)
-#     post_id =
-#     published_at=db.Column(db.TIMESTAMP,server_default=db.func.current_timestamp())
-#     def __str__(self):
-#         return self.name
-#     # def update(self):
-#     #     return session_commit()    
-#     def to_Json(self):
-#         return dict(id=self.id,
-#             name=self.name,
-#             email=self.email,
-#             phone=self.phone
-#             )
-#     def __init__(self,name):
-#         self.name =name,
-#         self.email =email,
-#         self.phone =phone
-#     def add(booking):
-#         db.session.add(booking)
-#         return db.session.commit()
-#     def delete(booking):
-#         db.session.delete(booking)
-#         return db.session.commit()
+class Booking(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name  = db.Column(db.String(255))
+    email  = db.Column(db.String(255))
+    phone  = db.Column(db.String(255),nullable=True)
+    post_id=db.Column(db.Integer,db.ForeignKey('post.id'))
+    published_at=db.Column(db.TIMESTAMP,server_default=db.func.current_timestamp())
+    def __str__(self):
+        return self.name
+    # def update(self):
+    #     return session_commit()    
+    def to_Json(self):
+        return dict(id=self.id,
+            name=self.name,
+            email=self.email,
+            phone=self.phone
+            )
+    def __init__(self,name,email,phone):
+        self.name =name,
+        self.email =email,
+        self.phone =phone
+    def add(booking):
+        db.session.add(booking)
+        return db.session.commit()
+    def delete(booking):
+        db.session.delete(booking)
+        return db.session.commit()
+class Event(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title  = db.Column(db.String(500))
+    slug=db.Column(db.String(500),unique=True)
+    description  = db.Column(db.Text,nullable=True)
+    date  = db.Column(db.DateTime,nullable=True)
+    views = db.Column(db.Integer, nullable=True)
+    user_id=db.Column(db.Integer,db.ForeignKey('user_member.id'))
+    published_at=db.Column(db.TIMESTAMP,server_default=db.func.current_timestamp())
+    def __str__(self):
+        return self.title
+    # def update(self):
+    #     return session_commit()    
+    def to_Json(self):
+        return dict(id=self.id,
+            title=self.title,
+            slug=self.slug,
+            description=self.description,
+            date=self.date,
+            views=self.views
+            )
+    def __init__(self,title,description,date,views):
+        self.title = title,
+        self.slug = slugify(title),
+        self.description = description,
+        self.date = date,
+        self.views=views
+    def add(event):
+        db.session.add(event)
+        return db.session.commit()
+    def delete(event):
+        db.session.delete(event)
+        return db.session.commit()
 
 #need when migrate database 
 if __name__ == '__main__':

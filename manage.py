@@ -135,6 +135,24 @@ def admin_index(pagination=1):
 	if((Post.query.count())%limit != 0 ):
 		pagin=int(pagin+1)
 	return render_template('admin/index.html' , posts = posts , pagin = int(pagin) , current_pagin = int(pagination))
+
+#########  events  ######################
+@app.route('/admin/event/')
+@app.route('/admin/event')
+@app.route('/admin/event/<pagination>/')
+@app.route('/admin/event/<pagination>')
+@auth.login_required
+def admin_event(pagination=1):
+	events=Event.query.order_by(Event.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
+	pagin=1
+	return render_template("admin/event.html",pagin=int(pagin),current_pagin=int(pagination),events=events)
+@app.route('/admin/event/add/')
+@app.route('/admin/event/add')
+@auth.login_required
+def admin_add_event(pagination=1):
+	form = EventForm()
+	return render_template("admin/form/event.html",form=form)
+#########  End events  ######################
 @app.route('/admin/post/add', methods = ['GET', 'POST'])
 @app.route('/admin/post/add/', methods = ['GET', 'POST'])
 @app.route('/admin/post/edit/<slug>', methods = ['GET', 'POST'])
