@@ -224,29 +224,29 @@ def contact():
 	return render_template(template+"/contact.html")
 @app.route('/admin/contact/')
 @app.route('/admin/contact')
-@app.route('/admin/contact/<action>/<name>')
-@app.route('/admin/contact/<action>/<name>/')
+@app.route('/admin/contact/<action>/<firstname>')
+@app.route('/admin/contact/<action>/<firstname>/')
 @app.route('/admin/contact/<pagination>/')
 @app.route('/admin/contact/<pagination>/')
 @app.route('/admin/contact/<pagination>')
 @app.route('/admin/contact/<pagination>/')
 @auth.login_required
-def admin_contact(pagination=1,action='',name=''):
+def admin_contact(pagination=1,action='',firstname=''):
 	if action=='delete':		
 		try:
-			booking=Booking.query.filter_by(name=name).first()
-			status = Booking.delete(booking)
-			flash('Booking successful.')
-			return redirect(url_for('admin_booking'))
+			contact=Contact.query.filter_by(firstname=firstname).first()
+			status = Contact.delete(contact)
+			flash('Contact info deleted successful.')
+			return redirect(url_for('admin_contact'))
 		except Exception as e:
-			flash('Fail to delete booking. '+ e.message)
-			return redirect(url_for('admin_booking'))
+			flash('Fail to delete Contact info. '+ e.message)
+			return redirect(url_for('admin_contact'))
 	else:
-		bookings=Booking.query.join(Post,Booking.post_id == Post.id).order_by(Booking.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
-		pagin=math.ceil((Booking.query.join(Post,Booking.post_id == Post.id).count())/limit)
-		if((Booking.query.join(Post,Booking.post_id == Post.id).count())%limit != 0 ):
+		contacts=Contact.query.order_by(Contact.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
+		pagin=math.ceil((Contact.query.count())/limit)
+		if((Contact.query.count())%limit != 0 ):
 			pagin=int(pagin+1)
-		return render_template('admin/booking.html',bookings=bookings,current_pagin=int(pagination),pagin=int(pagin))
+		return render_template('admin/contact.html',contacts=contacts,current_pagin=int(pagination),pagin=int(pagin))
 
 
 ############ End Contact List ##########

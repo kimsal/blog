@@ -26,7 +26,8 @@ class GroupForm(Form):
 class SearchForm(Form):
     q = TextField("Search ...")
 class ContactForm(Form):
-   name = TextField("Name",[validators.Required("Please enter your name.")])
+   firstname = TextField("First Name",[validators.Required("Please enter your first name.")])
+   lastname = TextField("Last Name",[validators.Required("Please enter your last name.")])
    email = TextField("Email",[validators.Required("Please enter your email.")])
 class EventForm(Form,CKEditor):
    title = TextField("Title",[validators.Required("Please enter your title.")])

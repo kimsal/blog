@@ -199,8 +199,9 @@ class Emailgroup(db.Model):
         return db.session.commit()
 class Contact(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name  = db.Column(db.String(255))
-    email  = db.Column(db.String(255))
+    firstname  = db.Column(db.String(255))
+    lastname  = db.Column(db.String(255))
+    email  = db.Column(db.String(255),unique=True)
     published_at=db.Column(db.TIMESTAMP,server_default=db.func.current_timestamp())
     def __str__(self):
         return self.name
@@ -208,11 +209,13 @@ class Contact(db.Model):
     #     return session_commit()    
     def to_Json(self):
         return dict(id=self.id,
-            name=self.name,
+            firstname=self.firstname,
+            lastname=self.lastname,
             email=self.email
             )
     def __init__(self,name):
-        self.name =name,
+        self.firstname =firstname,
+        self.lastname =lastname,
         self.email =email
     def add(contact):
         db.session.add(contact)
