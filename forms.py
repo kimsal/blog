@@ -31,7 +31,7 @@ class ContactForm(Form):
 class EventForm(Form,CKEditor):
    title = TextField("Title",[validators.Required("Please enter your title.")])
    description = TextAreaField("Description",[validators.Required("Please enter your description.")])   
-   date = DateTimeField('Date',format='%d.%m.%Y')#,widget=DateTimePickerWidget())
+   date = DateTimeField('Date')#,widget=DateTimePickerWidget())
 class BookingForm(Form):
     name = TextField("Name",[validators.Required("Please enter your name.")])
     email = TextField("Email",[validators.Required("Please enter your email.")])

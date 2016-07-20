@@ -1,4 +1,5 @@
 {% include 'admin/header.html' %} 
+    <link href="/static/admin/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
   <div id="page-content-wrapper">
       <div class="container-fluid">
           <div class="row">
@@ -67,11 +68,56 @@
                                     <!-- <input id="name" name="name" type="text" placeholder="Type your title here..." class="form-control"> -->
                                     {{ form.date.label }}
                                   </div>
+
+                                  <div class="input-group date form_datetime col-md-5" data-date="2016-06-16T05:25:07Z" data-date-format="dd-MM-yyyy  hh:ii" data-link-field="dtp_input1">
+                                    <!-- <input class="form-control" size="16" type="text" value="" readonly> -->
+
+                                      {{ form.date(class_="form-control",readonly="",size="16") }}
+
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                          </div>
+                                  <input type="hidden" id="dtp_input1" value="" /><br/>
+                                </div>
+
+                                <div class="form-group">
+                                  <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2"><br/>
+                                    <b> Set Feature Image</b>
+                                  </div>
+                                  
+                                  <input type="text" name="txt_temp_image" class="txt_temp_image" value="" style="display:none"/>
+
                                   <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                                    <br/>
-                                    {{ form.date(class_="form-control") }}
+                                     <div class="panel panel-body">
+                                       <div class="span4 cropme" id="landscape" style="width:230px; height: 150px;">
+                                       </div>
+                                    </div>
                                   </div>
                                 </div>
+                                <script>
+                                 // Init Simple Cropper
+                                $('.cropme').simpleCropper();
+                                $('#portrait').hide();
+                                $('.switch').click(function (){
+                                    $(this).text("Switch to "+($('#portrait').is(":visible") ? "Portrait" : "Landscape"));
+                                  $('#portrait').toggle();
+                                  $('#landscape').toggle();
+                                });    
+
+
+                                var _gaq = _gaq || [];
+                                _gaq.push(['_setAccount', 'UA-36251023-1']);
+                                _gaq.push(['_setDomainName', 'jqueryscript.net']);
+                                _gaq.push(['_trackPageview']);
+
+                                (function() {
+                                  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                                  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                                  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                                })();
+
+                              </script>
+
                                 <div class="form-group">
                                   <div class="col-md-12 text-right">
                                     <center>
@@ -131,4 +177,68 @@
  
 {% endfor %}
 
+
+<script type="text/javascript" src="/static/admin/js/jquery-1.8.3.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="/static/admin/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/admin/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="/static/admin/js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
+<script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+        //language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    forceParse: 0,
+        showMeridian: 1
+    });
+  $('.form_date').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    minView: 2,
+    forceParse: 0
+    });
+  $('.form_time').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 1,
+    minView: 0,
+    maxView: 1,
+    forceParse: 0
+    });
+</script>
+
+
+<!--edit event-->
+ <script>
+    var image_string='';
+  
+    </script>
+  {% for event in events %}
+ <script type="text/javascript">
+   $('input#title').attr('value',"{{event.title}}"); 
+   $('#frm').attr('action','/admin/event/edit/{{event.slug}}/');
+   var help="{{event.description.replace('\n', '').replace('\r','')}}";
+   //help=help.replace(/(&lt;br\/&gt;)+/gi,'')
+   //alert(help);
+   $('#description').html(help);  
+   $('input#date').attr("value","{{event.date}}");
+   // $(".feature_output").attr("src","/static/images/feature_images/{{event.feature_image}}");
+   var feature_image="{{event.feature_image}}";
+   if(feature_image!=''){
+     $("#landscape").html('<img src="'+feature_image+'"/>');
+     //alert(feature_image);
+   }
+
+ </script>
+ 
+{% endfor %}
 {% include 'admin/footer.html' %} 

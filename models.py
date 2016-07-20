@@ -119,11 +119,11 @@ class Post(db.Model):
             )
     def __init__(self, title, description, category_id, feature_image, user_id,views=0):
         self.title = title
+        self.slug =slugify(title)
         self.description = description
         self.feature_image = feature_image
         self.category_id = category_id
         self.user_id = user_id
-        self.slug =slugify(title)
         self.views=views
     def add(post):
         db.session.add(post)
@@ -253,6 +253,7 @@ class Event(db.Model):
     slug=db.Column(db.String(500),unique=True)
     description  = db.Column(db.Text,nullable=True)
     date  = db.Column(db.DateTime,nullable=True)
+    feature_image=db.Column(db.Text,nullable=True)
     views = db.Column(db.Integer, nullable=True)
     user_id=db.Column(db.Integer,db.ForeignKey('user_member.id'))
     published_at=db.Column(db.TIMESTAMP,server_default=db.func.current_timestamp())
@@ -266,14 +267,18 @@ class Event(db.Model):
             slug=self.slug,
             description=self.description,
             date=self.date,
-            views=self.views
+            views=self.views,
+            user_id=self.user_id,
+            feature_image=self.feature_image
             )
-    def __init__(self,title,description,date,views):
+    def __init__(self,title,description,date,feature_image,user_id,views=0):
         self.title = title,
         self.slug = slugify(title),
         self.description = description,
         self.date = date,
-        self.views=views
+        self.views=views,
+        self.user_id=user_id,
+        self.feature_image=feature_image
     def add(event):
         db.session.add(event)
         return db.session.commit()

@@ -124,6 +124,132 @@ def ckupload():
     form = PostForm()
     response = form.upload(endpoint=app)
     return response
+
+#########  events  ######################
+@app.route('/admin/event', methods=['POST', 'GET'])
+@app.route('/admin/event/', methods=['POST', 'GET'])
+@app.route('/admin/event/<action>', methods=['POST', 'GET'])
+@app.route('/admin/event/<action>/', methods=['POST', 'GET'])
+@app.route('/admin/event/<action>/<slug>/', methods=['POST', 'GET'])
+@app.route('/admin/event/<action>/<slug>', methods=['POST', 'GET'])
+@app.route('/admin/event/pagin/<pagination>/')
+@app.route('/admin/event/pagin/<pagination>')
+@auth.login_required
+def admin_event(pagination=1,action='',slug=''):
+	form = EventForm()
+	if action=='add':
+		#add event
+		# return str(request.method)
+		if request.method == 'GET':
+			return render_template("admin/form/event.html",form=form)
+		else:
+			#try:
+			filename=str(request.form['txt_temp_image'])
+			event = Event(request.form['title'],request.form['description'],request.form['date'],filename,request.cookies.get('blog_id'))
+        	# return str('event')
+        	status = Event.add(event)
+	        if not status:
+	            flash("Event added was successfully")
+	            return redirect(url_for('admin_event'))
+	       	else:
+	       		flash("Fail to add event !")
+	       		return redirect(url_for('admin_event'))
+		    # except Exception as e:
+		    # 	flask(e.message)
+		    # 	return redirect(url_for("admin_event"))
+	elif action=='edit':
+		#return 'update'+ slug
+		events=Event.query.filter_by(slug=slug)
+		if request.method == 'GET':
+			return render_template("admin/form/event.html",form=form,events=events)
+		else:
+			try:
+				events.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':request.form['txt_temp_image'],'date':request.form['date'] })
+		   		status = db.session.commit()
+				flash("Event updated successfully.")
+				return redirect(url_for("admin_event"))
+			except Exception as e:
+				flash(e.message)
+				return redirect(url_for("admin_event"))
+	elif action=='delete':
+		# return action+"...."
+		try:
+			event=Event.query.filter_by(slug=slug).first()
+			status = Event.delete(event)
+			flash('Deleted successful.')
+			return redirect(url_for('admin_event'))
+		except Exception as e:
+			flash('Fail to delete event. '+ e.message)
+			return redirect(url_for('admin_event'))
+	else:
+		events=Event.query.join(UserMember,Event.user_id == UserMember.id).order_by(Event.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
+		pagin=math.ceil((Event.query.join(UserMember,Event.user_id == UserMember.id).count())/limit)
+		if((Event.query.join(UserMember,Event.user_id == UserMember.id).count())%limit != 0 ):
+			pagin=int(pagin+1)
+		return render_template("admin/event.html",current_pagin=int(pagination),events=events,pagin=int(pagin))
+#########  End events  ######################
+############ Booking List ###################
+@app.route('/admin/booking/')
+@app.route('/admin/booking')
+@app.route('/admin/booking/<action>/<name>')
+@app.route('/admin/booking/<action>/<name>/')
+@app.route('/admin/booking/<pagination>/')
+@app.route('/admin/booking/<pagination>/')
+@app.route('/admin/booking/<pagination>')
+@app.route('/admin/booking/<pagination>/')
+@auth.login_required
+def admin_booking(pagination=1,action='',name=''):
+	# return str(action)+":"+str(pagination)
+	if action=='delete':		
+		try:
+			booking=Booking.query.filter_by(name=name).first()
+			status = Booking.delete(booking)
+			flash('Booking successful.')
+			return redirect(url_for('admin_booking'))
+		except Exception as e:
+			flash('Fail to delete booking. '+ e.message)
+			return redirect(url_for('admin_booking'))
+	else:
+		bookings=Booking.query.join(Post,Booking.post_id == Post.id).order_by(Booking.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
+		pagin=math.ceil((Booking.query.join(Post,Booking.post_id == Post.id).count())/limit)
+		if((Booking.query.join(Post,Booking.post_id == Post.id).count())%limit != 0 ):
+			pagin=int(pagin+1)
+		return render_template('admin/booking.html',bookings=bookings,current_pagin=int(pagination),pagin=int(pagin))
+
+############ End Booking List ##########
+############  Contact List ##########
+@app.route('/contact/', methods = ['GET', 'POST'])
+@app.route('/contact', methods = ['GET', 'POST'])
+def contact():
+	return render_template(template+"/contact.html")
+@app.route('/admin/contact/')
+@app.route('/admin/contact')
+@app.route('/admin/contact/<action>/<name>')
+@app.route('/admin/contact/<action>/<name>/')
+@app.route('/admin/contact/<pagination>/')
+@app.route('/admin/contact/<pagination>/')
+@app.route('/admin/contact/<pagination>')
+@app.route('/admin/contact/<pagination>/')
+@auth.login_required
+def admin_contact(pagination=1,action='',name=''):
+	if action=='delete':		
+		try:
+			booking=Booking.query.filter_by(name=name).first()
+			status = Booking.delete(booking)
+			flash('Booking successful.')
+			return redirect(url_for('admin_booking'))
+		except Exception as e:
+			flash('Fail to delete booking. '+ e.message)
+			return redirect(url_for('admin_booking'))
+	else:
+		bookings=Booking.query.join(Post,Booking.post_id == Post.id).order_by(Booking.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
+		pagin=math.ceil((Booking.query.join(Post,Booking.post_id == Post.id).count())/limit)
+		if((Booking.query.join(Post,Booking.post_id == Post.id).count())%limit != 0 ):
+			pagin=int(pagin+1)
+		return render_template('admin/booking.html',bookings=bookings,current_pagin=int(pagination),pagin=int(pagin))
+
+
+############ End Contact List ##########
 @app.route('/admin')
 @app.route('/admin/post')
 @app.route('/admin/')
@@ -136,23 +262,7 @@ def admin_index(pagination=1):
 		pagin=int(pagin+1)
 	return render_template('admin/index.html' , posts = posts , pagin = int(pagin) , current_pagin = int(pagination))
 
-#########  events  ######################
-@app.route('/admin/event/')
-@app.route('/admin/event')
-@app.route('/admin/event/<pagination>/')
-@app.route('/admin/event/<pagination>')
-@auth.login_required
-def admin_event(pagination=1):
-	events=Event.query.order_by(Event.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
-	pagin=1
-	return render_template("admin/event.html",pagin=int(pagin),current_pagin=int(pagination),events=events)
-@app.route('/admin/event/add/')
-@app.route('/admin/event/add')
-@auth.login_required
-def admin_add_event(pagination=1):
-	form = EventForm()
-	return render_template("admin/form/event.html",form=form)
-#########  End events  ######################
+
 @app.route('/admin/post/add', methods = ['GET', 'POST'])
 @app.route('/admin/post/add/', methods = ['GET', 'POST'])
 @app.route('/admin/post/edit/<slug>', methods = ['GET', 'POST'])
@@ -557,8 +667,8 @@ def admin_search(pagination=1):
 	if search=="":
 		return redirect(url_for("admin_index"))
 	query_result=(Post.query.filter((Post.title).match("'%"+search+"%'"),(Post.description).match("%'"+search+"'%"))).count()
-	posts=Post.query.filter((Post.title).match("'%"+search+"%'"),(Post.description).match("%'"+search+"'%")).limit(limit).offset(int(int(int(limit)-1)*limit))
-	pagin=math.ceil((Post.query.filter((Post.title).match("'%"+search+"%'"),(Post.description).match("%'"+search+"'%")).count())/limit)
+	posts=Post.query.filter((Post.title).match("'%"+search+"%'")).limit(limit).offset(int(int(int(limit)-1)*limit))
+	pagin=math.ceil((Post.query.filter((Post.title).match("'%"+search+"%'")).count())/limit)
 	#return str((posts))
 	if math.ceil(pagin)%limit != 0:
 		pagin=int(pagin+1)
@@ -652,10 +762,10 @@ def search():
 	query_result=(Post.query.filter((Post.title).match("'%"+search+"%'"),(Post.description).match("%'"+search+"'%"))).count()
 	posts=Post.query.filter((Post.title).match("'%"+search+"%'"),(Post.description).match("%'"+search+"'%"))#.limit(limit).offset(int(int(int(limit)-1)*limit))
 	return render_template(template+"/search.html",search=search,query_result=query_result,posts=posts)
-@app.route('/search', methods=['POST', 'GET'])
-@app.route('/search/', methods=['POST', 'GET'])
-def booking():
-	return render_template(template+'/booking.html')
+# @app.route('/search', methods=['POST', 'GET'])
+# @app.route('/search/', methods=['POST', 'GET'])
+# def booking():
+# 	return render_template(template+'/booking.html')
 #end client
 if __name__ == '__main__':
 	 app.run(debug = True,host='0.0.0.0')
