@@ -7,6 +7,10 @@ class PostForm(Form,CKEditor):
    description = TextAreaField("Description",[validators.Required("Please enter your description.")])   
    feature_image = FileField("Feature Image")
    category_id = SelectField('Category', choices=[], coerce=int)
+   duration = TextField("Duration")
+   price = TextField("Price")
+   location = TextField("Location")
+   file = FileField("File")
    submit = SubmitField("Publish")
 
 class CategoryForm(Form):
@@ -38,3 +42,7 @@ class BookingForm(Form):
     email = TextField("Email",[validators.Required("Please enter your email.")])
     phone = TextField("Phone",[validators.Required("Please enter your phone number.")])
     post_id = SelectField('Post', choices=[], coerce=int)
+class PartnerForm(Form):
+   name = TextField("Name",[validators.Required("Please enter your partner's name.")])
+   url = TextField("Url",[validators.Required("Please enter your partner's url.")])   
+   feature_image = FileField("Feature Image")

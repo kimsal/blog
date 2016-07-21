@@ -104,6 +104,10 @@ class Post(db.Model):
     slug=db.Column(db.String(255),nullable=True,unique=True)
     category_id=db.Column(db.Integer,db.ForeignKey('category.id'),nullable=True)
     user_id=db.Column(db.Integer,db.ForeignKey('user_member.id'))
+    duration=db.Column(db.String(255),nullable=True)
+    price=db.Column(db.Integer)
+    location=db.Column(db.Text,nullable=True)
+    file=db.Column(db.String(255),nullable=True)
     published_at=db.Column(db.TIMESTAMP,server_default=db.func.current_timestamp())
     views = db.Column(db.Integer, nullable=True)
     booking=db.relationship('Booking', backref="post", lazy='dynamic')
@@ -114,15 +118,23 @@ class Post(db.Model):
             feature_image=self.feature_image,
             slug=self.slug,
             category_id=self.category_id,
+            duration=self.duration,
+            price =self.price,
+            location=self.location,
+            file=self.file,
             published_at="{}".format(self.published_at),
             view=self.view
             )
-    def __init__(self, title, description, category_id, feature_image, user_id,views=0):
+    def __init__(self, title, description, category_id, feature_image, user_id,duration,price,location,file,views=0):
         self.title = title
         self.slug =slugify(title)
         self.description = description
         self.feature_image = feature_image
         self.category_id = category_id
+        self.duration=duration,
+        self.price=price,
+        self.location=location,
+        self.file=file,
         self.user_id = user_id
         self.views=views
     def add(post):
@@ -288,7 +300,35 @@ class Event(db.Model):
     def delete(event):
         db.session.delete(event)
         return db.session.commit()
-
+class Partner(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name  = db.Column(db.String(255))
+    slug  = db.Column(db.String(255))
+    url  = db.Column(db.String(255),nullable=True)
+    feature_image=db.Column(db.Text,nullable=True)
+    published_at=db.Column(db.TIMESTAMP,server_default=db.func.current_timestamp())
+    def __str__(self):
+        return self.name
+    # def update(self):
+    #     return session_commit()    
+    def to_Json(self):
+        return dict(id=self.id,
+            name=self.name,
+            slug=self.slug,
+            url=self.url,
+            feature_image=self.feature_image
+            )
+    def __init__(self,name,url,feature_image):
+        self.name =name,
+        self.slug = slugify(name),
+        self.url =url,
+        self.feature_image =feature_image
+    def add(partner):
+        db.session.add(partner)
+        return db.session.commit()
+    def delete(partner):
+        db.session.delete(partner)
+        return db.session.commit()
 #need when migrate database 
 if __name__ == '__main__':
     app.secret_key = SECRET_KEY

@@ -49,7 +49,7 @@
                 <span class="icon-bar"></span>
                  <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" style="color:white;" href="/">View site</a>
+            <a class="navbar-brand" style="color:white;" target="_blank" href="/">{{request.headers['Host']}}</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -120,12 +120,17 @@
                                 </li>
                                 <li style="list-style:none;">
                                     <a href="/admin/booking">
-                                    Booking list
+                                    Booking
                                     </a>
                                 </li>
                                 <li style="list-style:none;">
                                     <a href="/admin/contact">
-                                    Contact List
+                                    Contact
+                                    </a>
+                                </li>
+                                <li style="list-style:none;">
+                                    <a href="/admin/partner">
+                                    Partner
                                     </a>
                                 </li>
                             

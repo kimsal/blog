@@ -73,8 +73,54 @@
 
                                   </div>
                                 </div>
-                                <!--end select box-->
-                               
+
+                                <div class="form-group">
+                                  <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2"><br/>
+                                    <!-- <input id="name" name="name" type="text" placeholder="Type your title here..." class="form-control"> -->
+                                    {{ form.duration.label }}
+                                  </div>
+                                  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                    <br/>
+                                    {{ form.duration(class_="form-control") }}
+
+                                  </div>
+                                </div>
+
+                                <div class="form-group">
+                                  <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2"><br/>
+                                    <!-- <input id="name" name="name" type="text" placeholder="Type your title here..." class="form-control"> -->
+                                    {{ form.price.label }}
+                                  </div>
+                                  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                    <br/>
+                                    {{ form.price(class_="form-control") }}
+
+                                  </div>
+                                </div>
+
+                                <div class="form-group">
+                                  <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2"><br/>
+                                    <!-- <input id="name" name="name" type="text" placeholder="Type your title here..." class="form-control"> -->
+                                    {{ form.location.label }}
+                                  </div>
+                                  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                    <br/>
+                                    {{ form.location(class_="form-control") }}
+
+                                  </div>
+                                </div>
+
+                                <div class="form-group">
+                                  <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2"><br/>
+                                    <!-- <input id="name" name="name" type="text" placeholder="Type your title here..." class="form-control"> -->
+                                    {{ form.file.label }}
+                                  </div>
+                                  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                    <br/>
+                                    {{ form.file(class_="form-control") }}
+
+                                  </div>
+                                </div>
                                 <!--phos add feature image-->
 
                                 <div class="form-group">
@@ -86,7 +132,7 @@
 
                                   <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                      <div class="panel panel-body">
-                                       <div class="span4 cropme" id="landscape" style="width:230px; height: 150px;">
+                                       <div class="span4 cropme" id="landscape" style="width:430px; height: 300px;">
                                        </div>
                                     </div>
                                   </div>
@@ -178,9 +224,32 @@
      $("#landscape").html('<img src="'+feature_image+'"/>');
      //alert(feature_image);
    }
+   $(".txt_temp_image").attr('value',feature_image);
+   $("#duration").attr('value',"{{p.duration}}");
+   $("#price").attr('value',"{{p.price}}");
+   $("#location").attr('value',"{{p.location}}");
+   $("#file").attr('value',"{{p.file}}");
 
  </script>
  
 {% endfor %}
+<script type="text/javascript">
+  //input only number
+    $("#price").keydown(function (e) {
+        // Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+             // Allow: Ctrl+A, Command+A
+            (e.keyCode == 65 && ( e.ctrlKey === true || e.metaKey === true ) ) || 
+             // Allow: home, end, left, right, down, up
+            (e.keyCode >= 35 && e.keyCode <= 40)) {
+                 // let it happen, don't do anything
+                 return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+    });
 
+</script>
 {% include 'admin/footer.html' %} 

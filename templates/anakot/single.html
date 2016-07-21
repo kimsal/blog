@@ -1,0 +1,217 @@
+{% include template_name+'/header.html' %} 
+<!--container-->
+{% for post in post_object %}
+<div class="bg-overlay" style="background: linear-gradient(rgba(0, 0, 0, 0.37), rgba(0, 0, 0, 0.42)), url(/static/{{template_name}}/img/banner_main.png);
+    				background-repeat: no-repeat;border-radius:0px;" >
+	<div class="row text-center">
+		<h3>{{post.category.name}}</h3>
+	</div>
+</div>
+<div class="container mycontent">
+	<div class="row" style="border-top:solid thin rgb(162, 148, 148);padding-top:5px;">
+	<!--show book when screen xs-->
+		<div class="col-xs-12 hidden-sm hidden-md hidden-lg" style=" padding-right: 0px;padding-left: 0px; ">
+               <a href="#" data-toggle="modal" data-target="#myModal">
+	                <div class=" col-sm-12 col-md-12 col-lg-12 package-box">
+	                    <center>
+	                        <h6 style="color: #ffffff;font-weight: bold;">
+	                        Jully 28, 2016
+	                        </h6>
+	                    </center>
+	                    <center>
+		                    <p style="color: #ffffff;font-weight: bold;">
+		                        REGISTER NOW !
+		                    </p>
+	                    </center>
+	                </div>
+                </a>
+                <a href="/download/{{post.file}}" target="_blank">
+	                <div class="col-sm-12 col-md-12 col-lg-12 package-box">
+	                    <center>
+		                    <p style="color: #ffffff;font-weight: bold;line-height:40px;">
+		                        DOWNLOAD
+		                    </p>
+	                    </center>
+	                </div>
+                </a>
+        </div>
+        <!--end screen xs show-->
+		<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8" style="padding-left:0px;">
+			<!-- <img src="/static/{{template_name}}/img/tem.jpg" class="img-responsive"> -->
+
+			<h2>{{post.title}}</h2>
+			<p class="description">
+				{{post.description|safe}}
+				<img src="{{post.feature_image}}" class="img-responsive" style="width:100%">
+			</p>
+		</div>
+		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style=" padding-right: 0px;
+	            padding-left: 0px;">
+	        <h4 class="hidden-xs" style="font-family: 'Playfair Display', serif;">
+	        </h4>
+	        <div class="hidden-xs col-sm-12 col-md-12 col-lg-12" style=" padding-right: 0px;padding-left: 0px; ">
+	        		<a href="#" data-toggle="modal" data-target="#myModal">
+		                <div class="hidden-xs col-sm-12 col-md-12 col-lg-12 package-box">
+		                    <center>
+		                        <h6 style="color: #ffffff;font-weight: bold;">
+		                        Jully 28, 2016
+		                        </h6>
+		                    </center>
+		                    <center>
+			                    <p style="color: #ffffff;font-weight: bold;">
+			                        REGISTER NOW !
+			                    </p>
+		                    </center>
+		                </div>
+		                </a>
+		                <a href="/download/{{post.file}}" target="_blank">
+		                <div class="hidden-xs col-sm-12 col-md-12 col-lg-12 package-box">
+		                    <center>
+			                    <p style="color: #ffffff;font-weight: bold;line-height:40px;">
+			                        DOWNLOAD
+			                    </p>
+		                    </center>
+		                </div>
+	                </a>
+	               
+	        </div>
+	        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style=" padding-right: 0px;padding-left: 0px; ">
+	         	 <!--information more-->
+	                <blockquote>
+					  <p>Duration</p>
+					  <small>{{post.duration}}</small>
+					  <br>
+					  <p>Price </p>
+					  <small>
+					  	${{post.price}}
+					  </small>
+					  <br>
+					  <p>Locations</p>
+					  <small>
+						{{post.location}}
+					   </small>
+					</blockquote>
+	                <!--more end -->
+	        </div>
+	        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style=" padding-right: 0px;padding-left: 0px; ">
+	        	<h4><b>Related Trainings</b></h4>
+	        	{%for related in related_posts%}
+	        	<a href="#">
+		        	<div class="box small">
+					    <p>
+					    	{{related.title}}
+					    </p>
+					</div>
+				</a>
+				{%endfor%}
+			</div>
+	        </div>
+	        
+
+        <!--modal book-->
+        	<div class="modal fade" id="myModal">
+				<div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+				      </div>
+				      <div class="modal-body">
+				        <form class="form-horizontal">
+							<fieldset>
+							    <legend>
+							    	<center>
+							    	REGISTER FOR DESIGNFUL LEADERSHIP: FOUNDATION CLASS I, May 25-27, 2016
+							    	</center>
+							    </legend>
+							    <div class="form-group">
+							      <div class="col-lg-12">
+							        <input class="form-control" id="inputName" placeholder="Your name" type="text">
+							      </div>
+							    </div>
+							    <div class="form-group">
+							       <div class="col-lg-12">
+							        <input class="form-control" id="inputOrg" placeholder="Orgnanization" type="text">
+							      </div>
+							    </div>
+							    <div class="form-group">
+							       <div class="col-lg-12">
+							        <input class="form-control" id="inputPos" placeholder="Position" type="text">
+							      </div>
+							    </div>
+							    <div class="form-group">
+							       <div class="col-lg-12">
+							        <input class="form-control" id="inputEmail" placeholder="Email" type="email">
+							      </div>
+							    </div>
+							    <div class="form-group">
+							       <div class="col-lg-12">
+							        <input class="form-control" id="inputPhone" placeholder="Phone Number" type="text">
+							      </div>
+							    </div>
+							    <div class="form-group">
+							       <div class="col-lg-12">
+							        <input class="form-control" id="inputPerson" placeholder="Participants" type="email">
+							      </div>
+							    </div>
+							    <div class="form-group">
+								    <div class="col-lg-10">
+								    	<label>How would you like to pay?</label>
+								        <div class="radio">
+								          <label>
+								            <input name="optionsRadios" id="optionsRadios1" value="option1" checked="" type="radio">
+								            Cash
+								          </label>
+								        </div>
+								        <div class="radio">
+								          <label>
+								            <input name="optionsRadios" id="optionsRadios2" value="option2" type="radio">
+								            Online Payment(paypal,credit cards)
+								          </label>
+								        </div>
+								    </div>
+							    </div>
+							    <div class="form-group">
+								    <div class="col-lg-10">
+								    	<label>Oh, and...</label>
+								        <div class="radio">
+								          <label>
+								            <input name="optionsRadios" id="optionsRadios1" value="option1" checked="" type="radio">
+								            I want FREE news, tips and details on future workshops by email
+								          </label>
+								        </div>
+								        <div class="radio">
+								          <label>
+								            <input name="optionsRadios" id="optionsRadios2" value="option2" type="radio">
+								             No Thanks
+								          </label>
+								        </div>
+								    </div>
+							    </div>
+							    <div class="form-group">
+							      <div class="col-lg-12">
+							        <button type="reset" class="btn btn-default">Cancel</button>
+							        <button type="submit" class="btn btn-primary">Submit</button>
+							      </div>
+							    </div>
+							
+							</fieldset>
+						</form>
+				      </div>
+				  
+				    </div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+		</div>
+        <!--end modal book-->
+        <div class="col-xs-12 col-sm-12 col-md-12 left-right-padd">
+			
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-12 left-right-padd">
+			
+		</div>
+
+    </div>
+</div>
+{%endfor%}
+<!--end container-->
+{% include template_name+'/footer.html' %} 
