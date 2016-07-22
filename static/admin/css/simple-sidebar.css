@@ -1,8 +1,29 @@
 /*!
  Amok
 /* Toggle Styles */
+body,h1,h2,h3,h4,h5 {
+    font-family: "Open Sans",sans-serif;
+}
 form > li{
     list-style: none;
+}
+.page-logo  {
+    float: left;
+    display: block;
+    width: 235px;
+    height: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
+    cursor: pointer;
+}
+.page-bar {
+    margin-top: 12px;
+    font-size: 18px;
+    color: white;
+    float: right;
+}
+.page-bar a{
+    color: white;
 }
 #wrapper {
     padding-left: 0;
@@ -80,6 +101,7 @@ form > li{
     padding: 0;
     list-style: none;
     background-color: red;
+    margin-top: -4px;
 }
 
 .sidebar-nav li {
@@ -88,14 +110,14 @@ form > li{
 
 }
 .navbar-default{
-    background: rgb(102, 102, 102) none repeat scroll 0% 0%;
+    background: #2b3643;
 }
 .sidebar-nav li a {
     color: #EEE;
     display: block;
     text-decoration: none;
     font-weight: 600;
-    border-top: solid thin #4e4c4c !important;
+    border-top: 1px solid #3d4957;
 }
 .sidebar-nav li a:active{
     color: white;
@@ -211,7 +233,7 @@ form > li{
 }
     
 /*scroll top*/
-.scroll-top-wrapper {
+/*.scroll-top-wrapper {
     position: fixed;
     opacity: 0;
     visibility: hidden;
@@ -247,7 +269,7 @@ form > li{
 }
 .scroll-top-wrapper i.fa {
     line-height: inherit;
-}
+}*/
 
 
 /*end scroll top*/

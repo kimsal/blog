@@ -27,7 +27,7 @@
 		<div class="row contact clean-xs">
 			<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 info">
 				<div class="information">
-					<h3 class="font-title">Join the community of Mindful Leaders</h3>
+					<h3 class="font-title" style="margin-top:0px;">Join the community of Mindful Leaders</h3>
 					<p class="describe">
 						We are not just a regular training company. We want to grow a community of Designful Leaders: practitioners and team players who are committed to make positive impact TODAY. We want to create a space where members can support each other and exchange ideas. Our bi-monthly Designful Leaders Community updates will have tips, ideas, questions and updates from Chhunny and his team. Join us! 
 					</p>
@@ -71,13 +71,13 @@
 <!--start container content-->
 <div class="container">
 	<div class="row-contact">
-		<h3 style="margin-top:10px;margin-bottom:0px;">Up Comming Training</h3>
+		<h3 style="margin-top:10px;margin-bottom:0px;text-transform:uppercase;">Up Comming Training</h3>
 		<div class="row">
 			{%for post in posts_top%}
 			<div class="col-xs-12 col-sm-4 col-md-4 margin">
+				<a href="/{{post.slug}}">
 				<div class=" text-center bg-overlay box" style="background: linear-gradient(rgba(0, 0, 0, 0.37), rgba(0, 0, 0, 0.42)), url({{post.feature_image}});
     				background-repeat: no-repeat;">
-					<a href="/{{post.slug}}">
 			        <h4 class="myh4">
 			        {{post.title}}
 			        </h4>
