@@ -69,7 +69,7 @@ nav{
 	font-weight: 600;
 }
 #cssmenu > ul > li:hover > a,#cssmenu ul li.active a{
-	color: #F29B34; 
+	color: #5F5353; 
 }
 #cssmenu > ul > li:hover,#cssmenu ul li.active:hover,#cssmenu ul li.active,#cssmenu ul li.has-sub.active:hover{
 	/*background: #448D00!important;*/
@@ -111,6 +111,7 @@ nav{
 	margin-left: 100%;
 	top: 0;
 }
+
 #cssmenu ul ul li a{
 	/*border-bottom: 1px solid rgba(150,150,150,0.15);*/
 	padding: 0px 15px;
