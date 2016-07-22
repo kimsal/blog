@@ -3,7 +3,7 @@ from database import *
 import os.path as op
 import os
 import flask
-from flask import abort,Flask,g, render_template,request,session,redirect,url_for,flash
+from flask import json,abort,Flask,g, render_template,request,session,redirect,url_for,flash
 from werkzeug import secure_filename
 from flask_wtf import Form
 from wtforms import TextField, IntegerField, TextAreaField, SubmitField, RadioField,SelectField,validators, ValidationError
@@ -38,9 +38,11 @@ app.config.update(
 mail=Mail(app)
 #####################
 #Middleware
+arr_header_image=['anakot.asea-1.jpg','anakot.asea-2.jpg','anakot.asea-3.jpg']
+# header_image=random.choice (arr_header_image)
 @app.context_processor
 def inject_dict_for_all_templates():
-    return dict(searchform=SearchForm(),logined_name=request.cookies.get('blog_name'),template_name= template,categories = Category.query.filter_by(is_menu=1),pages = Page.query.filter_by(is_menu=1))
+    return dict(searchform=SearchForm(),header_image=random.choice (arr_header_image),logined_name=request.cookies.get('blog_name'),template_name= template,categories = Category.query.filter_by(is_menu=1),pages = Page.query.filter_by(is_menu=1),partners=Partner.query.order_by(Partner.id.desc()).all())
 #========================================================
 @auth.verify_token
 def verify_token(token):
@@ -58,6 +60,12 @@ def goLoginPage():
 def get_auth_token():
     token = g.user.generate_auth_token()
     return jsonify({ 'token': token.decode('ascii') })
+@app.route('/download/<name>')
+def download(name=''):
+	return send_file('static/files/'+name,
+                     mimetype='text/csv',
+                     attachment_filename=name,
+                     as_attachment=True)
 @app.route('/admin/login', methods=['POST', 'GET'])
 @app.route('/admin/login/', methods=['POST', 'GET'])
 def admin_login():
@@ -124,6 +132,245 @@ def ckupload():
     form = PostForm()
     response = form.upload(endpoint=app)
     return response
+
+#########  events  ######################
+@app.route('/admin/event', methods=['POST', 'GET'])
+@app.route('/admin/event/', methods=['POST', 'GET'])
+@app.route('/admin/event/<action>', methods=['POST', 'GET'])
+@app.route('/admin/event/<action>/', methods=['POST', 'GET'])
+@app.route('/admin/event/<action>/<slug>/', methods=['POST', 'GET'])
+@app.route('/admin/event/<action>/<slug>', methods=['POST', 'GET'])
+@app.route('/admin/event/pagin/<pagination>/')
+@app.route('/admin/event/pagin/<pagination>')
+@auth.login_required
+def admin_event(pagination=1,action='',slug=''):
+	form = EventForm()
+	if action=='add':
+		#add event
+		# return str(request.method)
+		if request.method == 'GET':
+			return render_template("admin/form/event.html",form=form)
+		else:
+			#try:
+			filename=str(request.form['txt_temp_image'])
+			event = Event(request.form['title'],request.form['description'],request.form['date'],filename,request.cookies.get('blog_id'))
+        	# return str('event')
+        	status = Event.add(event)
+	        if not status:
+	            flash("Event added was successfully")
+	            return redirect(url_for('admin_event'))
+	       	else:
+	       		flash("Fail to add event !")
+	       		return redirect(url_for('admin_event'))
+		    # except Exception as e:
+		    # 	flask(e.message)
+		    # 	return redirect(url_for("admin_event"))
+	elif action=='edit':
+		#return 'update'+ slug
+		events=Event.query.filter_by(slug=slug)
+		if request.method == 'GET':
+			return render_template("admin/form/event.html",form=form,events=events)
+		else:
+			try:
+				events.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':request.form['txt_temp_image'],'date':request.form['date'] })
+		   		status = db.session.commit()
+				flash("Event updated successfully.")
+				return redirect(url_for("admin_event"))
+			except Exception as e:
+				flash(e.message)
+				return redirect(url_for("admin_event"))
+	elif action=='delete':
+		# return action+"...."
+		try:
+			event=Event.query.filter_by(slug=slug).first()
+			status = Event.delete(event)
+			flash('Deleted successful.')
+			return redirect(url_for('admin_event'))
+		except Exception as e:
+			flash('Fail to delete event. '+ e.message)
+			return redirect(url_for('admin_event'))
+	else:
+		events=Event.query.join(UserMember,Event.user_id == UserMember.id).order_by(Event.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
+		pagin=math.ceil((Event.query.join(UserMember,Event.user_id == UserMember.id).count())/limit)
+		if((Event.query.join(UserMember,Event.user_id == UserMember.id).count())%limit != 0 ):
+			pagin=int(pagin+1)
+		return render_template("admin/event.html",current_pagin=int(pagination),events=events,pagin=int(pagin))
+#########  End events  ######################
+############ Booking List ###################
+@app.route('/admin/booking/')
+@app.route('/admin/booking')
+@app.route('/admin/booking/<action>/<name>')
+@app.route('/admin/booking/<action>/<name>/')
+@app.route('/admin/booking/<pagination>/')
+@app.route('/admin/booking/<pagination>/')
+@app.route('/admin/booking/<pagination>')
+@app.route('/admin/booking/<pagination>/')
+@auth.login_required
+def admin_booking(pagination=1,action='',name=''):
+	# return str(action)+":"+str(pagination)
+	if action=='delete':		
+		try:
+			booking=Booking.query.filter_by(name=name).first()
+			status = Booking.delete(booking)
+			flash('Booking deleted successfully.')
+			return redirect(url_for('admin_booking'))
+		except Exception as e:
+			flash('Fail to delete booking. '+ e.message)
+			return redirect(url_for('admin_booking'))
+	else:
+		bookings=Booking.query.join(Post,Booking.post_id == Post.id).order_by(Booking.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
+		pagin=math.ceil((Booking.query.join(Post,Booking.post_id == Post.id).count())/limit)
+		if((Booking.query.join(Post,Booking.post_id == Post.id).count())%limit != 0 ):
+			pagin=int(pagin+1)
+		return render_template('admin/booking.html',bookings=bookings,current_pagin=int(pagination),pagin=int(pagin))
+
+############ End Booking List ##########
+# ############  Contact List ##########
+@app.route('/admin/contact/')
+@app.route('/admin/contact')
+@app.route('/admin/contact/<action>/<firstname>')
+@app.route('/admin/contact/<action>/<firstname>/')
+@app.route('/admin/contact/<pagination>/')
+@app.route('/admin/contact/<pagination>/')
+@app.route('/admin/contact/<pagination>')
+@app.route('/admin/contact/<pagination>/')
+@auth.login_required
+def admin_contact(pagination=1,action='',firstname=''):
+	if action=='delete':		
+		try:
+			contact=Contact.query.filter_by(firstname=firstname).first()
+			status = Contact.delete(contact)
+			flash('Contact info deleted successful.')
+			return redirect(url_for('admin_contact'))
+		except Exception as e:
+			flash('Fail to delete Contact info. '+ e.message)
+			return redirect(url_for('admin_contact'))
+	else:
+		contacts=Contact.query.order_by(Contact.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
+		pagin=math.ceil((Contact.query.count())/limit)
+		if((Contact.query.count())%limit != 0 ):
+			pagin=int(pagin+1)
+		return render_template('admin/contact.html',contacts=contacts,current_pagin=int(pagination),pagin=int(pagin))
+
+@app.route('/add/contact/<type_submit>/',methods=['POST'])
+@app.route('/add/contact/<type_submit>',methods=['POST'])
+def contact(type_submit=''):
+	if type_submit=="":
+		#by form refresh page
+		return 'add and refresh page'
+	elif type_submit=="ajax":
+		#by ajax
+		# return str(request.form['json_str']('firstname'))
+		try:
+			data=(request.form['json_str']).replace('"','')
+			data=((data.split('[')[1]).split(']')[0]).split(',')
+			firstname=data[0]
+			lastname=data[1]
+			email=data[2]
+			check=Contact.query.filter_by(email=email)
+			if check.count()>0:
+				return 'email already exists.'
+			else:
+				contact=Contact(firstname,lastname,email)
+				status = Contact.add(contact)
+		        if not status:
+		            return "Contact saved was successfully"
+		       	else:
+		       		return "Fail to add contact !"
+		except Exception as e:
+			return e.message
+############ End Contact List ##########
+############ Booking ####################
+@app.route('/add/booking/<type_submit>/',methods=['POST'])
+@app.route('/add/booking/<type_submit>',methods=['POST'])
+def booking(type_submit=''):
+	if type_submit=="":
+		#by form refresh page
+		return 'add and refresh page'
+	elif type_submit=="ajax":
+		#by ajax
+		# return str(request.form['json_str']('firstname'))
+		try:
+			data=(request.form['json_str']).replace('"','')
+			data=((data.split('[')[1]).split(']')[0]).split(',')
+			name=data[0]
+			email=data[1]
+			phone=data[2]
+			amount=data[3]
+			post_id=data[4]
+			booking=Booking(name,email,phone,post_id,amount)
+			status = Booking.add(booking)
+			if not status:
+				return "Your info saved was successfully"
+			else:
+				return "Fail to add booking !"
+		except Exception as e:
+			return e.message
+############ End Booking ################
+############ Partner  ##########
+@app.route('/admin/partner', methods=['POST', 'GET'])
+@app.route('/admin/partner/', methods=['POST', 'GET'])
+@app.route('/admin/partner/<action>', methods=['POST', 'GET'])
+@app.route('/admin/partner/<action>/', methods=['POST', 'GET'])
+@app.route('/admin/partner/<action>/<slug>/', methods=['POST', 'GET'])
+@app.route('/admin/partner/<action>/<slug>', methods=['POST', 'GET'])
+@app.route('/admin/partner/pagin/<pagination>/')
+@app.route('/admin/partner/pagin/<pagination>')
+@auth.login_required
+def admin_partner(pagination=1,action='',slug=''):
+	form = PartnerForm()
+	if action=='add':
+		#add event
+		# return str(request.method)
+		if request.method == 'GET':
+			return render_template("admin/form/partner.html",form=form)
+		else:
+			#try:
+			filename=str(request.form['txt_temp_image'])
+			partner = Partner(request.form['name'],request.form['url'],filename)
+        	# return str('event')
+        	status = Partner.add(partner)
+	        if not status:
+	            flash("Partner added was successfully")
+	            return redirect(url_for('admin_partner'))
+	       	else:
+	       		flash("Fail to add partner !")
+	       		return redirect(url_for('admin_partner'))
+		    # except Exception as e:
+		    # 	flask(e.message)
+		    # 	return redirect(url_for("admin_event"))
+	elif action=='edit':
+		#return 'update'+ slug
+		partners=Partner.query.filter_by(slug=slug)
+		if request.method == 'GET':
+			return render_template("admin/form/partner.html",form=form,partners=partners)
+		else:
+			try:
+				partners.update({"slug" : slugify(request.form['name']) , "name" : request.form['name'],'url':request.form['url'],'feature_image':request.form['txt_temp_image'] })
+		   		status = db.session.commit()
+				flash("Partner updated successfully.")
+				return redirect(url_for("admin_partner"))
+			except Exception as e:
+				flash(e.message)
+				return redirect(url_for("admin_partner"))
+	elif action=='delete':
+		# return action+"...."
+		try:
+			partner=Partner.query.filter_by(slug=slug).first()
+			status = Partner.delete(partner)
+			flash('Partner deleted successfully.')
+			return redirect(url_for('admin_partner'))
+		except Exception as e:
+			flash('Fail to delete partner. '+ e.message)
+			return redirect(url_for('admin_partner'))
+	else:
+		partners=Partner.query.order_by(Partner.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
+		pagin=math.ceil((Partner.query.count())/limit)
+		if((Partner.query.count())%limit != 0 ):
+			pagin=int(pagin+1)
+		return render_template("admin/partner.html",current_pagin=int(pagination),partners=partners,pagin=int(pagin))
+
+############ End Partner ##########
 @app.route('/admin')
 @app.route('/admin/post')
 @app.route('/admin/')
@@ -135,6 +382,8 @@ def admin_index(pagination=1):
 	if((Post.query.count())%limit != 0 ):
 		pagin=int(pagin+1)
 	return render_template('admin/index.html' , posts = posts , pagin = int(pagin) , current_pagin = int(pagination))
+
+
 @app.route('/admin/post/add', methods = ['GET', 'POST'])
 @app.route('/admin/post/add/', methods = ['GET', 'POST'])
 @app.route('/admin/post/edit/<slug>', methods = ['GET', 'POST'])
@@ -155,9 +404,13 @@ def admin_post_add(slug=""):
 				now= now.replace(':',"",10).replace(' ','',4).replace('.','',5).replace('-','',5)
 		   		result = request.form
 				filename=str(request.form['txt_temp_image'])
+				filepdf = request.files['file']
+				filedownload=secure_filename(filepdf.filename)
 				if not slug:
 		   			if file:
-		   				obj=Post(request.form['title'],request.form['description'],request.form['category_id'],filename,request.cookies.get('blog_id'))
+		   				if filedownload!="":
+		   					filepdf.save(os.path.join(app.config['UPLOAD_FOLDER'], now+"_"+filedownload))
+		   				obj=Post(request.form['title'],request.form['description'],request.form['category_id'],filename,request.cookies.get('blog_id'),request.form['duration'],request.form['price'],request.form['location'],now+"_"+filedownload)
 			        	status=Post.add(obj)
 				        if not status:
 				            flash("Post added was successfully")
@@ -167,10 +420,17 @@ def admin_post_add(slug=""):
 				        	return redirect(url_for('admin_post_add'))
 				elif slug:
 		   			if not not file: 
-			   			obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':filename })
-		   				status = db.session.commit()
+		   				# return filedownload
+		   				if filedownload == "":
+		   					obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':filename ,'duration':request.form['duration'],'price':request.form['price'],'location':request.form['location']})
+		   					status = db.session.commit()
+		   				else:
+		   					# return now+"_"+filedownload
+		   					filepdf.save(os.path.join(app.config['UPLOAD_FOLDER'], now+"_"+filedownload))
+			   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':filename ,'duration':request.form['duration'],'price':request.form['price'],'location':request.form['location'],'file': now+"_"+filedownload})
+		   					status = db.session.commit()
 		   				if not status:
-		   					flash("Post added was successfully")
+		   					flash("Post updated was successfully")
 		   					return redirect(url_for('admin_index'))
 		   			for post in obj:
 		   				tempFileName=post.feature_image
@@ -539,8 +799,8 @@ def admin_search(pagination=1):
 	if search=="":
 		return redirect(url_for("admin_index"))
 	query_result=(Post.query.filter((Post.title).match("'%"+search+"%'"),(Post.description).match("%'"+search+"'%"))).count()
-	posts=Post.query.filter((Post.title).match("'%"+search+"%'"),(Post.description).match("%'"+search+"'%")).limit(limit).offset(int(int(int(limit)-1)*limit))
-	pagin=math.ceil((Post.query.filter((Post.title).match("'%"+search+"%'"),(Post.description).match("%'"+search+"'%")).count())/limit)
+	posts=Post.query.filter((Post.title).match("'%"+search+"%'")).limit(limit).offset(int(int(int(limit)-1)*limit))
+	pagin=math.ceil((Post.query.filter((Post.title).match("'%"+search+"%'")).count())/limit)
 	#return str((posts))
 	if math.ceil(pagin)%limit != 0:
 		pagin=int(pagin+1)
@@ -557,49 +817,67 @@ def page_not_found(e):
 @app.route('/pagin/<pagination>')
 def index(pagination=1):
 	global limit
+	form=ContactForm()
 	posts_top = Post.query.join(UserMember).order_by(Post.id.desc()).limit(3)
-	posts_bottom = Post.query.order_by(Post.id.desc()).limit(10).offset(4)
-	posts_bottom=Post.query.all()
+	posts_bottom = Post.query.order_by(Post.id.desc()).limit(3).offset(3)
+	# posts_bottom=Post.query.all()
 	home_posts=Post.query.join(UserMember).order_by(Post.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
 	pagin=math.ceil((Post.query.count())/limit)
-	return render_template(template+'/index.html',page_name='home',posts_top=posts_top,home_posts=home_posts,posts_bottom = posts_bottom,pagin=int(pagin),current_pagin=int(pagination))
+	return render_template(template+'/index.html',form=form,page_name='home',posts_top=posts_top,home_posts=home_posts,posts_bottom = posts_bottom,pagin=int(pagin),current_pagin=int(pagination))
 @app.route('/<slug>')
 @app.route('/<slug>/')
 @app.route('/<slug>/<pagination>')
 @app.route('/<slug>/<pagination>/')
 #can be single and category page
 def single(slug='',pagination=1):
+	# session.clear()
+	# return 'd'
+	form=BookingForm()
 	try:
 		post_object=Post.query.filter_by(slug=slug)#.limit(1)
 		if post_object.count()<=0:
 			page_object=Page.query.filter_by(slug=slug)#.limit(1)
 		if post_object.count()>0:
-			for post in post_object:
-				old_view=post.views
-				post_object.update({"views" : (old_view+1) })
-				status = db.session.commit()
+			#add views count
+			if session.get('amoogli_view') ==None:
+				session['amoogli_view']=' '
+				# return str(slug in str(session.get('amoogli_view')))
+			if not slug in str(session.get('amoogli_view')):
+				for post in post_object:
+					old_view = post.views
+					post_object.update({"views" : (old_view+1) })
+					status = db.session.commit()
+					session['amoogli_view'] = (str(session.get('amoogli_view')))+","+slug
 		elif page_object.count()>0:
-			return render_template(template+"/page.html",page_object=page_object)
+			return render_template(template+"/page.html",page_name="page",page_object=page_object)
 		else:
 			category=Category.query.filter_by(slug=slug)
-			cat_id=""
-			category_name="None"
-			category_slug=""
-			for cat in category:
-				cat_id=cat.id
-				category_name=cat.name
-				category_slug=cat.slug
-			if cat_id == "":
-				abort(404)
-			posts=Post.query.filter_by(category_id=cat_id).order_by(Post.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
-			pagin=math.ceil((Post.query.filter_by(category_id=cat_id).count())/limit)
-			if(math.ceil(Post.query.filter_by(category_id=cat_id).count())%limit != 0 ):
-				pagin=int(pagin+1)
-			#return str(limit)
-			return render_template(template+'/category.html',page_name='category',category_slug=category_slug,category_name=category_name,posts=posts,pagin=int(pagin),current_pagin=int(pagination))
-	except:
+			if category.count()>0:
+				cat_id=""
+				category_name="None"
+				category_slug=""
+				for cat in category:
+					cat_id=cat.id
+					category_name=cat.name
+					category_slug=cat.slug
+				if cat_id == "":
+					abort(404)
+				posts=Post.query.filter_by(category_id=cat_id).order_by(Post.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
+				pagin=math.ceil((Post.query.filter_by(category_id=cat_id).count())/limit)
+				if(math.ceil(Post.query.filter_by(category_id=cat_id).count())%limit != 0 ):
+					pagin=int(pagin+1)
+				#return str(limit)
+				return render_template(template+'/category.html',page_name='category',category_slug=category_slug,category_name=category_name,posts=posts,pagin=int(pagin),current_pagin=int(pagination))
+			
+	except Exception as e:
+		return str(e.message)
 		abort(404)
-	return render_template(template+'/single.html',page_name='single',post_object=post_object)
+	cat_id=0
+	post_object=Post.query.join(Category,Post.category_id == Category.id).filter(Post.slug==slug)
+	for post in post_object:
+		cat_id=post.category_id
+	related_posts=Post.query.filter_by(category_id=cat_id).order_by(Post.id.desc()).limit(3)
+	return render_template(template+'/single.html',form=form,page_name='single',related_posts=related_posts,post_object=post_object)
 @app.route('/category/<slug>')
 @app.route('/category/<slug>/')
 @app.route('/category/<slug>/<pagination>')
@@ -634,16 +912,12 @@ def search():
 	query_result=(Post.query.filter((Post.title).match("'%"+search+"%'"),(Post.description).match("%'"+search+"'%"))).count()
 	posts=Post.query.filter((Post.title).match("'%"+search+"%'"),(Post.description).match("%'"+search+"'%"))#.limit(limit).offset(int(int(int(limit)-1)*limit))
 	return render_template(template+"/search.html",search=search,query_result=query_result,posts=posts)
-@app.route('/search', methods=['POST', 'GET'])
-@app.route('/search/', methods=['POST', 'GET'])
-def booking():
-	return render_template(template+'/booking.html')
+# @app.route('/search', methods=['POST', 'GET'])
+# @app.route('/search/', methods=['POST', 'GET'])
+# def booking():
+# 	return render_template(template+'/booking.html')
 #end client
 if __name__ == '__main__':
 	 app.run(debug = True,host='0.0.0.0')
-
-
-
-
 #replace white space:
 #http://docs.python-requests.org/en/master/user/quickstart/

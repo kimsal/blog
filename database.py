@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from sqlalchemy import create_engine
-from flask import Flask,session, make_response
+from flask import Flask,session, make_response,send_file
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from flask_sqlalchemy import SQLAlchemy
@@ -13,8 +13,9 @@ from itsdangerous import (TimedJSONWebSignatureSerializer as Serializer, BadSign
 from flask_httpauth import HTTPTokenAuth
 from datetime import datetime, timedelta
 from flask_mail import Mail,Message
+import random
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql://phos:phos@localhost:5432/blog'
+app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql://phos:phos@localhost:5432/anakot'
 auth = HTTPTokenAuth(scheme='Token')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=True
 app.secret_key = 'Hello@AmokCamSmallworld$Cambodia&*&'
@@ -23,9 +24,9 @@ migrate = Migrate(app, db)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 #template is the url of selected template 
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+ALLOWED_EXTENSIONS = set(['pdf','docx','txt'])
 #upload url for feature images
-app.config['UPLOAD_FOLDER'] = 'static/images/feature_images/'
+app.config['UPLOAD_FOLDER'] = 'static/files/'
 expire_date = datetime.now()
 expire_date = expire_date + timedelta(days=90)
 

@@ -1,0 +1,97 @@
+
+
+<style type="text/css">
+	div.img {
+    border: 0px solid #ccc;
+}
+
+
+div.img img {
+    width: 100%;
+    height: auto;
+}
+
+div.desc {
+    padding: 15px;
+    text-align: center;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.responsive {
+    padding: 0 6px;
+    float: left;
+    width: 24.99999%;
+    padding-top: 5px;
+}
+
+@media only screen and (max-width: 700px){
+    .responsive {
+        width: 49.99999%;
+        margin: 6px 0;
+    }
+}
+
+@media only screen and (max-width: 500px){
+    .responsive {
+        width: 100%;
+    }
+}
+
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+.name{
+	font-weight: 600;
+	color: #F29B34;
+
+}
+</style>
+{% include template_name+'/header.html' %} 
+<!--container-->
+{%for page in page_object%}
+<div class="bg-overlay" style="background: linear-gradient(rgba(0, 0, 0, 0.37), rgba(0, 0, 0, 0.42)), url(/static/{{template_name}}/img/header/{{header_image}});
+    				background-repeat: no-repeat;border-radius:0px;" >
+	<div class="row text-center">
+		<h3>{{page.title}}</h3>
+	</div>
+</div>
+<div class="container mycontent">
+	<p class="description">
+	{{page.description|safe}}
+	</p>
+</div>
+
+{%endfor%}
+		<!--modal profile-->
+		<div class="modal fade" id="myModal">
+				<div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+				      </div>
+				      <div class="modal-body">
+				        
+						<div class="row ">
+					           <div class="header" style="padding:10px;">
+					                <h4>Web Developer</h4>
+					                <p class="description" style="padding:10px;">
+					                	We provide regular trainings to companies and NGOs to increase the potential of their people and their teams. Through workshops, mindful leadership development, talks and seminars we help big and small organizations to instill a culture of collaboration and balanced leadership. Our expertise ranges from HR – with particular focus on high performance teams and leadership
+					                </p>
+					           </div>
+					        </div>
+					    </div>   
+					
+				      </div>
+				  
+				    </div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+
+		<!--end modal profile-->
+<!--end container-->
+{% include template_name+'/footer.html' %} 

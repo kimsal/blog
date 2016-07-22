@@ -1,0 +1,256 @@
+{% include template_name+'/header.html' %} 
+<!--container-->
+{% for post in post_object %}
+<div class="bg-overlay" style="background: linear-gradient(rgba(0, 0, 0, 0.37), rgba(0, 0, 0, 0.42)), url(/static/{{template_name}}/img/header/{{header_image}});
+    				background-repeat: no-repeat;border-radius:0px;" >
+	<div class="row text-center">
+		<h3>{{post.category.name}}</h3>
+	</div>
+</div>
+<div class="container mycontent">
+	<div class="row" style="border-top:solid thin rgb(162, 148, 148);padding-top:5px;">
+	<!--show book when screen xs-->
+		<div class="col-xs-12 hidden-sm hidden-md hidden-lg" style=" padding-right: 0px;padding-left: 0px; ">
+               <a href="#" data-toggle="modal" data-target="#myModal">
+	                <div class=" col-sm-12 col-md-12 col-lg-12 package-box">
+	                    <center>
+	                        <h6 style="color: #ffffff;font-weight: bold;">
+	                        Jully 28, 2016
+	                        </h6>
+	                    </center>
+	                    <center>
+		                    <p style="color: #ffffff;font-weight: bold;">
+		                        REGISTER NOW !
+		                    </p>
+	                    </center>
+	                </div>
+                </a>
+                <a href="/download/{{post.file}}" target="_blank">
+	                <div class="col-sm-12 col-md-12 col-lg-12 package-box">
+	                    <center>
+		                    <p style="color: #ffffff;font-weight: bold;line-height:40px;">
+		                        DOWNLOAD
+		                    </p>
+	                    </center>
+	                </div>
+                </a>
+        </div>
+        <!--end screen xs show-->
+		<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8" style="padding-left:0px;">
+			<!-- <img src="/static/{{template_name}}/img/tem.jpg" class="img-responsive"> -->
+
+			<h2>{{post.title}}</h2>
+			<p class="description">
+				{{post.description|safe}}
+				<img src="{{post.feature_image}}" class="img-responsive" style="width:100%">
+			</p>
+		</div>
+		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style=" padding-right: 0px;
+	            padding-left: 0px;">
+	        <h4 class="hidden-xs" style="font-family: 'Playfair Display', serif;">
+	        </h4>
+	        <div class="hidden-xs col-sm-12 col-md-12 col-lg-12" style=" padding-right: 0px;padding-left: 0px; ">
+	        		<a href="#" data-toggle="modal" data-target="#myModal">
+		                <div class="hidden-xs col-sm-12 col-md-12 col-lg-12 package-box">
+		                    <center>
+		                        <!-- <h6 style="color: #ffffff;font-weight: bold;">
+		                        Jully 28, 2016
+		                        </h6> -->
+		                    </center>
+		                    <center>
+			                    <p style="color: #ffffff;font-weight: bold;margin-top:12px;">
+			                        REGISTER NOW !
+			                    </p>
+		                    </center>
+		                </div>
+		                </a>
+		                <a href="/download/{{post.file}}" target="_blank">
+		                <div class="hidden-xs col-sm-12 col-md-12 col-lg-12 package-box">
+		                    <center>
+			                    <p style="color: #ffffff;font-weight: bold;line-height:20px;margin-top:10px;">
+			                        DOWNLOAD
+			                    </p>
+		                    </center>
+		                </div>
+	                </a>
+	               
+	        </div>
+	        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style=" padding-right: 0px;padding-left: 0px; ">
+	         	 <!--information more-->
+	                <blockquote>
+					  <p>Duration</p>
+					  <small>{{post.duration}}</small>
+					  <br>
+					  <p>Price </p>
+					  <small>
+					  	${{post.price}}
+					  </small>
+					  <br>
+					  <p>Locations</p>
+					  <small>
+						{{post.location}}
+					   </small>
+					</blockquote>
+	                <!--more end -->
+	        </div>
+	        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style=" padding-right: 0px;padding-left: 0px; ">
+	        	<h4><b>Related Trainings</b></h4>
+	        	{%for related in related_posts%}
+	        	<a href="#">
+		        	<div class="box small">
+					    <p>
+					    	{{related.title}}
+					    </p>
+					</div>
+				</a>
+				{%endfor%}
+			</div>
+	        </div>
+	        
+
+        <!--modal book-->
+        	<div class="modal fade" id="myModal">
+				<div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+				      </div>
+				      <div class="modal-body">
+				        <form class="form-horizontal" name='frm'>
+				        	{{ form.hidden_tag() }}
+							<fieldset>
+							    <legend>
+							    	<center>
+							    	REGISTER FOR 
+							    	<b>{{post.title}}</b>
+							    	</center>
+							    </legend>
+							    <div class="alert" style="display:none;">
+							      <center>
+							      </center>
+							    </div>
+							    <div class="form-group">
+							      <div class="col-lg-12">
+							         {{ form.name(class_="form-control",placeholder="Your Name") }}
+							      </div>
+							    </div>
+							    <div class="form-group">
+							       <div class="col-lg-12">
+							        {{ form.email(class_="form-control",placeholder="Your Email") }}
+							      </div>
+							    </div>
+							    <div class="form-group">
+							       <div class="col-lg-12">
+							        {{ form.phone(class_="form-control",placeholder="Your Phone Number (Optional)") }}
+							      </div>
+							    </div>
+							    <div class="form-group">
+							      <div class="col-lg-12">
+							         {{ form.amount(class_="form-control",placeholder="Number of People",value="1") }}
+							      </div>
+							    </div>
+							    <div class="form-group">
+							      <div class="col-lg-12">
+							        <button type="button" class="btn btn-primary btn-send">Send
+							        </button>
+							        <button type="reset" class="btn btn-default">
+							        Cancel
+							        </button>
+							      </div>
+							    </div>
+							
+							</fieldset>
+						</form>
+				      </div>
+				  
+				    </div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+		</div>
+        <!--end modal book-->
+        <div class="col-xs-12 col-sm-12 col-md-12 left-right-padd">
+			
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-12 left-right-padd">
+			
+		</div>
+
+    </div>
+</div>
+<!--end container-->
+<script type="text/javascript">
+	//input only number
+    $("#amount").keydown(function (e) {
+        // Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+             // Allow: Ctrl+A, Command+A
+            (e.keyCode == 65 && ( e.ctrlKey === true || e.metaKey === true ) ) || 
+             // Allow: home, end, left, right, down, up
+            (e.keyCode >= 35 && e.keyCode <= 40)) {
+                 // let it happen, don't do anything
+                 return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+    });
+
+    $(".btn-send").click(function(){
+    	$(".alert").removeClass('alert-danger');
+    	$(".alert").removeClass('alert-success');
+		var name=$("#name").val();
+		var email=$("#email").val();
+		var phone=$("#phone").val();
+		var number=parseInt($("#amount").val());
+		var dt=[];
+		dt[0]=name;
+		dt[1]=email;
+		dt[2]=phone;
+		dt[3]=parseInt("{{post.id}}");
+		dt[4]=number;
+		
+		if(name==''){
+			$('.alert').addClass('alert-danger');
+		    $('.alert center').html("Name is required");
+		    $('.alert').css("display",'block')
+		}
+		else if(email==''){
+			$('.alert').addClass('alert-danger');
+		    $('.alert center').html("Email is required");
+		    $('.alert').css("display",'block')
+		}
+
+		else if(email.indexOf("@")<1&&email.indexOf(".")<2){
+			$('.alert').addClass('alert-danger');
+		    $('.alert center').html("Your email is not valid");
+		    $('.alert').css("display",'block')
+		}
+		else if(name!=''&&email!=''){
+			$.ajax({
+			   type: "POST",
+			   url: "/add/booking/ajax/",
+			   data: {json_str:JSON.stringify(dt)},
+			   success: function(msg){
+			     $('.alert').addClass('alert-success');
+			     $('.alert center').html(msg);
+			     $('.alert').css("display",'block');
+			   },
+			   error:function(msg){
+			   	$('.alert').addClass('alert-danger');
+			     $('.alert center').html(msg);
+			     $('.alert').css("display",'block');
+			   }
+			   // dataType: "json"
+			});
+		}
+		else{
+			alert('dd');
+			$('.alert').addClass('alert-danger');
+		     $('.alert center').html("Name and Email are required");
+		     $('.alert').css("display",'block');
+		}
+	});
+</script>
+{%endfor%}
+{% include template_name+'/footer.html' %} 

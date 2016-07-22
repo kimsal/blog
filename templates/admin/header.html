@@ -6,15 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Amoogli.com | Blog and Web publisher</title>
-    <script src="/static/admin/js/jquery.js"></script>
+    <title>Admin | Blog and Web publisher</title>
+    <!-- <script src="/static/admin/js/jquery.js"></script> -->
     <link rel="icon" href="/static/admin/images/logo.png" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="/static/admin/bootstrap-social.css">
     <!-- <link rel="stylesheet" href="/static/admin/css/font-awesome.css"> -->
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <!--custom crop image-->
-    <!-- <link href="/static/admin/css/jquery.cropbox.css" rel="stylesheet" type="text/css"> -->
      <!-- Custom Fonts -->
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
@@ -61,6 +58,7 @@
                     </a>
                 </div>
             </div>
+            <a class="navbar-brand" style="color:white;" target="_blank" href="/">{{request.headers['Host']}}</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -102,7 +100,7 @@
                         </li>
                         <li>
                             <a href="#" class="off-canvas-submenu-call">
-                            <span class="fa fa-tachometer"></span>
+                            <span class="fa fa-cogs"></span>
                                Manage Content
                                
                         </a>
@@ -121,6 +119,26 @@
                                 <li style="list-style:none;">
                                     <a href="/admin/category">
                                     Category
+                                    </a>
+                                </li>
+                                <li style="list-style:none;">
+                                    <a href="/admin/event">
+                                    Event
+                                    </a>
+                                </li>
+                                <li style="list-style:none;">
+                                    <a href="/admin/booking">
+                                    Booking
+                                    </a>
+                                </li>
+                                <li style="list-style:none;">
+                                    <a href="/admin/contact">
+                                    Contact
+                                    </a>
+                                </li>
+                                <li style="list-style:none;">
+                                    <a href="/admin/partner">
+                                    Partner
                                     </a>
                                 </li>
                             

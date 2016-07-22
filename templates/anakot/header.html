@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- SEO Tage Meta -->
+	{% if page_name == 'home' %}
+		<title>Anakot asea - Leadership building</title>
+		<meta name="description" content="Leadership Development - Team building - Customer Care - Cambodia Training">
+		<meta name="keywords" content="Training,leadership cambodia,building team,profesional training,Phnom Penh Traininig,Asea training,anakot asea">
+	{% elif page_name == 'single' %}
+		{%for post in post_object%}
+			<title>{{post.title}} | Anakot asea</title>
+			<meta name="description" content="anakot asea,{{post.title}}">
+			<meta name="keywords" content="{{post.title}} Training,leadership cambodia,anakot asea">
+		{%endfor%}
+	{% elif page_name == 'category' %}
+		<title>{{category_name}}|Anakot asea</title>
+		<meta name="description" content="{{category_name}} Training,leadership cambodia,anakot asea">
+		<meta name="keywords" content="{{category_name}} , Training,leadership cambodia,anakot asea">
+	{% elif page_name == 'page' %}
+		{%for page in page_object%}
+			<title>{{page.title}}|Anakot asea </title>
+			<meta name="description" content="{{page.title}} Training,leadership cambodia,anakot asea">
+			<meta name="keywords" content="{{page.title}} Training,leadership cambodia,anakot asea ">
+		{%endfor%}
+	{% endif %}
+	
+	
+
+	<meta name="author" content="Amoogli Team">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="/static/{{template_name}}/css/bootstrap.min.css">
+	<!-- <link rel="stylesheet" type="text/css" href="/static/{{template_name}}/css/animate.css"> -->
+			</style>
+	<link rel="shortcut icon" href="/static/{{template_name}}/img/favicon-150x150.png" />
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<!-- Custom Fonts -->
+   	<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <!--end font-->
+    <!--slide owl-->
+    <link href="/static/{{template_name}}/css/custom.css" rel="stylesheet">
+    <link href="/static/{{template_name}}/css/owl.carousel.css" rel="stylesheet">
+    <link href="/static/{{template_name}}/css/owl.theme.css" rel="stylesheet">
+    <!--end slide owl-->
+	<!-- Latest compiled JavaScript -->
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/static/{{template_name}}/css/style1.css">
+	<!-- <link rel="stylesheet" href="http://cdn.bootcss.com/animate.css/3.5.1/animate.min.css"> -->
+	<!--end custom css-->
+	<!--custom js-->
+	<script type="text/javascript" src="/static/{{template_name}}/js/jquery.js"></script>
+	<script type="text/javascript" src="/static/{{template_name}}/js/script.js"></script>
+	<!--slide owl-->
+	<script src="/static/{{template_name}}/js/owl.carousel.min.js"></script>
+	<script src="/static/{{template_name}}/js/bootstrap-collapse.js"></script>
+    <script src="/static/{{template_name}}/js/bootstrap-transition.js"></script>
+	<!--end custom-->
+	<script>
+	    $(document).ready(function($) {
+	      $("#owl-example").owlCarousel();
+	    });
+
+	    $("body").data("page", "frontpage");
+    </script>
+    <!--For single-->
+    <link rel="stylesheet" type="text/css" href="/static/{{template_name}}/css/style2.css">
+    <link rel="stylesheet" type="text/css" href="/static/{{template_name}}/css/menu.css">
+</head>
+<body>
+<header>
+<nav id='cssmenu'>
+	<div class="logo">
+		<a href="/">
+			<img src="/static/{{template_name}}/img/logo.png" class="img-responsive" style="height:30px;">
+		</a>
+	</div>
+    <div id="head-mobile"></div>
+    <div class="button"></div>
+	<ul class="pull-right">
+	<li class='active'><a href='/'>HOME</a></li>
+	<li class='active'><a href='#'>TRAINING</a>
+		<ul>
+		{%for category in categories %}
+		<li class='active'><a href='/{{category.slug}}'>{{category.name}}</a></li>
+		{%endfor%}
+		</ul>
+	</li>
+	{%for page in pages%}
+		<li class='active'><a href='/{{page.slug}}'>{{page.title}}</a></li>
+	{%endfor%}
+	</ul>
+</nav>
+</header>
+<!--slide-->

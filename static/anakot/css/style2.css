@@ -1,0 +1,176 @@
+*{margin:0;padding:0;text-decoration:none}
+body{
+	font-family: 'Open Sans', sans-serif;
+}
+
+
+/*start footer*/
+.sponsor{
+  	border: medium solid white;
+	padding: 22px;
+	margin-top: 8px;
+}
+.small_about{
+  padding-top: 38px;
+}
+footer {
+	background-color: #444B54;
+    color:#ddd;
+    min-height:200px;
+    padding-top:20px;
+    padding-bottom:40px;
+}
+
+footer .nav>li>a {
+    padding:3px;
+    color:#ccc;
+}
+
+footer .nav>li>a:hover {
+    background-color:transparent;
+	color:#fff;
+}
+.footer_logo{
+  width     :200px;
+  height: auto;
+}
+.hr_footer{
+  margin-top: 11px;
+  margin-bottom: 20px;
+  border: 0;
+  border-top: 1px solid #eee;
+}
+.banner{
+	background-color: #E7E7E7;
+	border-top: 10px solid #67aaec;
+	padding-top: 10px;
+}
+/*footer*/
+/*start overlay*/
+.bg-overlay {
+    background: linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.7)), url("https://unsplash.imgix.net/photo-1416339442236-8ceb164046f8?q=75&fm=jpg&s=8eb83df8a744544977722717b1ea4d09");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    color: #fff;
+    height: 350px;
+    padding-top: 50px;
+
+}
+.mycontent{
+	padding-top: 10px;
+}
+.description{
+	padding-top: 0px;
+	font-size: 17px;
+	font-weight: 400;
+	font-family: unset;
+	color: #1C1924;
+	list-style: none;
+	line-height: 1.7;
+	margin: 30px 0;
+}
+/*left list for booking*/
+.left-list{
+	background-color: red;
+	width: 100%;
+}
+.margin{
+	margin-top: 28px;
+}
+.box-booking{
+	width: 100px;
+	height: 100px;
+	background-color: green;
+}
+.package-box{
+    background-color: #199EC7;
+    border-radius: 3px;
+    margin-bottom: 4px;
+    margin-top:5px;
+}
+.package-box:hover{
+	 background-color: #AD310B;
+    -webkit-transition: background-color 1000ms linear;
+    -moz-transition: background-color 1000ms linear;
+    -o-transition: background-color 1000ms linear;
+    -ms-transition: background-color 1000ms linear;
+    transition: background-color 1000ms linear;
+}
+.package-box-profile{
+    
+    border-radius: 3px;
+    width: 100%;height:70px;/
+    margin-bottom: 4px;
+    margin-top:5px;
+}
+.btn-xs{
+	background-color: white;
+	color: black;
+}
+.bg-overlay {
+	border-radius: 3px;
+    background: linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.7)), url("https://unsplash.imgix.net/photo-1416339442236-8ceb164046f8?q=75&fm=jpg&s=8eb83df8a744544977722717b1ea4d09");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    color: #fff;
+    height: 300px;
+    padding-top: 80px;
+}
+.left-right-padd{
+	padding-top: 10px;
+	padding-right: 0px;
+	padding-left: 0px;
+}
+/*pop up modal */
+.modal-header {
+    padding: 0px;
+    border-bottom: 0px solid #e5e5e5;
+}
+.modal-content {
+    -webkit-box-shadow: 0 5px 15px rgba(0,0,0,.5);
+    box-shadow: 0 5px 15px rgba(0,0,0,.5);
+    border-radius: 0px;
+}
+.modal-dialog {
+    margin: 65px auto;
+    border: thin solid #4776e7;
+}
+blockquote {
+    padding: 10px 20px;
+    margin: 0 0 20px;
+    font-size: 17.5px;
+    border-left: 5px solid rgba(240, 212, 6, 0.41);
+    background-color: RGBA(250, 202, 155, 0.36);
+}
+.box {
+    padding: 20px;
+	border: 1px solid RGBA(243, 237, 237, 0.42);
+	position: relative;
+	color: #25373D;
+	font-size: 16px;
+}
+.box:hover{
+	 background-color: #2C82C9;
+    -webkit-transition: background-color 1000ms linear;
+    -moz-transition: background-color 1000ms linear;
+    -o-transition: background-color 1000ms linear;
+    -ms-transition: background-color 1000ms linear;
+    transition: background-color 1000ms linear;
+    text-decoration: none;
+    color: #F6F7F2;
+    font-weight: 500;
+    font-size: 16px;
+}
+a:hover{
+	text-decoration: none; 
+}
+@media only screen and (max-width: 400px){
+	.container-fluid{
+		padding: 0px;
+	}
+	.container{
+		padding: 0px;
+	}
+}

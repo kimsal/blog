@@ -1,0 +1,590 @@
+*{margin:0;padding:0;text-decoration:none}
+body{
+	font-family: 'Open Sans', sans-serif;
+}
+
+/*navbar*/
+header{
+	position: relative;
+	width: 100%;
+	background: #FFFFF7;
+}
+
+.logo{
+	margin-top: 16px;
+	position: relative;
+	z-index: 123;
+	padding: 0px;
+	font: 18px verdana;
+	color: #6DDB07;
+	float: left;
+	width: 20%;
+}
+
+.logo a{
+	color: #6DDB07;
+}
+
+nav{
+	position: relative;
+	width: 980px;
+	margin: 0 auto;
+}
+
+#cssmenu,#cssmenu ul,#cssmenu ul li,#cssmenu ul li a,#cssmenu #head-mobile{
+	border: 0;
+	list-style: none;
+	line-height: 1;
+	display: block;
+	position: relative;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+#cssmenu:after,#cssmenu > ul:after{
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0
+}
+#cssmenu #head-mobile{
+	display:none;
+}
+#cssmenu{ 
+	font-family: sans-serif;
+	background: #FFFFF7;
+}
+#cssmenu > ul > li{
+	float: left;
+}
+#cssmenu > ul > li > a{
+	margin-top: 10px;
+	padding: 16px;
+	letter-spacing: 1px;
+	text-decoration: none;
+	color: #6f6565;
+	font-weight: 600;
+}
+#cssmenu > ul > li:hover > a,#cssmenu ul li.active a{
+	color: #F29B34; 
+}
+#cssmenu > ul > li:hover,#cssmenu ul li.active:hover,#cssmenu ul li.active,#cssmenu ul li.has-sub.active:hover{
+	/*background: #448D00!important;*/
+	-webkit-transition: background .3s ease; 
+	-ms-transition: background .3s ease;
+	transition: background .3s ease;
+}
+#cssmenu > ul > li.has-sub > a{
+	padding-right: 25px;
+}
+
+#cssmenu > ul > li.has-sub:hover > a:before{
+	top: 23px;
+	height:0;
+}
+#cssmenu ul ul{
+	position: absolute;
+	left: -9999px;
+	padding-top: 10px;
+}
+#cssmenu ul ul li{
+	z-index: 100;
+	border-bottom: solid thin #c0bfbf !important;
+	height: 0;
+	-webkit-transition: all .25s ease;
+	-ms-transition: all .25s ease;
+	background:white;
+	color: black;
+	transition: all .25s ease
+}
+#cssmenu ul ul li:hover{}
+#cssmenu li:hover > ul{
+	left: auto;
+}
+#cssmenu li:hover > ul > li{
+	height: 50px;
+}
+#cssmenu ul ul ul{
+	margin-left: 100%;
+	top: 0;
+}
+#cssmenu ul ul li a{
+	/*border-bottom: 1px solid rgba(150,150,150,0.15);*/
+	padding: 0px 15px;
+	width: 170px;
+	text-decoration: none;
+	color:black;
+	font-weight: 500;
+	text-transform: uppercase;
+	line-height: 25px;
+}
+#cssmenu ul ul li:last-child > a,#cssmenu ul ul li.last-item > a{
+	border-bottom: 0;
+}
+#cssmenu ul ul li:hover > a,#cssmenu ul ul li a:hover{
+	color: #F29B34;
+
+}
+#cssmenu ul ul li.has-sub > a:after{
+	position: absolute;
+	top: 16px;
+	right: 11px;
+	width: 8px;
+	height: 2px;
+	display: block;
+	background: red;
+	content: ''
+}
+#cssmenu ul ul li.has-sub > a:before{
+	position: absolute;
+	top: 13px;
+	right: 14px;
+	display: block;
+	width: 2px;
+	height: 8px;
+	background: red;
+	content: '';
+	-webkit-transition: all .25s ease;
+	-ms-transition: all .25s ease;
+	transition: all .25s ease;
+}
+#cssmenu ul ul > li.has-sub:hover > a:before{
+	top: 20px;
+	height: 0;
+	text-transform: uppercase;
+	font-size: 18px;
+}
+#cssmenu ul ul li.has-sub:hover,#cssmenu ul li.has-sub ul li.has-sub ul li:hover{
+	background:red;
+}
+#cssmenu ul ul ul li.active a{
+	border-left: 1px solid #333;
+}
+#cssmenu > ul > li.has-sub > ul > li.active > a,#cssmenu > ul ul > li.has-sub > ul > li.active> a{border-top:1px solid #333}
+@media screen and (max-width:900px){
+.logo{
+	position: absolute;
+	top: -10px;
+	left: 0;
+	width: 60%;
+	height: 50px;
+	text-align: center;
+	padding: 10 0 0 0;
+	float: none;
+}
+#cssmenu > ul > li > a{
+	margin-top: 10px;
+	padding: 8px;
+	letter-spacing: 1px;
+	text-decoration: none;
+	color: #6f6565;
+	font-weight: 600;
+}
+.logo2{
+	display: none;
+}
+nav{
+	width:100%;
+}
+#cssmenu{width:100%}
+#cssmenu ul{
+	width: 100%;
+	display: none;
+}
+#cssmenu ul li{
+	width: 100%;
+	border-top: 1px solid #444;
+}
+#cssmenu ul li:hover{
+	background: #363636;
+}
+#cssmenu ul ul li,#cssmenu li:hover > ul > li{
+	height: auto;
+}
+#cssmenu ul li a,#cssmenu ul ul li a{
+	width: 100%;
+	border-bottom: 0;
+}
+#cssmenu > ul > li{
+	float: none;
+}
+#cssmenu ul ul li a{
+	padding-left: 25px;
+}
+#cssmenu ul ul li{
+	/*background: #333!important;*/
+}
+#cssmenu ul ul li:hover{
+	background: #363636!important;
+}
+#cssmenu ul ul ul li a{
+	padding-left: 35px;
+}
+#cssmenu ul ul li a{
+	margin-top: 10px;
+	padding: 17px;
+	font-size: 12px;
+	letter-spacing: 1px;
+	text-decoration: none;
+	color: black;
+	font-weight: 700;
+}
+#cssmenu ul ul li:hover > a,#cssmenu ul ul li.active > a{
+	color: #fff;
+}
+#cssmenu ul ul,#cssmenu ul ul ul{
+	position: relative;
+	left: 0;
+	width: 100%;
+	margin: 0;
+	text-align: left;
+}
+#cssmenu > ul > li.has-sub > a:after,#cssmenu > ul > li.has-sub > a:before,#cssmenu ul ul > li.has-sub > a:after,#cssmenu ul ul > li.has-sub > a:before{
+	display: none;
+}
+#cssmenu #head-mobile{
+	display: block;
+	padding: 23px;
+	color: #ddd;
+	font-size: 12px;
+	font-weight: 700;
+}
+.button{
+	width: 55px;
+	height: 46px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	cursor: pointer;
+	z-index: 12399994;
+}
+.button:after{
+	position: absolute;
+	top: 22px;
+	right: 20px;
+	display: block;
+	height: 4px;
+	width: 20px;
+	border-top: 2px solid #dddddd;
+	border-bottom: 2px solid #dddddd;
+	content: '';
+}
+.button:before{
+	-webkit-transition: all .3s ease;
+	-ms-transition: all .3s ease;
+	transition: all .3s ease;
+	position: absolute;
+	top: 15px;
+	right: 20px;
+	display: block;
+	height: 4px;
+	width: 20px;
+	background: #ddd;
+	content: '';
+}
+.button.menu-opened:after{
+	-webkit-transition: all .3s ease;
+	-ms-transition: all .3s ease;
+	transition: all .3s ease;
+	top:23px;border: 0;
+	height: 2px;
+	width: 19px;
+	background: #2C82C9;
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	-o-transform: rotate(45deg);
+	transform: rotate(45deg)
+}
+.button.menu-opened:before{
+	top: 23px;
+	background: #2C82C9;
+	width: 19px;
+	-webkit-transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	-o-transform: rotate(-45deg);
+	transform: rotate(-45deg)
+}
+#cssmenu .submenu-button{
+	position: absolute;
+	z-index: 99;
+	right: 0; 
+	top: 0;
+	display: block;
+	border-left: 1px solid #444;
+	height: 46px;
+	width: 46px;
+	cursor: pointer;
+}
+#cssmenu .submenu-button.submenu-opened{
+	background: #262626;
+}
+#cssmenu ul ul .submenu-button{
+	height: 34px;
+	width: 34px;
+}
+#cssmenu .submenu-button:after{
+	position: absolute;
+	top: 22px;
+	right: 19px;
+	width: 8px;
+	height: 2px;
+	display: block;
+	background: #ddd;
+	content: '';
+}
+#cssmenu ul ul .submenu-button:after{
+	top: 15px;
+	right: 13px;
+}
+#cssmenu .submenu-button.submenu-opened:after{
+	background:#fff;
+}
+#cssmenu .submenu-button:before{
+	position: absolute;
+	top: 19px;
+	right: 22px;
+	display: block;
+	width: 2px;
+	height: 8px;
+	background: #ddd;
+	content:'';}
+#cssmenu ul ul .submenu-button:before{
+	top: 12px;
+	right: 16px;
+}
+#cssmenu .submenu-button.submenu-opened:before{
+	display: none;
+}
+#cssmenu ul ul ul li.active a{
+	border-left: none;
+}
+#cssmenu > ul > li.has-sub > ul > li.active > a,#cssmenu > ul ul > li.has-sub > ul > li.active > a{
+	border-top: none;
+	}
+}
+
+/*end navbar*/
+/*start footer*/
+.sponsor{
+  	border: medium solid white;
+	padding: 22px;
+	margin-top: 8px;
+}
+.small_about{
+  padding-top: 38px;
+}
+footer {
+	background-color: #444B54;
+    color:#ddd;
+    min-height:200px;
+    padding-top:20px;
+    padding-bottom:40px;
+}
+
+footer .nav>li>a {
+    padding:3px;
+    color:#ccc;
+}
+
+footer .nav>li>a:hover {
+    background-color:transparent;
+	color:#fff;
+}
+.footer_logo{
+  width     :200px;
+  height: auto;
+}
+.hr_footer{
+  margin-top: 11px;
+  margin-bottom: 20px;
+  border: 0;
+  border-top: 1px solid #eee;
+}
+.banner{
+	background-color: #E7E7E7;
+	border-top: 10px solid #67aaec;
+	padding-top: 10px;
+}
+/*footer*/
+/*start overlay*/
+.bg-overlay {
+    /*background: linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.7)), url("https://unsplash.imgix.net/photo-1416339442236-8ceb164046f8?q=75&fm=jpg&s=8eb83df8a744544977722717b1ea4d09");*/
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    color: #fff;
+    height: 350px;
+    padding-top: 50px;
+
+}
+.mycontent{
+	padding-top: 20px;
+}
+.description{
+	padding-top: 5px;
+	font-size: 16px;
+	font-weight: 400;
+	font-family: serif;
+	color: #1C1924;
+	line-height: 28px;
+	list-style: none;
+}
+/*left list for booking*/
+.left-list{
+	background-color: red;
+	width: 100%;
+}
+.margin{
+	margin-top: 28px;
+}
+.margin:hover{
+	 -moz-transition: all 0.4s ease-out;  /* FF4+ */
+    -o-transition: all 0.4s ease-out;  /* Opera 10.5+ */
+    -webkit-transition: all 0.4s ease-out;  /* Saf3.2+, Chrome */
+    -ms-transition: all 0.4s ease-out;
+     opacity: 0.80; 
+     background-color: transparent;
+     color: blue;
+}
+
+.bg-overlay {
+    /*background: linear-gradient(rgba(0, 0, 0, 0.21), rgba(0, 0, 0, 0.53)), url("https://unsplash.imgix.net/photo-1416339442236-8ceb164046f8?q=75&fm=jpg&s=8eb83df8a744544977722717b1ea4d09");*/
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    color: #fff;
+    height: 300px;
+    padding-top: 80px;
+}
+.left-right-padd{
+	padding-top: 10px;
+	padding-right: 0px;
+	padding-left: 0px;
+}
+
+a:hover{
+	text-decoration: none;
+}
+/*pricing*/
+.panel
+{
+    text-align: center;
+}
+.panel:hover { box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4), 0 1px 5px rgba(130, 130, 130, 0.35); }
+.panel-body
+{
+    padding: 0px;
+    text-align: center;
+}
+
+.the-price
+{
+    background-color: rgba(220,220,220,.17);
+    box-shadow: 0 1px 0 #dcdcdc, inset 0 1px 0 #fff;
+    padding: 20px;
+    margin: 0;
+}
+
+.the-price h1
+{
+    line-height: 1em;
+    padding: 0;
+    margin: 0;
+}
+
+.subscript
+{
+    font-size: 25px;
+}
+strong{
+	color: #F29B34;
+}
+.panel-footer{
+	color: #F29B34;
+}
+/* CSS-only ribbon styles    */
+.cnrflash
+{
+    /*Position correctly within container*/
+    position: absolute;
+    top: -9px;
+    right: 4px;
+    z-index: 1; /*Set overflow to hidden, to mask inner square*/
+    overflow: hidden; /*Set size and add subtle rounding  		to soften edges*/
+    width: 100px;
+    height: 100px;
+    border-radius: 3px 5px 3px 0;
+}
+.cnrflash-inner
+{
+    /*Set position, make larger then 			container and rotate 45 degrees*/
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 145px;
+    height: 145px;
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -o-transform: rotate(45deg); /* Opera */
+    -moz-transform: rotate(45deg); /* Firefox */
+    -webkit-transform: rotate(45deg); /* Safari and Chrome */
+    -webkit-transform-origin: 100% 100%; /*Purely decorative effects to add texture and stuff*/ /* Safari and Chrome */
+    -ms-transform-origin: 100% 100%;  /* IE 9 */
+    -o-transform-origin: 100% 100%; /* Opera */
+    -moz-transform-origin: 100% 100%; /* Firefox */
+    background-image: linear-gradient(90deg, transparent 50%, rgba(255,255,255,.1) 50%), linear-gradient(0deg, transparent 0%, rgba(1,1,1,.2) 50%);
+    background-size: 4px,auto, auto,auto;
+    background-color: #aa0101;
+    box-shadow: 0 3px 3px 0 rgba(1,1,1,.5), 0 1px 0 0 rgba(1,1,1,.5), inset 0 -1px 8px 0 rgba(255,255,255,.3), inset 0 -1px 0 0 rgba(255,255,255,.2);
+}
+.cnrflash-inner:before, .cnrflash-inner:after
+{
+    /*Use the border triangle trick to make  				it look like the ribbon wraps round it's 				container*/
+    content: " ";
+    display: block;
+    position: absolute;
+    bottom: -16px;
+    width: 0;
+    height: 0;
+    border: 8px solid #800000;
+}
+.cnrflash-inner:before
+{
+    left: 1px;
+    border-bottom-color: transparent;
+    border-right-color: transparent;
+}
+.cnrflash-inner:after
+{
+    right: 0;
+    
+}
+.cnrflash-label
+{
+    /*Make the label look nice*/
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    padding-bottom: 5px;
+    color: #fff;
+    text-shadow: 0 1px 1px rgba(1,1,1,.8);
+    font-size: 0.95em;
+    font-weight: bold;
+    text-align: center;
+}
+
+
+@media only screen and (max-width: 400px){
+	.container-fluid{
+		padding: 0px;
+	}
+	.container{
+		padding: 0px;
+	}
+}

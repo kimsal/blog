@@ -18,7 +18,7 @@
                              <a href="#menu-toggle" style="border:none;font-size:20px;" class="" id="menu-toggle">
 		                       <i class="fa fa-arrow-circle-o-left hidden-sm hidden-md hidden-lg " aria-hidden="true"></i>
 		                      </a>
-                            	Post list
+                            	Posts
                             </h3>
                           </div>
                           <center>
@@ -79,50 +79,7 @@
                                 </table> 
                         </div>
                         <center>
-                        {% if pagin > 1 %}
-	                        {% if pagin < 8 %}
-		                    	<ul class="pagination pagination-sm">
-			                    	{% for page in range(1,pagin+1) %}
-				                    	{% if page == current_pagin %}
-				                    		<li class="active">
-				                    			<a href="/admin/{{page}}">
-				                    				{{page}}
-				                    			</a>
-				                    		</li>
-				                    	{%else%}
-				                    		<li>
-				                    			<a href="/admin/{{page}}">
-				                    				{{page}}
-				                    			</a>
-				                    		</li>
-				                    	{%endif%}
-									{%endfor%}
-								</ul>
-							{%else %}
-								<li>
-									<a href="/admin/1">1</a>
-								</li>
-								<li>
-									<a href="/admin/2">2</a>
-								</li>
-								<li>
-									<a href="/admin/3">3</a>
-								</li>
-								<li>
-									<a href="/admin/4">4</a>
-								</li>
-								<li>
-									<a href="#">...</a>
-								</li>
-								{% for page in range(pagin-4,pagin+1) %}
-								  <li>
-								  	<a href="/admin/{{page}}">
-								  		{{page}}
-								  	</a>
-								  	</li>
-								{%endfor%}
-							{%endif%}
-						{%endif%}
+                       		pagination not ready
 						</center>
                       </div>
                     </div> 

@@ -1,4 +1,9 @@
 {% include 'admin/header.html' %} 
+<!-- <style type="text/css">
+  .span4#landscape img{
+    max-width:360px;max-height:250px;
+  }
+</style> -->
   <div id="page-content-wrapper">
       <div class="container-fluid">
           <div class="row">
@@ -52,7 +57,7 @@
                                     <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11">
                                       {{ form.description(class_="form-control ckeditor",id="description") }}
                                     </div>
-                                    <input type="text" name="txt_temp_image" class="txt_temp_image" value="" style="display:none"/>
+                                    
                                   
                                      <script type="text/javascript">
                                         CKEDITOR.replace("description", {
@@ -70,19 +75,69 @@
                                   <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                     <br/>
                                     {{ form.category_id(class_="form-control") }}
+
                                   </div>
                                 </div>
-                                <!--end select box-->
-                               
+
+                                <div class="form-group">
+                                  <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2"><br/>
+                                    <!-- <input id="name" name="name" type="text" placeholder="Type your title here..." class="form-control"> -->
+                                    {{ form.duration.label }}
+                                  </div>
+                                  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                    <br/>
+                                    {{ form.duration(class_="form-control") }}
+
+                                  </div>
+                                </div>
+
+                                <div class="form-group">
+                                  <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2"><br/>
+                                    <!-- <input id="name" name="name" type="text" placeholder="Type your title here..." class="form-control"> -->
+                                    {{ form.price.label }}
+                                  </div>
+                                  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                    <br/>
+                                    {{ form.price(class_="form-control") }}
+
+                                  </div>
+                                </div>
+
+                                <div class="form-group">
+                                  <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2"><br/>
+                                    <!-- <input id="name" name="name" type="text" placeholder="Type your title here..." class="form-control"> -->
+                                    {{ form.location.label }}
+                                  </div>
+                                  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                    <br/>
+                                    {{ form.location(class_="form-control") }}
+
+                                  </div>
+                                </div>
+
+                                <div class="form-group">
+                                  <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2"><br/>
+                                    <!-- <input id="name" name="name" type="text" placeholder="Type your title here..." class="form-control"> -->
+                                    {{ form.file.label }}
+                                  </div>
+                                  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                    <br/>
+                                    {{ form.file(class_="form-control") }}
+
+                                  </div>
+                                </div>
                                 <!--phos add feature image-->
 
                                 <div class="form-group">
                                   <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2"><br/>
                                     <b> Set Feature Image</b>
                                   </div>
+
+                                  <input type="text" name="txt_temp_image" class="txt_temp_image" value="" style="display:none"/>
+
                                   <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                      <div class="panel panel-body">
-                                       <div class="span4 cropme" id="landscape" style="width:230px; height: 150px;">
+                                       <div class="span4 cropme" id="landscape">
                                        </div>
                                     </div>
                                   </div>
@@ -114,12 +169,12 @@
                                 <div class="form-group">
                                   <div class="col-md-7 col-xs-12 co-md-8 col-lg-7">
                                     
-                                    <script>
+                                   <!--  <script>
                                       var loadFile = function(event) {
                                         var output = document.getElementById('output');
                                         output.src = URL.createObjectURL(event.target.files[0]);
                                       };
-                                    </script>
+                                    </script> -->
                                   </div>
                                 </div>
                                 <!--end feature image-->
@@ -153,17 +208,13 @@
   </div>
 <!-- /#page-content-wrapper -->
 </div>
-    <script src="js/jquery.js"></script>
-    <script src="js/scroll.js"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
 
     <!-- Menu Toggle Script -->
     <script>
     var image_string='';
   
     </script>
-{% for p in post %}
+  {% for p in post %}
  <script type="text/javascript">
    $('input#title').attr('value',"{{p.title}}"); 
    $('#frm').attr('action','/admin/post/edit/{{p.slug}}/');
@@ -172,15 +223,40 @@
    //alert(help);
    $('#description').html(help);  
    $('select#category_id option[value="{{p.category_id}}"]').attr("selected","selected");
-   $(".feature_output").attr("src","/static/images/feature_images/{{p.feature_image}}");
+   // $(".feature_output").attr("src","/static/images/feature_images/{{p.feature_image}}");
    var feature_image="{{p.feature_image}}";
-   if(feature_image!=''){
-     $("#landscape").html('<img src="'+feature_image+'"/>');
-     //alert(feature_image);
-   }
+   if(feature_image==''){
+    feature_image='/static/{{template_name}}/img/no image.jpg';
+  }
+   $("#landscape").html('<img src="'+feature_image+'"/>');
 
+     //alert(feature_image);
+   $(".txt_temp_image").attr('value',feature_image);
+   $("#duration").attr('value',"{{p.duration}}");
+   $("#price").attr('value',"{{p.price}}");
+   $("#location").attr('value',"{{p.location}}");
+   $("#file").attr('value',"{{p.file}}");
+   $("#landscape img").addClass("img-responsive");
  </script>
  
 {% endfor %}
+<script type="text/javascript">
+  //input only number
+    $("#price").keydown(function (e) {
+        // Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+             // Allow: Ctrl+A, Command+A
+            (e.keyCode == 65 && ( e.ctrlKey === true || e.metaKey === true ) ) || 
+             // Allow: home, end, left, right, down, up
+            (e.keyCode >= 35 && e.keyCode <= 40)) {
+                 // let it happen, don't do anything
+                 return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+    });
 
+</script>
 {% include 'admin/footer.html' %} 
