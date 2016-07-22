@@ -9,6 +9,26 @@
 <link href="/static/admin/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Bootstrap Core CSS -->
+<style type="text/css">
+  .form-control {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+</style>
 <body>
     <div class="container">
       <div class="row">
@@ -19,7 +39,7 @@
               <img src="/static/admin/images/amoogli.jpg" class="img-responsive" style="width:100%;">
             </div>
             <div class="form-group">
-              <label for="inputUsernameEmail">{{ form.email.label }}</label>
+              <label  for="inputUsernameEmail">{{ form.email.label }}</label>
               <!-- <input type="text" class="form-control" id="email" name="email"> -->
               {{ form.email(class_="form-control") }}
             </div>
@@ -31,12 +51,12 @@
             </div>
             <div class="checkbox pull-right">
               <label>
-                <a href="/recovery">
+                <a href="/recovery" style="color:white;">
                   Forget Password
                 </a>
               </label>
             </div>
-            <button type="submit" class="btn btn btn-primary">
+            <button type="submit" class="btn btn-primary" style="border:none;border-radius:0px;">
               Log In
             </button>
             <br/> <br/> 
