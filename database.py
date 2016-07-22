@@ -15,7 +15,7 @@ from datetime import datetime, timedelta
 from flask_mail import Mail,Message
 import random
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql://blog:blog@localhost:5432/anakot'
+app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql://blog:blog@localhost:5432/db_anakot'
 auth = HTTPTokenAuth(scheme='Token')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=True
 app.secret_key = 'Hello@AmokCamSmallworld$Cambodia&*&'

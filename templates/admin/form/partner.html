@@ -6,7 +6,7 @@
                     <br><br>
                   <div class="panel panel-default" style="padding:0px;">
                     <div class="panel-heading">
-                      <a href="/admin/post/add" class="btn btn-default btn-sm pull-right">
+                      <a href="/admin/partner/add" class="btn btn-default btn-sm pull-right">
                         <i class="fa fa-plus-circle" aria-hidden="true"></i>
                         New 
                      </a>
@@ -138,9 +138,9 @@
     <!-- Menu Toggle Script -->
     <script>
     var image_string='';
-  
+    var feature_image='';
     </script>
-  {% for partner in partners %}
+  {% for partner in partner_object %}
  <script type="text/javascript">
    $('input#name').attr('value',"{{partner.name}}"); 
    $('#frm').attr('action','/admin/partner/edit/{{partner.slug}}/');
@@ -148,15 +148,19 @@
    //help=help.replace(/(&lt;br\/&gt;)+/gi,'')
    //alert(help);
    $('#url').attr('value',"{{partner.url}}"); 
-   var feature_image="{{partner.feature_image}}";
-   if(feature_image!=''){
-     $("#landscape").html('<img src="'+feature_image+'"/>');
+   feature_image="{{partner.feature_image}}";
+   $("#landscape").html('<img src="'+feature_image+'"/>');
      //alert(feature_image);
-   }
    $(".txt_temp_image").attr('value',feature_image);
 
  </script>
  
 {% endfor %}
+<script type="text/javascript">
+  if(feature_image==''){
+    feature_image='/static/{{template_name}}/img/no image.jpg';
+  }
+  $("#landscape").html('<img src="'+feature_image+'" style="width:280px;height:200px"/> ');
+</script>
 
 {% include 'admin/footer.html' %} 

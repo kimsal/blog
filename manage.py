@@ -343,7 +343,7 @@ def admin_partner(pagination=1,action='',slug=''):
 		#return 'update'+ slug
 		partners=Partner.query.filter_by(slug=slug)
 		if request.method == 'GET':
-			return render_template("admin/form/partner.html",form=form,partners=partners)
+			return render_template("admin/form/partner.html",form=form,partner_object=partners)
 		else:
 			try:
 				partners.update({"slug" : slugify(request.form['name']) , "name" : request.form['name'],'url':request.form['url'],'feature_image':request.form['txt_temp_image'] })
@@ -410,7 +410,9 @@ def admin_post_add(slug=""):
 		   			if file:
 		   				if filedownload!="":
 		   					filepdf.save(os.path.join(app.config['UPLOAD_FOLDER'], now+"_"+filedownload))
-		   				obj=Post(request.form['title'],request.form['description'],request.form['category_id'],filename,request.cookies.get('blog_id'),request.form['duration'],request.form['price'],request.form['location'],now+"_"+filedownload)
+		   				else:
+		   					file_download=''
+		   				obj=Post(request.form['title'],request.form['description'],request.form['category_id'],filename,request.cookies.get('blog_id'),request.form['duration'],request.form['price'],request.form['location'],file_download)
 			        	status=Post.add(obj)
 				        if not status:
 				            flash("Post added was successfully")
@@ -877,7 +879,8 @@ def single(slug='',pagination=1):
 	for post in post_object:
 		cat_id=post.category_id
 	related_posts=Post.query.filter_by(category_id=cat_id).order_by(Post.id.desc()).limit(3)
-	return render_template(template+'/single.html',form=form,page_name='single',related_posts=related_posts,post_object=post_object)
+	events=Event.query.all()
+	return render_template(template+'/single.html',events=events,form=form,page_name='single',related_posts=related_posts,post_object=post_object)
 @app.route('/category/<slug>')
 @app.route('/category/<slug>/')
 @app.route('/category/<slug>/<pagination>')
