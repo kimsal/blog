@@ -14,7 +14,7 @@ body{
   padding-top: 38px;
 }
 footer {
-	background-color: #444B54;
+	background-color: #194f7a;
     color:#ddd;
     min-height:200px;
     padding-top:20px;
@@ -84,7 +84,7 @@ footer .nav>li>a:hover {
 	background-color: green;
 }
 .package-box{
-    background-color: #199EC7;
+    background-color: #194f7a;
     border-radius: 3px;
     margin-bottom: 4px;
     margin-top:5px;
@@ -146,10 +146,11 @@ blockquote {
 }
 .box {
     padding: 20px;
-	border: 1px solid RGBA(243, 237, 237, 0.42);
+	/*border: 1px solid RGBA(243, 237, 237, 0.42);*/
 	position: relative;
-	color: #25373D;
+	color: #F7FCFE;
 	font-size: 16px;
+	background-color: #194f7a;
 }
 .box:hover{
 	 background-color: #2C82C9;

@@ -63,7 +63,7 @@ body{
 }
 .information{
 	border-radius: 4px;
-	background-color: #287bbc;
+	background-color: #194f7a;
 	padding: 5px;
 	margin-top: 4px;
 }
@@ -313,7 +313,7 @@ footer .nav>li>a:hover {
 }
 .btn-custom {
     color: #fff;
-	background-color: #2980B9;
+	background-color: #194f7a;
 	padding-top: 10px;
 }
 .btn-custom:hover,

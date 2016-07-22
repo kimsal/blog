@@ -71,19 +71,21 @@
 <!--start container content-->
 <div class="container">
 	<div class="row-contact">
-		<h3 style="margin-top:10px;margin-bottom:0px;">Up Comming Training</h3>
+		<h3 style="margin-top:10px;margin-bottom:0px;text-transform:uppercase;">Up Comming Training</h3>
 		<div class="row">
 			{%for post in posts_top%}
 			<div class="col-xs-12 col-sm-4 col-md-4 margin">
+				<a href="/{{post.slug}}">
 				<div class=" text-center bg-overlay box" style="background: linear-gradient(rgba(0, 0, 0, 0.37), rgba(0, 0, 0, 0.42)), url({{post.feature_image}});
     				background-repeat: no-repeat;">
-					<a href="/{{post.slug}}">
+					
 			        <h4 class="myh4">
 			        {{post.title}}
 			        </h4>
 			        
-			        <a href="single.html">
+			        
 				</div>
+				<a href="single.html">
 			</div>
 			{%endfor%}
 		</row>
