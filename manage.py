@@ -298,6 +298,7 @@ def booking(type_submit=''):
 			phone=data[2]
 			amount=data[3]
 			post_id=data[4]
+			return str(amount)
 			booking=Booking(name,email,phone,post_id,amount)
 			status = Booking.add(booking)
 			if not status:
@@ -800,14 +801,14 @@ def admin_search(pagination=1):
 	#return search
 	if search=="":
 		return redirect(url_for("admin_index"))
-	query_result=(Post.query.filter((Post.title).match("'%"+search+"%'"),(Post.description).match("%'"+search+"'%"))).count()
-	posts=Post.query.filter((Post.title).match("'%"+search+"%'")).limit(limit).offset(int(int(int(limit)-1)*limit))
+	# query_result=(Post.query.filter((Post.title).match("'%"+search+"%'"))).count()
+	posts=Post.query.filter((Post.title).match("'%"+search+"%'")).all()#limit(limit).offset(int(int(int(limit)-1)*limit))
 	pagin=math.ceil((Post.query.filter((Post.title).match("'%"+search+"%'")).count())/limit)
 	#return str((posts))
 	if math.ceil(pagin)%limit != 0:
 		pagin=int(pagin+1)
 	#return str(pagin)
-	return render_template('admin/search.html',page_name='search',posts=posts,current_pagin=int(pagination),pagin=(int(pagin)))
+	return render_template('admin/search.html',search=search,page_name='search',posts=posts,current_pagin=int(pagination),pagin=(int(pagin)))
 ############## End send mail #####################
 #End Middleware
 #client
@@ -908,12 +909,12 @@ def category(slug='',pagination=1):
 def search():
 	search=(str(request.args['q']))#.split()
 	search=search.replace(" ",'+')
-	#return search
+	# return search
 	if search=="":
 		return redirect(url_for("index"))
-	#return search
+	return search
 	query_result=(Post.query.filter((Post.title).match("'%"+search+"%'"),(Post.description).match("%'"+search+"'%"))).count()
-	posts=Post.query.filter((Post.title).match("'%"+search+"%'"),(Post.description).match("%'"+search+"'%"))#.limit(limit).offset(int(int(int(limit)-1)*limit))
+	posts=Post.query.filter((Post.title).match("'%"+search+"%'")).all()#.limit(limit).offset(int(int(int(limit)-1)*limit))
 	return render_template(template+"/search.html",search=search,query_result=query_result,posts=posts)
 # @app.route('/search', methods=['POST', 'GET'])
 # @app.route('/search/', methods=['POST', 'GET'])

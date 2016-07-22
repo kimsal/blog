@@ -61,11 +61,12 @@
 	                                          {{post.category.name}}
 	                                      </td>
 	                                      <td class="hidden-xs">
-	                                      <!-- <i class="fa fa-eye" aria-hidden="true"></i> -->
 	                                      	{{post.views}}
 	                                      </td>
 	                                      <td>
-	                                        <!-- <a href="/admin/post/edit/{{post.slug}}" class="">Edit</a> - -->
+	                                        <a href="/{{post.slug}}" target="_blank">
+	                                        	<i class="fa fa-eye" aria-hidden="true"></i>
+	                                        </a> -
 	                                        <a href="/admin/post/delete/{{post.slug}}" class="" style="color:red">
 	                                        	<i  class="fa fa-trash-o" aria-hidden="true"></i>
 	                                        </a>
