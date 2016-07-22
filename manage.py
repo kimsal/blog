@@ -3,7 +3,7 @@ from database import *
 import os.path as op
 import os
 import flask
-from flask import abort,Flask,g, render_template,request,session,redirect,url_for,flash
+from flask import json,abort,Flask,g, render_template,request,session,redirect,url_for,flash
 from werkzeug import secure_filename
 from flask_wtf import Form
 from wtforms import TextField, IntegerField, TextAreaField, SubmitField, RadioField,SelectField,validators, ValidationError
@@ -224,10 +224,6 @@ def admin_booking(pagination=1,action='',name=''):
 
 ############ End Booking List ##########
 # ############  Contact List ##########
-# @app.route('/contact/', methods = ['GET', 'POST'])
-# @app.route('/contact', methods = ['GET', 'POST'])
-# def contact():
-# 	return render_template(template+"/contact.html")
 @app.route('/admin/contact/')
 @app.route('/admin/contact')
 @app.route('/admin/contact/<action>/<firstname>')
@@ -254,7 +250,33 @@ def admin_contact(pagination=1,action='',firstname=''):
 			pagin=int(pagin+1)
 		return render_template('admin/contact.html',contacts=contacts,current_pagin=int(pagination),pagin=int(pagin))
 
-
+@app.route('/add/contact/<type_submit>/',methods=['POST'])
+@app.route('/add/contact/<type_submit>',methods=['POST'])
+def contact(type_submit=''):
+	if type_submit=="":
+		#by form refresh page
+		return 'add and refresh page'
+	elif type_submit=="ajax":
+		#by ajax
+		# return str(request.form['json_str']('firstname'))
+		try:
+			data=(request.form['json_str']).replace('"','')
+			data=((data.split('[')[1]).split(']')[0]).split(',')
+			firstname=data[0]
+			lastname=data[1]
+			email=data[2]
+			check=Contact.query.filter_by(email=email)
+			if check.count()>0:
+				return 'email already exists.'
+			else:
+				contact=Contact(firstname,lastname,email)
+				status = Contact.add(contact)
+		        if not status:
+		            return "Contact saved was successfully"
+		       	else:
+		       		return "Fail to add contact !"
+		except Exception as e:
+			return e.message
 ############ End Contact List ##########
 ############ Partner  ##########
 @app.route('/admin/partner', methods=['POST', 'GET'])
@@ -766,12 +788,13 @@ def page_not_found(e):
 @app.route('/pagin/<pagination>')
 def index(pagination=1):
 	global limit
+	form=ContactForm()
 	posts_top = Post.query.join(UserMember).order_by(Post.id.desc()).limit(3)
 	posts_bottom = Post.query.order_by(Post.id.desc()).limit(3).offset(3)
 	# posts_bottom=Post.query.all()
 	home_posts=Post.query.join(UserMember).order_by(Post.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
 	pagin=math.ceil((Post.query.count())/limit)
-	return render_template(template+'/index.html',page_name='home',posts_top=posts_top,home_posts=home_posts,posts_bottom = posts_bottom,pagin=int(pagin),current_pagin=int(pagination))
+	return render_template(template+'/index.html',form=form,page_name='home',posts_top=posts_top,home_posts=home_posts,posts_bottom = posts_bottom,pagin=int(pagin),current_pagin=int(pagination))
 @app.route('/<slug>')
 @app.route('/<slug>/')
 @app.route('/<slug>/<pagination>')

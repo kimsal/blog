@@ -15,11 +15,11 @@
 	<a class="carousel-control left btn-control " href="#carousel_fade" data-slide="prev"></a>
 	<a class="carousel-control right btn-control" href="#carousel_fade" data-slide="next"></a>
 </div>
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	jQuery('.carousel').carousel({
 		interval: 7000
 	})
-</script>
+</script> -->
 <!--end slide-->
 <!--sign up-->
 <div class="container-fluid .clean-xs">
@@ -37,17 +37,26 @@
 				<div class="form">
 					<div class="col-xs-12" style="padding-left:0px;padding-right:0px;">
 		        	    <div class="form-wrap"> 
-		                    <form role="form" action="" method="post" id="login-form" autocomplete="off">
+		        	    	<div class="alert" style="display:none">
+		        	    		<center>
+		        	    			Success
+		        	    		</center>
+		        	    	</div>
+
+		                    <form role="form" action="/add/contact/" method="post" id="contact-form" autocomplete="off">
+		                    	{{ form.hidden_tag() }}
 		                        <div class="form-group">
-		                            <input type="text" name="key" id="key" class="form-control input-lg" placeholder="First name">
+		                            {{ form.firstname(class_="form-control input-lg",placeholder="First name") }}
 		                        </div>
 		                        <div class="form-group">
-		                            <input type="text" name="key" id="key" class="form-control input-lg" placeholder="Last name">
+		                           <!--  <input type="text" name="key" id="key" class="form-control input-lg" placeholder="Last name"> -->
+		                           {{ form.lastname(class_="form-control input-lg",placeholder="Last name") }}
 		                        </div>
 		                        <div class="form-group">
-		                            <input type="email" name="email" id="email" class="form-control input-lg" placeholder="somebody@example.com">
+		                        	{{ form.email(class_="form-control input-lg",placeholder="somebody@example.com") }}
+		                           
 		                        </div>
-		                        <input type="submit" id="btn-login" class="btn btn-custom btn-lg btn-block" value="Get Update">
+		                        <input type="button" id="btn-contact" class="btn btn-custom btn-lg btn-block" value="Get Update">
 		                    </form>
 		             
 		                    <hr>
@@ -105,5 +114,45 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	$('#email').attr('type','email');
+	$("#btn-contact").click(function(){
+		var firstname=$("#firstname").val();
+		var lastname=$("#lastname").val();
+		var email=$("#email").val();
+		var dt=[];
+		dt[0]=firstname;
+		dt[1]=lastname
+		dt[2]=email;
+		if(email.indexOf("@")<1&&email.indexOf(".")<2){
+			$('.form-wrap .alert').addClass('alert-danger');
+		     $('.form-wrap .alert center').html("Your email is not valid");
+		     $('.form-wrap .alert').css("display",'block')
+		}
+		else if(firstname!=''&&lastname!=''&&email!=''){
+			$.ajax({
+			   type: "POST",
+			   url: "/add/contact/ajax/",
+			   data: {json_str:JSON.stringify(dt)},
+			   success: function(msg){
+			     $('.form-wrap .alert').addClass('alert-success');
+			     $('.form-wrap .alert center').html(msg);
+			     $('.form-wrap .alert').css("display",'block');
+			   },
+			   error:function(msg){
+			   	$('.form-wrap .alert').addClass('alert-danger');
+			     $('.form-wrap .alert center').html(msg);
+			     $('.form-wrap .alert').css("display",'block');
+			   }
+			   // dataType: "json"
+			});
+		}
+		else{
+			$('.form-wrap .alert').addClass('alert-danger');
+		     $('.form-wrap .alert center').html("All fields are required");
+		     $('.form-wrap .alert').css("display",'block');
+		}
+	});
+</script>
 <!--end container content-->
 {% include template_name+'/footer.html' %} 

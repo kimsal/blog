@@ -32,7 +32,7 @@ class SearchForm(Form):
 class ContactForm(Form):
    firstname = TextField("First Name",[validators.Required("Please enter your first name.")])
    lastname = TextField("Last Name",[validators.Required("Please enter your last name.")])
-   email = TextField("Email",[validators.Required("Please enter your email.")])
+   email = TextField("Email",  [validators.Required("Please enter your email address."), validators.Email("Please enter your email address.")])
 class EventForm(Form,CKEditor):
    title = TextField("Title",[validators.Required("Please enter your title.")])
    description = TextAreaField("Description",[validators.Required("Please enter your description.")])   

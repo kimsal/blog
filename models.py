@@ -225,7 +225,7 @@ class Contact(db.Model):
             lastname=self.lastname,
             email=self.email
             )
-    def __init__(self,name):
+    def __init__(self,firstname,lastname,email):
         self.firstname =firstname,
         self.lastname =lastname,
         self.email =email
