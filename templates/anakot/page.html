@@ -54,7 +54,7 @@ div.desc {
 {% include template_name+'/header.html' %} 
 <!--container-->
 {%for page in page_object%}
-<div class="bg-overlay" style="background: linear-gradient(rgba(0, 0, 0, 0.37), rgba(0, 0, 0, 0.42)), url(/static/{{template_name}}/img/banner_main.png);
+<div class="bg-overlay" style="background: linear-gradient(rgba(0, 0, 0, 0.37), rgba(0, 0, 0, 0.42)), url(/static/{{template_name}}/img/header/{{header_image}});
     				background-repeat: no-repeat;border-radius:0px;" >
 	<div class="row text-center">
 		<h3>{{page.title}}</h3>

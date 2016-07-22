@@ -38,9 +38,11 @@ app.config.update(
 mail=Mail(app)
 #####################
 #Middleware
+arr_header_image=['anakot.asea-1.jpg','anakot.asea-2.jpg','anakot.asea-3.jpg']
+# header_image=random.choice (arr_header_image)
 @app.context_processor
 def inject_dict_for_all_templates():
-    return dict(searchform=SearchForm(),logined_name=request.cookies.get('blog_name'),template_name= template,categories = Category.query.filter_by(is_menu=1),pages = Page.query.filter_by(is_menu=1),partners=Partner.query.order_by(Partner.id.desc()).all())
+    return dict(searchform=SearchForm(),header_image=random.choice (arr_header_image),logined_name=request.cookies.get('blog_name'),template_name= template,categories = Category.query.filter_by(is_menu=1),pages = Page.query.filter_by(is_menu=1),partners=Partner.query.order_by(Partner.id.desc()).all())
 #========================================================
 @auth.verify_token
 def verify_token(token):
@@ -210,7 +212,7 @@ def admin_booking(pagination=1,action='',name=''):
 		try:
 			booking=Booking.query.filter_by(name=name).first()
 			status = Booking.delete(booking)
-			flash('Booking successful.')
+			flash('Booking deleted successfully.')
 			return redirect(url_for('admin_booking'))
 		except Exception as e:
 			flash('Fail to delete booking. '+ e.message)
@@ -278,6 +280,33 @@ def contact(type_submit=''):
 		except Exception as e:
 			return e.message
 ############ End Contact List ##########
+############ Booking ####################
+@app.route('/add/booking/<type_submit>/',methods=['POST'])
+@app.route('/add/booking/<type_submit>',methods=['POST'])
+def booking(type_submit=''):
+	if type_submit=="":
+		#by form refresh page
+		return 'add and refresh page'
+	elif type_submit=="ajax":
+		#by ajax
+		# return str(request.form['json_str']('firstname'))
+		try:
+			data=(request.form['json_str']).replace('"','')
+			data=((data.split('[')[1]).split(']')[0]).split(',')
+			name=data[0]
+			email=data[1]
+			phone=data[2]
+			amount=data[3]
+			post_id=data[4]
+			booking=Booking(name,email,phone,post_id,amount)
+			status = Booking.add(booking)
+			if not status:
+				return "Your info saved was successfully"
+			else:
+				return "Fail to add booking !"
+		except Exception as e:
+			return e.message
+############ End Booking ################
 ############ Partner  ##########
 @app.route('/admin/partner', methods=['POST', 'GET'])
 @app.route('/admin/partner/', methods=['POST', 'GET'])
@@ -803,6 +832,7 @@ def index(pagination=1):
 def single(slug='',pagination=1):
 	# session.clear()
 	# return 'd'
+	form=BookingForm()
 	try:
 		post_object=Post.query.filter_by(slug=slug)#.limit(1)
 		if post_object.count()<=0:
@@ -819,7 +849,7 @@ def single(slug='',pagination=1):
 					status = db.session.commit()
 					session['amoogli_view'] = (str(session.get('amoogli_view')))+","+slug
 		elif page_object.count()>0:
-			return render_template(template+"/page.html",page_object=page_object)
+			return render_template(template+"/page.html",page_name="page",page_object=page_object)
 		else:
 			category=Category.query.filter_by(slug=slug)
 			if category.count()>0:
@@ -847,7 +877,7 @@ def single(slug='',pagination=1):
 	for post in post_object:
 		cat_id=post.category_id
 	related_posts=Post.query.filter_by(category_id=cat_id).order_by(Post.id.desc()).limit(3)
-	return render_template(template+'/single.html',page_name='single',related_posts=related_posts,post_object=post_object)
+	return render_template(template+'/single.html',form=form,page_name='single',related_posts=related_posts,post_object=post_object)
 @app.route('/category/<slug>')
 @app.route('/category/<slug>/')
 @app.route('/category/<slug>/<pagination>')

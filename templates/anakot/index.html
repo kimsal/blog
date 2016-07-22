@@ -4,7 +4,7 @@
 	<div class="carousel-inner">
 				
 		<div class="item active">
-			<img src="/static/{{template_name}}/img/slide1.jpg" width="100%">
+			<img src="/static/{{template_name}}/img/header/{{header_image}}" width="100%">
 		</div>
 					
 		<div class="item ">
@@ -117,12 +117,14 @@
 <script type="text/javascript">
 	$('#email').attr('type','email');
 	$("#btn-contact").click(function(){
+		$(".alert").removeClass('alert-danger');
+    	$(".alert").removeClass('alert-success');
 		var firstname=$("#firstname").val();
 		var lastname=$("#lastname").val();
 		var email=$("#email").val();
 		var dt=[];
 		dt[0]=firstname;
-		dt[1]=lastname
+		dt[1]=lastname;
 		dt[2]=email;
 		if(email.indexOf("@")<1&&email.indexOf(".")<2){
 			$('.form-wrap .alert').addClass('alert-danger');

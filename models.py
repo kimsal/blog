@@ -240,6 +240,7 @@ class Booking(db.Model):
     name  = db.Column(db.String(255))
     email  = db.Column(db.String(255))
     phone  = db.Column(db.String(255),nullable=True)
+    amount = db.Column(db.Integer,nullable=True)
     post_id=db.Column(db.Integer,db.ForeignKey('post.id'))
     published_at=db.Column(db.TIMESTAMP,server_default=db.func.current_timestamp())
     def __str__(self):
@@ -250,12 +251,16 @@ class Booking(db.Model):
         return dict(id=self.id,
             name=self.name,
             email=self.email,
-            phone=self.phone
+            phone=self.phone,
+            post_id=self.post_id,
+            amount=self.amount
             )
-    def __init__(self,name,email,phone):
+    def __init__(self,name,email,phone,post_id,amount=1,):
         self.name =name,
         self.email =email,
-        self.phone =phone
+        self.phone =phone,
+        self.amount=amount,
+        self.post_id=post_id
     def add(booking):
         db.session.add(booking)
         return db.session.commit()

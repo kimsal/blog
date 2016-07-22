@@ -1,7 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Anakot asea - Leadership building</title>
+	<!-- SEO Tage Meta -->
+	{% if page_name == 'home' %}
+		<title>Anakot asea - Leadership building</title>
+		<meta name="description" content="Leadership Development - Team building - Customer Care - Cambodia Training">
+		<meta name="keywords" content="Training,leadership cambodia,building team,profesional training,Phnom Penh Traininig,Asea training,anakot asea">
+	{% elif page_name == 'single' %}
+		{%for post in post_object%}
+			<title>{{post.title}} | Anakot asea</title>
+			<meta name="description" content="anakot asea,{{post.title}}">
+			<meta name="keywords" content="{{post.title}} Training,leadership cambodia,anakot asea">
+		{%endfor%}
+	{% elif page_name == 'category' %}
+		<title>{{category_name}}|Anakot asea</title>
+		<meta name="description" content="{{category_name}} Training,leadership cambodia,anakot asea">
+		<meta name="keywords" content="{{category_name}} , Training,leadership cambodia,anakot asea">
+	{% elif page_name == 'page' %}
+		{%for page in page_object%}
+			<title>{{page.title}}|Anakot asea </title>
+			<meta name="description" content="{{page.title}} Training,leadership cambodia,anakot asea">
+			<meta name="keywords" content="{{page.title}} Training,leadership cambodia,anakot asea ">
+		{%endfor%}
+	{% endif %}
+	
+	
+
+	<meta name="author" content="Amoogli Team">
+	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="/static/{{template_name}}/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="/static/{{template_name}}/css/animate.css">
@@ -25,14 +51,11 @@
 	<!--custom js-->
 	<script type="text/javascript" src="/static/{{template_name}}/js/jquery.js"></script>
 	<script type="text/javascript" src="/static/{{template_name}}/js/script.js"></script>
-	<!-- <script type="text/javascript" src="jquery.viewportchecker.js"></script> -->
 	<!--slide owl-->
 	<script src="/static/{{template_name}}/js/owl.carousel.min.js"></script>
 	<script src="/static/{{template_name}}/js/bootstrap-collapse.js"></script>
     <script src="/static/{{template_name}}/js/bootstrap-transition.js"></script>
-
 	<!--end custom-->
-
 	<script>
 	    $(document).ready(function($) {
 	      $("#owl-example").owlCarousel();
