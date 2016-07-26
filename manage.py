@@ -425,23 +425,26 @@ def admin_post_add(slug=""):
 		   			if not not file: 
 		   				# return filedownload
 		   				if filedownload == "":
-		   					obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':filename ,'duration':request.form['duration'],'price':request.form['price'],'location':request.form['location']})
+		   					obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'category_id':request.form['category_id'],'feature_image':filename ,'duration':request.form['duration'],'price':request.form['price'],'location':request.form['location']})
 		   					status = db.session.commit()
+		   					# return request.form['category_id']
 		   				else:
 		   					# return now+"_"+filedownload
 		   					filepdf.save(os.path.join(app.config['UPLOAD_FOLDER'], now+"_"+filedownload))
-			   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':filename ,'duration':request.form['duration'],'price':request.form['price'],'location':request.form['location'],'file': now+"_"+filedownload})
+			   				
+			   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'category_id':request.form['category_id'],'feature_image':filename ,'duration':request.form['duration'],'price':request.form['price'],'location':request.form['location'],'file': now+"_"+filedownload})
 		   					status = db.session.commit()
+		   					# return request.form['category_id']
 		   				if not status:
-		   					flash("Post updated was successfully")
+		   					flash("Post updated successfully")
 		   					return redirect(url_for('admin_index'))
 		   			for post in obj:
 		   				tempFileName=post.feature_image
 	   				filename=tempFileName
-	   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':filename })
+	   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'category_id':request.form['category_id'],'feature_image':filename })
 	   				status = db.session.commit()
 	   				if not status:
-	   					flash("Post updated was successfully")
+	   					flash("Post updated successfully")
 	   					return redirect(url_for('admin_index'))
 			        else:
 			        	flash("Fail to update post!")
@@ -821,8 +824,8 @@ def page_not_found(e):
 def index(pagination=1):
 	global limit
 	form=ContactForm()
-	posts_top = Post.query.join(UserMember).order_by(Post.id.desc()).limit(3)
-	posts_bottom = Post.query.order_by(Post.id.desc()).limit(3).offset(3)
+	posts_top = Post.query.join(UserMember).filter(Category.name!='BLOG').order_by(Post.id.desc()).limit(3)
+	posts_bottom = Post.query.filter(Category.name!='BLOG').order_by(Post.id.desc()).limit(3).offset(3)
 	# posts_bottom=Post.query.all()
 	home_posts=Post.query.join(UserMember).order_by(Post.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
 	pagin=math.ceil((Post.query.count())/limit)
@@ -876,10 +879,12 @@ def single(slug='',pagination=1):
 		return str(e.message)
 		abort(404)
 	cat_id=0
+	post_id=0
 	post_object=Post.query.join(Category,Post.category_id == Category.id).filter(Post.slug==slug)
 	for post in post_object:
 		cat_id=post.category_id
-	related_posts=Post.query.filter_by(category_id=cat_id).order_by(Post.id.desc()).limit(3)
+		post_id = post.id
+	related_posts=Post.query.filter_by(category_id=cat_id).filter(Post.id!=post_id).order_by(Post.id.desc()).limit(3)
 	events=Event.query.all()
 	return render_template(template+'/single.html',events=events,form=form,page_name='single',related_posts=related_posts,post_object=post_object)
 @app.route('/category/<slug>')

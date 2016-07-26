@@ -10,6 +10,7 @@
 <div class="container mycontent">
 	<div class="row" style="border-top:solid thin rgb(162, 148, 148);padding-top:5px;">
 	<!--show book when screen xs-->
+		{%if post.category.name != "BLOG" %}
 		<div class="col-xs-12 hidden-sm hidden-md hidden-lg" style=" padding-right: 0px;padding-left: 0px; ">
                <a href="#" data-toggle="modal" data-target="#myModal">
 	                <div class=" col-sm-12 col-md-12 col-lg-12 package-box">
@@ -25,7 +26,7 @@
 	                    </center>
 	                </div>
                 </a>
-                {%if post.file !="" %}
+                {% if post.file !="" %}
                 <a href="/download/{{post.file}}" target="_blank">
 	                <div class="col-sm-12 col-md-12 col-lg-12 package-box">
 	                    <center>
@@ -37,6 +38,7 @@
                 </a>
                 {%endif%}
         </div>
+        {% endif %}
         <!--end screen xs show-->
 		<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8" style="padding-left:0px;">
 			<!-- <img src="/static/{{template_name}}/img/tem.jpg" class="img-responsive"> -->
@@ -51,6 +53,7 @@
 	            padding-left: 0px;">
 	        <h4 class="hidden-xs" style="font-family: 'Playfair Display', serif;">
 	        </h4>
+	        {%if post.category.name != "BLOG" %}
 	        <div class="hidden-xs col-sm-12 col-md-12 col-lg-12" style=" padding-right: 0px;padding-left: 0px; ">
 	        		<a href="#" data-toggle="modal" data-target="#myModal">
 		                <div class="hidden-xs col-sm-12 col-md-12 col-lg-12 package-box">
@@ -97,10 +100,18 @@
 					</blockquote>
 	                <!--more end -->
 	        </div>
+	        {%endif%}
 	        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style=" padding-right: 0px;padding-left: 0px; ">
-	        	<h4><b>Related Trainings</b></h4>
+	        	{% if related_posts.count()>0 %}
+		        	{%if post.category.name != "BLOG" %}
+		        		<h4><b>Related Trainings</b></h4>
+		        	{%else%}
+		        		<h4><b>Related blog</b></h4>
+		        	{%endif%}
+	        	{%endif%}
+	        	
 	        	{%for related in related_posts%}
-	        	<a href="#">
+	        	<a href="/{{post.slug}}">
 		        	<div class="box small">
 					    <p>
 					    	{{related.title}}
