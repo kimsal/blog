@@ -7,10 +7,12 @@
             <div class="span12">
 	            <div id="owl-example" class="owl-carousel">
                   {%for partner in partners%}
+                  <a href="{{partner.url}}" target="_blank">
 	                <div class="item steelGray">
 	                  <img src="{{partner.feature_image}}" alt="{{partner.name}}">
 	                    <h4>{{partner.name}}</h4>
 	                </div>
+                  </a>
                   {%endfor%}
 	                
 	              </div>

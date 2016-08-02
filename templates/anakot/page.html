@@ -1,10 +1,9 @@
 
-
+{% include template_name+'/header.html' %} 
 <style type="text/css">
 	div.img {
     border: 0px solid #ccc;
 }
-
 
 div.img img {
     width: 100%;
@@ -51,7 +50,7 @@ div.desc {
 
 }
 </style>
-{% include template_name+'/header.html' %} 
+
 <!--container-->
 {%for page in page_object%}
 <div class="bg-overlay" style="background: linear-gradient(rgba(0, 0, 0, 0.37), rgba(0, 0, 0, 0.42)), url(/static/{{template_name}}/img/header/{{header_image}});
@@ -61,36 +60,12 @@ div.desc {
 	</div>
 </div>
 <div class="container mycontent">
-	<p class="description">
+	<p class="description" style="font-size:20px;color:red;">
 	{{page.description|safe}}
 	</p>
 </div>
 
 {%endfor%}
-		<!--modal profile-->
-		<div class="modal fade" id="myModal">
-				<div class="modal-dialog">
-				    <div class="modal-content">
-				      <div class="modal-header">
-				        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-				      </div>
-				      <div class="modal-body">
-				        
-						<div class="row ">
-					           <div class="header" style="padding:10px;">
-					                <h4>Web Developer</h4>
-					                <p class="description" style="padding:10px;">
-					                	We provide regular trainings to companies and NGOs to increase the potential of their people and their teams. Through workshops, mindful leadership development, talks and seminars we help big and small organizations to instill a culture of collaboration and balanced leadership. Our expertise ranges from HR – with particular focus on high performance teams and leadership
-					                </p>
-					           </div>
-					        </div>
-					    </div>   
-					
-				      </div>
-				  
-				    </div><!-- /.modal-content -->
-				</div><!-- /.modal-dialog -->
-			</div><!-- /.modal -->
 
 		<!--end modal profile-->
 <!--end container-->

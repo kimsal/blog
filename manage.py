@@ -298,6 +298,7 @@ def booking(type_submit=''):
 			phone=data[2]
 			amount=data[3]
 			post_id=data[4]
+			return str(amount)
 			booking=Booking(name,email,phone,post_id,amount)
 			status = Booking.add(booking)
 			if not status:
@@ -343,7 +344,7 @@ def admin_partner(pagination=1,action='',slug=''):
 		#return 'update'+ slug
 		partners=Partner.query.filter_by(slug=slug)
 		if request.method == 'GET':
-			return render_template("admin/form/partner.html",form=form,partners=partners)
+			return render_template("admin/form/partner.html",form=form,partner_object=partners)
 		else:
 			try:
 				partners.update({"slug" : slugify(request.form['name']) , "name" : request.form['name'],'url':request.form['url'],'feature_image':request.form['txt_temp_image'] })
@@ -410,7 +411,9 @@ def admin_post_add(slug=""):
 		   			if file:
 		   				if filedownload!="":
 		   					filepdf.save(os.path.join(app.config['UPLOAD_FOLDER'], now+"_"+filedownload))
-		   				obj=Post(request.form['title'],request.form['description'],request.form['category_id'],filename,request.cookies.get('blog_id'),request.form['duration'],request.form['price'],request.form['location'],now+"_"+filedownload)
+		   				else:
+		   					file_download=''
+		   				obj=Post(request.form['title'],request.form['description'],request.form['category_id'],filename,request.cookies.get('blog_id'),request.form['duration'],request.form['price'],request.form['location'],file_download)
 			        	status=Post.add(obj)
 				        if not status:
 				            flash("Post added was successfully")
@@ -422,23 +425,26 @@ def admin_post_add(slug=""):
 		   			if not not file: 
 		   				# return filedownload
 		   				if filedownload == "":
-		   					obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':filename ,'duration':request.form['duration'],'price':request.form['price'],'location':request.form['location']})
+		   					obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'category_id':request.form['category_id'],'feature_image':filename ,'duration':request.form['duration'],'price':request.form['price'],'location':request.form['location']})
 		   					status = db.session.commit()
+		   					# return request.form['category_id']
 		   				else:
 		   					# return now+"_"+filedownload
 		   					filepdf.save(os.path.join(app.config['UPLOAD_FOLDER'], now+"_"+filedownload))
-			   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':filename ,'duration':request.form['duration'],'price':request.form['price'],'location':request.form['location'],'file': now+"_"+filedownload})
+			   				
+			   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'category_id':request.form['category_id'],'feature_image':filename ,'duration':request.form['duration'],'price':request.form['price'],'location':request.form['location'],'file': now+"_"+filedownload})
 		   					status = db.session.commit()
+		   					# return request.form['category_id']
 		   				if not status:
-		   					flash("Post updated was successfully")
+		   					flash("Post updated successfully")
 		   					return redirect(url_for('admin_index'))
 		   			for post in obj:
 		   				tempFileName=post.feature_image
 	   				filename=tempFileName
-	   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'feature_image':filename })
+	   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'category_id':request.form['category_id'],'feature_image':filename })
 	   				status = db.session.commit()
 	   				if not status:
-	   					flash("Post updated was successfully")
+	   					flash("Post updated successfully")
 	   					return redirect(url_for('admin_index'))
 			        else:
 			        	flash("Fail to update post!")
@@ -798,14 +804,14 @@ def admin_search(pagination=1):
 	#return search
 	if search=="":
 		return redirect(url_for("admin_index"))
-	query_result=(Post.query.filter((Post.title).match("'%"+search+"%'"),(Post.description).match("%'"+search+"'%"))).count()
-	posts=Post.query.filter((Post.title).match("'%"+search+"%'")).limit(limit).offset(int(int(int(limit)-1)*limit))
+	# query_result=(Post.query.filter((Post.title).match("'%"+search+"%'"))).count()
+	posts=Post.query.filter((Post.title).match("'%"+search+"%'")).all()#limit(limit).offset(int(int(int(limit)-1)*limit))
 	pagin=math.ceil((Post.query.filter((Post.title).match("'%"+search+"%'")).count())/limit)
 	#return str((posts))
 	if math.ceil(pagin)%limit != 0:
 		pagin=int(pagin+1)
 	#return str(pagin)
-	return render_template('admin/search.html',page_name='search',posts=posts,current_pagin=int(pagination),pagin=(int(pagin)))
+	return render_template('admin/search.html',search=search,page_name='search',posts=posts,current_pagin=int(pagination),pagin=(int(pagin)))
 ############## End send mail #####################
 #End Middleware
 #client
@@ -818,8 +824,8 @@ def page_not_found(e):
 def index(pagination=1):
 	global limit
 	form=ContactForm()
-	posts_top = Post.query.join(UserMember).order_by(Post.id.desc()).limit(3)
-	posts_bottom = Post.query.order_by(Post.id.desc()).limit(3).offset(3)
+	posts_top = Post.query.join(UserMember).filter(Category.name!='BLOG').order_by(Post.id.desc()).limit(3)
+	posts_bottom = Post.query.filter(Category.name!='BLOG').order_by(Post.id.desc()).limit(3).offset(3)
 	# posts_bottom=Post.query.all()
 	home_posts=Post.query.join(UserMember).order_by(Post.id.desc()).limit(limit).offset(int(int(int(pagination)-1)*limit))
 	pagin=math.ceil((Post.query.count())/limit)
@@ -873,11 +879,14 @@ def single(slug='',pagination=1):
 		return str(e.message)
 		abort(404)
 	cat_id=0
+	post_id=0
 	post_object=Post.query.join(Category,Post.category_id == Category.id).filter(Post.slug==slug)
 	for post in post_object:
 		cat_id=post.category_id
-	related_posts=Post.query.filter_by(category_id=cat_id).order_by(Post.id.desc()).limit(3)
-	return render_template(template+'/single.html',form=form,page_name='single',related_posts=related_posts,post_object=post_object)
+		post_id = post.id
+	related_posts=Post.query.filter_by(category_id=cat_id).filter(Post.id!=post_id).order_by(Post.id.desc()).limit(3)
+	events=Event.query.all()
+	return render_template(template+'/single.html',events=events,form=form,page_name='single',related_posts=related_posts,post_object=post_object)
 @app.route('/category/<slug>')
 @app.route('/category/<slug>/')
 @app.route('/category/<slug>/<pagination>')
@@ -905,12 +914,12 @@ def category(slug='',pagination=1):
 def search():
 	search=(str(request.args['q']))#.split()
 	search=search.replace(" ",'+')
-	#return search
+	# return search
 	if search=="":
 		return redirect(url_for("index"))
-	#return search
+	return search
 	query_result=(Post.query.filter((Post.title).match("'%"+search+"%'"),(Post.description).match("%'"+search+"'%"))).count()
-	posts=Post.query.filter((Post.title).match("'%"+search+"%'"),(Post.description).match("%'"+search+"'%"))#.limit(limit).offset(int(int(int(limit)-1)*limit))
+	posts=Post.query.filter((Post.title).match("'%"+search+"%'")).all()#.limit(limit).offset(int(int(int(limit)-1)*limit))
 	return render_template(template+"/search.html",search=search,query_result=query_result,posts=posts)
 # @app.route('/search', methods=['POST', 'GET'])
 # @app.route('/search/', methods=['POST', 'GET'])
