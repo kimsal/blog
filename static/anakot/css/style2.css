@@ -131,11 +131,11 @@ footer .nav>li>a:hover {
 .modal-content {
     -webkit-box-shadow: 0 5px 15px rgba(0,0,0,.5);
     box-shadow: 0 5px 15px rgba(0,0,0,.5);
-    border-radius: 0px;
+    border-radius: 4px;
 }
 .modal-dialog {
     margin: 65px auto;
-    border: thin solid #4776e7;
+    border: none;
 }
 blockquote {
     padding: 10px 20px;
